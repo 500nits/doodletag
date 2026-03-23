@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.u500nits.DoodleTag",
+      "sha256_cert_fingerprints": [
+        "27:AB:F8:AA:45:46:FB:D4:9B:26:FC:07:32:1E:56:21:67:11:8B:86:6D:EE:40:B5:1C:5A:22:AC:99:EF:7E:08"
+      ]
+    }
+  }
+]
