@@ -4,9 +4,8 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.u500nits.DoodleTag",
-      "sha256_cert_fingerprints": [
-        "27:AB:F8:AA:45:46:FB:D4:9B:26:FC:07:32:1E:56:21:67:11:8B:86:6D:EE:40:B5:1C:5A:22:AC:99:EF:7E:08"
-      ]
+      "sha256_cert_fingerprints":
+        ["1F:EA:5E:F5:E6:D6:D1:F7:A3:0F:C3:E7:E6:61:DA:36:D1:6E:67:C5:37:83:81:5A:29:A6:EE:31:E1:48:A3:11"]
     }
   }
 ]
