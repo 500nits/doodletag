@@ -48,6 +48,17 @@ body {
   line-height: 1;
 }
 
+.doc-brand .brand-suffix {
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-left: 0.45rem;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
 .doc-brand .brand-blue {
   color: var(--blue);
 }
