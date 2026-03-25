@@ -5,16 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Doodle Tag Elements</title>
   <style>
-    :root { --blue: #2991f5; --green: #10cd55; --ink: #142126; --muted: #536269; --paper: #f6fbfc; --card: rgba(255,255,255,0.82); --rule: rgba(20,33,38,0.1); }
+    :root {
+      --blue: #2991f5;
+      --green: #10cd55;
+      --ink: #142126;
+      --muted: #536269;
+      --paper: #f6fbfc;
+      --card: rgba(255,255,255,0.82);
+      --rule: rgba(20,33,38,0.1);
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: radial-gradient(circle at top left, rgba(41,145,245,0.12), transparent 25%), radial-gradient(circle at bottom right, rgba(16,205,85,0.12), transparent 25%), var(--paper); font: 16px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; }
-    main { width: min(100%, 1600px); margin: 0 auto; padding: 32px 20px 56px; }
-    h1 { margin: 0 0 8px; font-size: clamp(2.4rem, 5vw, 4rem); letter-spacing: -0.05em; }
-    .blue { color: var(--blue); } .green { color: var(--green); }
-    .intro { margin: 0 0 28px; color: var(--muted); max-width: 60rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
-    .card { display: grid; gap: 10px; align-content: start; padding: 16px; border-radius: 22px; border: 1px solid var(--rule); background: var(--card); backdrop-filter: blur(8px); box-shadow: 0 12px 28px rgba(20,33,38,0.06); }
-    .card img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(41,145,245,0.12), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(16,205,85,0.12), transparent 25%),
+        var(--paper);
+      font: 16px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    main {
+      width: min(100%, 1600px);
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: -0.05em;
+    }
+    .blue { color: var(--blue); }
+    .green { color: var(--green); }
+    .intro {
+      margin: 0 0 28px;
+      color: var(--muted);
+      max-width: 60rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid var(--rule);
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 12px 28px rgba(20,33,38,0.06);
+    }
+    .card img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      image-rendering: auto;
+    }
     .copy h2 { margin: 0 0 4px; font-size: 1.05rem; }
     .copy p { margin: 0; color: var(--muted); }
   </style>
@@ -67,7 +116,7 @@
         </div>
       </article>
       <article class="card">
-        <img src="apple-pencil-mode.png" alt="Apple Pencil Mode button" loading="lazy" />
+        <img src="apple-pencil-mode-live.png" alt="Apple Pencil Mode button" loading="lazy" />
         <div class="copy">
           <h2>Apple Pencil Mode</h2>
           <p>Optional iPad-only Pencil or finger mode.</p>

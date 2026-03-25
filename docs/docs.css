@@ -1,24 +1,12 @@
 :root {
-  color-scheme: light dark;
-  --bg: #f6f4ee;
-  --fg: #1e2428;
-  --muted: #5b666d;
-  --card: rgba(255, 255, 255, 0.72);
-  --rule: rgba(30, 36, 40, 0.12);
-  --link: #0d5f75;
-  --brand-blue: #2991f5;
-  --brand-green: #10cd55;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111619;
-    --fg: #ecf0f1;
-    --muted: #b9c3c8;
-    --card: rgba(20, 28, 32, 0.82);
-    --rule: rgba(236, 240, 241, 0.12);
-    --link: #7bd3e8;
-  }
+  --blue: #2991f5;
+  --green: #10cd55;
+  --ink: #142126;
+  --muted: #536269;
+  --paper: #f6fbfc;
+  --card: rgba(255, 255, 255, 0.82);
+  --rule: rgba(20, 33, 38, 0.1);
+  --link: #0d6aa3;
 }
 
 * {
@@ -29,45 +17,54 @@ html {
   margin: 0;
   padding: 0;
   background:
-    radial-gradient(circle at top left, rgba(92, 182, 212, 0.12), transparent 28%),
-    radial-gradient(circle at bottom right, rgba(255, 182, 87, 0.12), transparent 24%),
-    var(--bg);
+    radial-gradient(circle at top left, rgba(41, 145, 245, 0.12), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(16, 205, 85, 0.12), transparent 25%),
+    var(--paper);
 }
 
 body {
   margin: 0;
-  padding: 2.5rem clamp(1rem, 2vw, 2rem) 3rem;
-  color: var(--fg);
-  font:
-    17px/1.65 "Avenir Next",
-    "Segoe UI",
-    sans-serif;
+  color: var(--ink);
+  font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-body > * {
-  width: min(100%, 1400px);
-  margin-left: auto;
-  margin-right: auto;
+#title-block-header {
+  display: none;
 }
 
-body > h1,
-body > h2,
-body > h3,
-body > h4,
-body > h5,
-body > h6,
-body > p,
-body > ul,
-body > ol,
-body > table,
-body > blockquote,
-body > pre,
-body > hr {
-  background: var(--card);
-  backdrop-filter: blur(10px);
+.doc-shell {
+  width: min(100%, 1600px);
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+}
+
+.doc-brand {
+  margin: 0 0 24px;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.doc-brand .brand-blue {
+  color: var(--blue);
+}
+
+.doc-brand .brand-green {
+  color: var(--green);
+}
+
+.doc-panel {
+  padding: 24px 28px 30px;
+  border-radius: 22px;
   border: 1px solid var(--rule);
-  border-radius: 18px;
-  padding: 1rem 1.2rem;
+  background: var(--card);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 28px rgba(20, 33, 38, 0.06);
+}
+
+.doc-panel > :first-child {
+  margin-top: 0;
 }
 
 h1,
@@ -76,22 +73,23 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: 1.2;
-  margin-top: 1.4rem;
-  margin-bottom: 0.8rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
 }
 
 h1 {
-  font-size: clamp(2.1rem, 4vw, 3.4rem);
-  letter-spacing: -0.04em;
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 4vw, 3rem);
 }
 
 h2 {
-  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  margin: 2rem 0 0.75rem;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
 }
 
 h3 {
-  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  margin: 1.5rem 0 0.65rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
 }
 
 p,
@@ -99,18 +97,18 @@ ul,
 ol,
 table,
 blockquote,
-pre {
-  margin-top: 0.9rem;
-  margin-bottom: 0.9rem;
+pre,
+hr {
+  margin: 0.85rem 0;
 }
 
 ul,
 ol {
-  padding-left: 2rem;
+  padding-left: 1.5rem;
 }
 
 li + li {
-  margin-top: 0.28rem;
+  margin-top: 0.25rem;
 }
 
 a {
@@ -118,15 +116,21 @@ a {
 }
 
 code {
-  font:
-    0.92em/1.35 "SFMono-Regular",
-    "Menlo",
-    monospace;
+  white-space: pre-wrap;
+  font: 0.92em/1.35 "SFMono-Regular", Menlo, monospace;
 }
 
-pre code {
-  display: block;
+pre {
   overflow-x: auto;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(20, 33, 38, 0.05);
+}
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 4px solid var(--blue);
+  color: var(--muted);
 }
 
 table {
@@ -136,35 +140,13 @@ table {
 
 th,
 td {
-  padding: 0.7rem 0.75rem;
+  padding: 0.75rem 0.8rem;
   border-bottom: 1px solid var(--rule);
   text-align: left;
   vertical-align: top;
 }
 
-blockquote {
-  color: var(--muted);
-  border-left: 4px solid var(--link);
-}
-
 hr {
   border: 0;
-  height: 1px;
-}
-
-.text-logo {
-  display: flex;
-  align-items: baseline;
-  gap: 0.35em;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-}
-
-.text-logo .brand-blue {
-  color: var(--brand-blue);
-}
-
-.text-logo .brand-green {
-  color: var(--brand-green);
+  border-top: 1px solid var(--rule);
 }
