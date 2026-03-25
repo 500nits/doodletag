@@ -28,9 +28,12 @@
   <link rel="stylesheet" href="docs.css" />
 </head>
 <body>
-<header>
-<h1 class="text-logo" aria-label="Doodle Tag"><span class="brand-blue">Doodle</span> <span class="brand-green">Tag</span></h1>
+<header id="title-block-header">
+<h1 class="title">DoodleTag User Guide</h1>
 </header>
+<h1 id="doodletag-user-guide">DoodleTag User Guide</h1>
+<p>This guide documents the active, user-facing feature set as of the
+latest changelog updates.</p>
 <h2 id="1-canvas-fundamentals">1. Canvas Fundamentals</h2>
 <ul>
 <li>Infinite-session style drawing on a fixed paper world with pan and
@@ -108,7 +111,7 @@ DoodleTag shouts that out</td>
 <tr>
 <td><code>Gum</code></td>
 <td>Toggle eraser mode.</td>
-<td>Open gum-size dialog</td>
+<td>Open gum-strength dialog</td>
 </tr>
 <tr>
 <td><code>Air Blower</code></td>
@@ -310,7 +313,8 @@ and ongoing geometry refinements.</li>
 <h2 id="7-gum-eraser">7. Gum (Eraser)</h2>
 <ul>
 <li>Toggle gum and erase by dragging/tapping across strokes.</li>
-<li>Erase size is configurable via long-press settings dialog.</li>
+<li>Gum strength is configurable via the long-press settings dialog and
+currently scales up to <code>10.0x</code>.</li>
 <li>Long erases show a progress overlay.</li>
 <li>Canceling a progress erase restores the pre-erase snapshot
 immediately.</li>
@@ -480,6 +484,9 @@ safely to defaults.</li>
 </ul>
 <h2 id="15-current-ux-notes">15. Current UX Notes</h2>
 <ul>
+<li>Main menu and utility controls expose accessibility labels, and the
+compact top-right utility buttons keep a larger effective tap target
+than their visible size.</li>
 <li>Tool shout banners use a 3-level megaphone control:
 <code>all banners</code>, <code>announce-only</code>, and
 <code>silent</code>.</li>
@@ -488,6 +495,9 @@ surface as live tool usage.</li>
 <li>Toggle-style tools announce explicit state labels such as
 <code>GRID ON</code>, <code>GRID OFF</code>, <code>HEX GRID ON</code>,
 <code>RAINBOW ON</code>, and <code>ORTHO SNAP OFF</code>.</li>
+<li>Rainbow announcements are style-aware and distinguish
+<code>RAINBOW</code>, <code>POP RAINBOW</code>, and
+<code>LANES RAINBOW</code>.</li>
 <li>Tool shout banners are uppercase-normalized at render time.</li>
 <li>Welcome tour and macro playback surfaces share behavior and
 controls.</li>
