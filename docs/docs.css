@@ -18,15 +18,15 @@
 html {
   margin: 0;
   padding: 0;
-  background:
-    radial-gradient(circle at top left, rgba(41, 145, 245, 0.12), transparent 25%),
-    radial-gradient(circle at bottom right, rgba(16, 205, 85, 0.12), transparent 25%),
-    var(--paper);
 }
 
 body {
   margin: 0;
   color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(41,145,245,0.12), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(16,205,85,0.12), transparent 25%),
+    var(--paper);
   font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
