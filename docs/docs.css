@@ -42,10 +42,13 @@ body {
 
 .doc-brand {
   margin: 0 0 24px;
-  font-family: "Luckiest Guy", "Comic Sans MS", cursive;
   font-size: clamp(2.6rem, 5vw, 3.6rem);
-  letter-spacing: 1px;
   line-height: 1;
+}
+
+.doc-brand .brand-wordmark {
+  font-family: "Luckiest Guy", "Comic Sans MS", cursive;
+  letter-spacing: 1px;
 }
 
 .doc-brand .brand-suffix {
@@ -54,7 +57,7 @@ body {
   font-size: clamp(1rem, 2vw, 1.35rem);
   font-weight: 700;
   letter-spacing: 0.02em;
-  margin-left: 0.45rem;
+  margin-left: 0.7rem;
   text-transform: uppercase;
   vertical-align: middle;
 }
