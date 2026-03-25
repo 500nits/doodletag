@@ -9,151 +9,6 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    html {
-      color: #1a1a1a;
-      background-color: #fdfdfd;
-    }
-    body {
-      margin: 0 auto;
-      max-width: 36em;
-      padding-left: 50px;
-      padding-right: 50px;
-      padding-top: 50px;
-      padding-bottom: 50px;
-      hyphens: auto;
-      overflow-wrap: break-word;
-      text-rendering: optimizeLegibility;
-      font-kerning: normal;
-    }
-    @media (max-width: 600px) {
-      body {
-        font-size: 0.9em;
-        padding: 12px;
-      }
-      h1 {
-        font-size: 1.8em;
-      }
-    }
-    @media print {
-      html {
-        background-color: white;
-      }
-      body {
-        background-color: transparent;
-        color: black;
-        font-size: 12pt;
-      }
-      p, h2, h3 {
-        orphans: 3;
-        widows: 3;
-      }
-      h2, h3, h4 {
-        page-break-after: avoid;
-      }
-    }
-    p {
-      margin: 1em 0;
-    }
-    a {
-      color: #1a1a1a;
-    }
-    a:visited {
-      color: #1a1a1a;
-    }
-    img {
-      max-width: 100%;
-    }
-    svg {
-      height: auto;
-      max-width: 100%;
-    }
-    h1, h2, h3, h4, h5, h6 {
-      margin-top: 1.4em;
-    }
-    h5, h6 {
-      font-size: 1em;
-      font-style: italic;
-    }
-    h6 {
-      font-weight: normal;
-    }
-    ol, ul {
-      padding-left: 1.7em;
-      margin-top: 1em;
-    }
-    li > ol, li > ul {
-      margin-top: 0;
-    }
-    blockquote {
-      margin: 1em 0 1em 1.7em;
-      padding-left: 1em;
-      border-left: 2px solid #e6e6e6;
-      color: #606060;
-    }
-    code {
-      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
-      font-size: 85%;
-      margin: 0;
-      hyphens: manual;
-    }
-    pre {
-      margin: 1em 0;
-      overflow: auto;
-    }
-    pre code {
-      padding: 0;
-      overflow: visible;
-      overflow-wrap: normal;
-    }
-    .sourceCode {
-     background-color: transparent;
-     overflow: visible;
-    }
-    hr {
-      border: none;
-      border-top: 1px solid #1a1a1a;
-      height: 1px;
-      margin: 1em 0;
-    }
-    table {
-      margin: 1em 0;
-      border-collapse: collapse;
-      width: 100%;
-      overflow-x: auto;
-      display: block;
-      font-variant-numeric: lining-nums tabular-nums;
-    }
-    table caption {
-      margin-bottom: 0.75em;
-    }
-    tbody {
-      margin-top: 0.5em;
-      border-top: 1px solid #1a1a1a;
-      border-bottom: 1px solid #1a1a1a;
-    }
-    th {
-      border-top: 1px solid #1a1a1a;
-      padding: 0.25em 0.5em 0.25em 0.5em;
-    }
-    td {
-      padding: 0.125em 0.5em 0.25em 0.5em;
-    }
-    header {
-      margin-bottom: 4em;
-      text-align: center;
-    }
-    #TOC li {
-      list-style: none;
-    }
-    #TOC ul {
-      padding-left: 1.3em;
-    }
-    #TOC > ul {
-      padding-left: 0;
-    }
-    #TOC a:not(:hover) {
-      text-decoration: none;
-    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -170,6 +25,7 @@
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <link rel="stylesheet" href="docs.css" />
 </head>
 <body>
 <header id="title-block-header">
@@ -177,44 +33,16 @@
 </header>
 <h1 id="doodletag-accessibility-research">DoodleTag Accessibility
 Research</h1>
-<p>This document is not a marketing statement and not a compliance badge
-draft.</p>
-<p>Its purpose is to answer a practical product question:</p>
+<p>This document is the internal accessibility research and planning
+companion to <code>ACCESS.md</code>.</p>
+<p><code>ACCESS.md</code> is the friendlier public-facing
+explanation.</p>
+<p>This document keeps the team-facing material:</p>
 <ul>
-<li>what should accessibility mean for DoodleTag,</li>
-<li>what should the team care about first,</li>
-<li>and how can DoodleTag become reasonably accessible for the kind of
-app it is</li>
-</ul>
-<p>DoodleTag is a casual collaborative drawing app. That matters because
-accessibility here is not only about reading screens or filling forms.
-It is about whether people with different abilities can meaningfully
-participate in a playful, gesture-heavy, visual drawing experience.</p>
-<h2 id="why-accessibility-is-different-for-doodletag">Why Accessibility
-Is Different For DoodleTag</h2>
-<p>DoodleTag is not:</p>
-<ul>
-<li>a document viewer</li>
-<li>a checkout flow</li>
-<li>a settings-heavy utility app</li>
-<li>or a structured data-entry app</li>
-</ul>
-<p>It is:</p>
-<ul>
-<li>a freeform drawing surface</li>
-<li>a collaborative doodling tool</li>
-<li>a playful "passatempo" app</li>
-<li>a gesture-driven creative space</li>
-</ul>
-<p>That means the right accessibility bar is not "does every screen
-behave like a standard productivity app?"</p>
-<p>The right bar is:</p>
-<ul>
-<li>can users discover the controls,</li>
-<li>can users understand the state of the app,</li>
-<li>can users perform the major flows,</li>
-<li>and can users participate in the experience with reasonable
-independence even if some parts remain inherently visual</li>
+<li>the evaluation lens</li>
+<li>the audit checklist</li>
+<li>the staged improvement strategy</li>
+<li>the current prioritization guidance</li>
 </ul>
 <h2 id="research-lens-the-right-questions">Research Lens: The Right
 Questions</h2>
@@ -480,55 +308,6 @@ external reporting is ever needed</li>
 </ul>
 <p>There is no single public accessibility score that solves this for
 DoodleTag.</p>
-<h2 id="what-is-accessible-now">What Is Accessible Now</h2>
-<p>At the current level of implementation, DoodleTag can reasonably say
-that it is improving accessibility in the control surface and feedback
-systems.</p>
-<p>Concrete areas of progress include:</p>
-<ul>
-<li>explicit accessibility semantics for the main menu and utility
-controls</li>
-<li>clearer naming of icon-driven controls</li>
-<li>compact utility buttons with a larger effective tap target</li>
-<li>more explicit confirmations for destructive or state-changing
-actions</li>
-<li>shout/banner feedback that makes hidden app state more visible</li>
-</ul>
-<p>This is meaningful progress, but it should be understood as control
-and state accessibility progress, not as proof that the entire creative
-drawing experience is equally accessible for every user profile.</p>
-<h2 id="what-the-app-is-designed-for">What The App Is Designed For</h2>
-<p>DoodleTag is designed for:</p>
-<ul>
-<li>casual drawing</li>
-<li>playful collaborative doodling</li>
-<li>expressive gesture-based creation</li>
-<li>solo and Glue-based shared drawing sessions</li>
-</ul>
-<p>This purpose should guide the accessibility effort.</p>
-<p>The goal is not to force the app into the mold of a generic
-form-based utility. The goal is to make its real creative and
-collaborative flows as understandable and operable as reasonably
-possible.</p>
-<h2
-id="what-limitations-remain-because-it-is-a-visual-collaborative-drawing-tool">What
-Limitations Remain Because It Is A Visual Collaborative Drawing
-Tool</h2>
-<p>Some limitations are structural.</p>
-<p>These include:</p>
-<ul>
-<li>freeform spatial drawing is inherently difficult to translate into a
-fully equivalent non-visual experience</li>
-<li>collaborative drawing results remain primarily visual even when
-state changes can be announced clearly</li>
-<li>some creative tools depend on geometry, layering, motion, and color
-relationships</li>
-<li>long continuous gestures and precision drawing will remain harder
-for some users even if the controls around them are accessible</li>
-</ul>
-<p>This does not mean accessibility work is optional. It means the right
-goal is reasonable accessibility, honest support, and good
-participation, not a misleading promise of universal equivalence.</p>
 <h2 id="recommended-next-steps">Recommended Next Steps</h2>
 <ol type="1">
 <li>Audit all main controls with VoiceOver and TalkBack on real
@@ -549,7 +328,7 @@ tested thoroughly.</li>
 <h2 id="summary">Summary</h2>
 <p>For DoodleTag, accessibility should be treated as a concrete
 product-research and product-design problem.</p>
-<p>The main goal is:</p>
+<p>The internal priority remains:</p>
 <ul>
 <li>make the control surface understandable</li>
 <li>make state changes explicit</li>
