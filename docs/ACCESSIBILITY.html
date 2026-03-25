@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DoodleTag Accessibility Research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DoodleTag Accessibility Research</h1>
+</header>
+<h1 id="doodletag-accessibility-research">DoodleTag Accessibility
+Research</h1>
+<p>This document is not a marketing statement and not a compliance badge
+draft.</p>
+<p>Its purpose is to answer a practical product question:</p>
+<ul>
+<li>what should accessibility mean for DoodleTag,</li>
+<li>what should the team care about first,</li>
+<li>and how can DoodleTag become reasonably accessible for the kind of
+app it is</li>
+</ul>
+<p>DoodleTag is a casual collaborative drawing app. That matters because
+accessibility here is not only about reading screens or filling forms.
+It is about whether people with different abilities can meaningfully
+participate in a playful, gesture-heavy, visual drawing experience.</p>
+<h2 id="why-accessibility-is-different-for-doodletag">Why Accessibility
+Is Different For DoodleTag</h2>
+<p>DoodleTag is not:</p>
+<ul>
+<li>a document viewer</li>
+<li>a checkout flow</li>
+<li>a settings-heavy utility app</li>
+<li>or a structured data-entry app</li>
+</ul>
+<p>It is:</p>
+<ul>
+<li>a freeform drawing surface</li>
+<li>a collaborative doodling tool</li>
+<li>a playful "passatempo" app</li>
+<li>a gesture-driven creative space</li>
+</ul>
+<p>That means the right accessibility bar is not "does every screen
+behave like a standard productivity app?"</p>
+<p>The right bar is:</p>
+<ul>
+<li>can users discover the controls,</li>
+<li>can users understand the state of the app,</li>
+<li>can users perform the major flows,</li>
+<li>and can users participate in the experience with reasonable
+independence even if some parts remain inherently visual</li>
+</ul>
+<h2 id="research-lens-the-right-questions">Research Lens: The Right
+Questions</h2>
+<p>Accessibility work for DoodleTag should be driven by these
+questions:</p>
+<ul>
+<li>Can users discover and understand the controls?</li>
+<li>Can users with screen readers or low vision operate the major app
+flows?</li>
+<li>Can users with limited dexterity reliably hit controls and avoid
+accidental destructive actions?</li>
+<li>Can users understand collaborative state such as Glue, recording,
+replay, export, and session recovery?</li>
+<li>Can users recover from mistakes without confusion?</li>
+<li>Which parts of the app are inherently visual or spatial, and
+therefore cannot be made fully equivalent for every user?</li>
+</ul>
+<p>These questions are more useful for DoodleTag than chasing a vague
+generic label such as "accessible app".</p>
+<h2 id="what-to-care-about-in-doodletag">What To Care About In
+DoodleTag</h2>
+<h3 id="1-control-discoverability">1. Control Discoverability</h3>
+<p>Users need to be able to find and identify the controls before they
+can use the app.</p>
+<p>For DoodleTag, this means caring about:</p>
+<ul>
+<li>semantic labels for menu buttons</li>
+<li>labels and hints for utility buttons</li>
+<li>not relying on icon shape alone</li>
+<li>not relying on color alone</li>
+<li>keeping the control model stable over time</li>
+</ul>
+<p>The current app depends heavily on icon-only controls, so
+discoverability is one of the highest-value accessibility areas to
+improve.</p>
+<h3 id="2-state-awareness">2. State Awareness</h3>
+<p>DoodleTag has many modes and transient states:</p>
+<ul>
+<li>solo vs Glue</li>
+<li>recording vs not recording</li>
+<li>replaying vs idle</li>
+<li>tool modes such as rainbow, gum, orthogonal, air blower</li>
+<li>banner mode changes</li>
+<li>export readiness</li>
+<li>waiting / connecting / sharing flows</li>
+</ul>
+<p>For accessibility, state awareness is critical.</p>
+<p>Users should be able to tell:</p>
+<ul>
+<li>what mode they are in now</li>
+<li>what just changed</li>
+<li>what action succeeded or failed</li>
+<li>and what the app expects next</li>
+</ul>
+<p>This is why shouts, confirmations, and explicit feedback matter in
+DoodleTag more than in a simpler app.</p>
+<h3 id="3-touch-and-motor-accessibility">3. Touch and Motor
+Accessibility</h3>
+<p>Because the app is gesture-heavy, motor accessibility has two
+different layers:</p>
+<ul>
+<li>control-surface accessibility</li>
+<li>drawing-surface accessibility</li>
+</ul>
+<p>Control-surface accessibility is very improvable:</p>
+<ul>
+<li>make buttons easy to hit</li>
+<li>avoid tiny effective hit targets</li>
+<li>confirm destructive actions</li>
+<li>avoid requiring long-press as the only route to critical
+functionality when possible</li>
+</ul>
+<p>Drawing-surface accessibility is harder:</p>
+<ul>
+<li>freehand drawing requires precision</li>
+<li>long drags and continuous motion can be tiring</li>
+<li>some tools depend on geometric control</li>
+</ul>
+<p>The team should still improve what can be improved, but should be
+honest that not all freeform drawing interactions can be made equally
+easy for all users.</p>
+<h3 id="4-visual-accessibility">4. Visual Accessibility</h3>
+<p>DoodleTag is visually expressive, so visual accessibility should
+focus on:</p>
+<ul>
+<li>non-color cues for tool identity and state</li>
+<li>sufficient contrast in controls and status overlays</li>
+<li>readable feedback banners</li>
+<li>compatibility with display scaling where possible</li>
+<li>not making important distinctions depend only on hue</li>
+</ul>
+<p>Particular risk areas:</p>
+<ul>
+<li>rainbow and color-heavy modes</li>
+<li>subtle active/inactive differences</li>
+<li>low-contrast icon treatments</li>
+<li>overlay text against dynamic backgrounds</li>
+</ul>
+<h3 id="5-cognitive-accessibility">5. Cognitive Accessibility</h3>
+<p>DoodleTag should remain understandable as a playful app.</p>
+<p>That means accessibility work should also reduce confusion:</p>
+<ul>
+<li>clear confirmation text</li>
+<li>explicit failure messages</li>
+<li>fewer ambiguous mode transitions</li>
+<li>clearer relationship between tap and long-press actions</li>
+<li>understandable reset behavior</li>
+</ul>
+<p>An accessible playful app is still playful, but not cryptic.</p>
+<h3 id="6-collaboration-accessibility">6. Collaboration
+Accessibility</h3>
+<p>Glue is a defining feature of DoodleTag, so accessibility work must
+include collaboration-specific concerns.</p>
+<p>Users need understandable feedback for:</p>
+<ul>
+<li>entering Glue</li>
+<li>waiting for a peer</li>
+<li>connecting</li>
+<li>disconnecting</li>
+<li>restoring solo state</li>
+<li>clearing saved shared session state</li>
+</ul>
+<p>This is one of the places where DoodleTag can become more accessible
+without changing the drawing experience itself: clear collaboration
+feedback helps all users, including those relying on screen readers or
+reduced visual attention.</p>
+<h2 id="concrete-accessibility-areas-to-audit">Concrete Accessibility
+Areas To Audit</h2>
+<p>If the team wants a practical audit checklist, these are the most
+important areas.</p>
+<h3 id="a-screen-reader-audit">A. Screen Reader Audit</h3>
+<p>Test with VoiceOver and TalkBack for these flows:</p>
+<ul>
+<li>launch the app and identify the main controls</li>
+<li>open and close the menu</li>
+<li>identify each tool and utility button</li>
+<li>undo, clear, reset view, and export</li>
+<li>start and stop macro recording</li>
+<li>share the last macro</li>
+<li>enter and exit Glue</li>
+<li>understand waiting / connection / failure states</li>
+</ul>
+<p>Questions:</p>
+<ul>
+<li>Are controls labeled?</li>
+<li>Are important state changes announced?</li>
+<li>Does focus remain stable when menus animate?</li>
+<li>Are long-press-only actions discoverable?</li>
+</ul>
+<h3 id="b-touch-target-audit">B. Touch Target Audit</h3>
+<p>Check whether all important controls have comfortable effective hit
+targets.</p>
+<p>Questions:</p>
+<ul>
+<li>Can the buttons be hit without precision tapping?</li>
+<li>Do compact controls keep a larger invisible tap area?</li>
+<li>Are destructive actions separated well enough from nearby
+controls?</li>
+</ul>
+<h3 id="c-color-and-contrast-audit">C. Color and Contrast Audit</h3>
+<p>Questions:</p>
+<ul>
+<li>Can users identify controls without depending only on color?</li>
+<li>Are active states distinguishable in grayscale or low-saturation
+conditions?</li>
+<li>Are banners and overlays readable against the current
+backgrounds?</li>
+</ul>
+<h3 id="d-dynamic-type--scaling-audit">D. Dynamic Type / Scaling
+Audit</h3>
+<p>Questions:</p>
+<ul>
+<li>Does the control surface still work under larger font or display
+scaling?</li>
+<li>Do confirmation sheets remain readable and tappable?</li>
+<li>Do important buttons get clipped or pushed off-screen?</li>
+</ul>
+<h3 id="e-error-recovery-audit">E. Error Recovery Audit</h3>
+<p>Questions:</p>
+<ul>
+<li>Are failed actions announced clearly?</li>
+<li>Are destructive flows confirmed?</li>
+<li>Are resets scoped clearly so the user understands what will and will
+not be removed?</li>
+</ul>
+<h2 id="practical-accessibility-strategy-for-doodletag">Practical
+Accessibility Strategy For DoodleTag</h2>
+<p>The most realistic path is not to chase "perfect accessibility" all
+at once.</p>
+<p>The better strategy is to improve accessibility in layers.</p>
+<h3 id="layer-1-make-the-control-surface-accessible">Layer 1: Make The
+Control Surface Accessible</h3>
+<p>This is the highest-value first layer.</p>
+<p>It includes:</p>
+<ul>
+<li>explicit semantics for controls</li>
+<li>meaningful control labels</li>
+<li>larger effective touch targets</li>
+<li>clearer confirmations</li>
+<li>consistent announcements for mode and state changes</li>
+</ul>
+<p>This work is highly worthwhile because it improves the app for almost
+everyone and is technically achievable.</p>
+<h3 id="layer-2-make-app-state-understandable">Layer 2: Make App State
+Understandable</h3>
+<p>This includes:</p>
+<ul>
+<li>announcing success, failure, and waiting states</li>
+<li>making Glue state easy to understand</li>
+<li>making macro state easy to understand</li>
+<li>keeping reset and export flows explicit</li>
+</ul>
+<p>This is especially important in DoodleTag because the app has many
+invisible internal modes.</p>
+<h3 id="layer-3-reduce-visual-only-dependencies">Layer 3: Reduce
+Visual-Only Dependencies</h3>
+<p>This includes:</p>
+<ul>
+<li>avoiding color-only meaning where possible</li>
+<li>using labels and feedback for tool identity</li>
+<li>making active states clearer</li>
+<li>improving readability of overlays and banners</li>
+</ul>
+<h3 id="layer-4-improve-participation-in-the-drawing-experience">Layer
+4: Improve Participation In The Drawing Experience</h3>
+<p>This is the hardest layer and should be approached pragmatically.</p>
+<p>Possible directions:</p>
+<ul>
+<li>tool presets that reduce precision demand</li>
+<li>more snap-assisted interactions</li>
+<li>more forgiving gesture interpretation where it helps</li>
+<li>alternative ways to trigger some actions without fine motor
+control</li>
+</ul>
+<p>This layer will likely always remain partial, because freeform
+drawing is inherently spatial.</p>
+<h2 id="current-research-based-recommendations">Current Research-Based
+Recommendations</h2>
+<p>Based on the current state of the app and the nature of the product,
+the team should prioritize:</p>
+<ol type="1">
+<li>semantics and discoverability for all main controls</li>
+<li>stable, explicit feedback for mode and state changes</li>
+<li>comfortable hit targets for all important controls</li>
+<li>clear confirmation and recovery behavior</li>
+<li>Glue accessibility as a first-class concern</li>
+<li>reduced dependence on color alone for important meaning</li>
+</ol>
+<p>Only after those are in good shape should the team spend energy on
+formal public claims or compliance paperwork.</p>
+<h2 id="standards-as-supporting-tools-not-the-main-goal">Standards As
+Supporting Tools, Not The Main Goal</h2>
+<p>Standards still matter, but they should support the research above
+rather than replace it.</p>
+<p>Useful references:</p>
+<ul>
+<li><code>WCAG 2.2</code> for semantics, focus, contrast, understandable
+interactions, and error prevention</li>
+<li>Apple accessibility disclosures for store-facing claims once real
+support is tested</li>
+<li><code>VPAT</code> / Accessibility Conformance Reports only if formal
+external reporting is ever needed</li>
+</ul>
+<p>There is no single public accessibility score that solves this for
+DoodleTag.</p>
+<h2 id="what-is-accessible-now">What Is Accessible Now</h2>
+<p>At the current level of implementation, DoodleTag can reasonably say
+that it is improving accessibility in the control surface and feedback
+systems.</p>
+<p>Concrete areas of progress include:</p>
+<ul>
+<li>explicit accessibility semantics for the main menu and utility
+controls</li>
+<li>clearer naming of icon-driven controls</li>
+<li>compact utility buttons with a larger effective tap target</li>
+<li>more explicit confirmations for destructive or state-changing
+actions</li>
+<li>shout/banner feedback that makes hidden app state more visible</li>
+</ul>
+<p>This is meaningful progress, but it should be understood as control
+and state accessibility progress, not as proof that the entire creative
+drawing experience is equally accessible for every user profile.</p>
+<h2 id="what-the-app-is-designed-for">What The App Is Designed For</h2>
+<p>DoodleTag is designed for:</p>
+<ul>
+<li>casual drawing</li>
+<li>playful collaborative doodling</li>
+<li>expressive gesture-based creation</li>
+<li>solo and Glue-based shared drawing sessions</li>
+</ul>
+<p>This purpose should guide the accessibility effort.</p>
+<p>The goal is not to force the app into the mold of a generic
+form-based utility. The goal is to make its real creative and
+collaborative flows as understandable and operable as reasonably
+possible.</p>
+<h2
+id="what-limitations-remain-because-it-is-a-visual-collaborative-drawing-tool">What
+Limitations Remain Because It Is A Visual Collaborative Drawing
+Tool</h2>
+<p>Some limitations are structural.</p>
+<p>These include:</p>
+<ul>
+<li>freeform spatial drawing is inherently difficult to translate into a
+fully equivalent non-visual experience</li>
+<li>collaborative drawing results remain primarily visual even when
+state changes can be announced clearly</li>
+<li>some creative tools depend on geometry, layering, motion, and color
+relationships</li>
+<li>long continuous gestures and precision drawing will remain harder
+for some users even if the controls around them are accessible</li>
+</ul>
+<p>This does not mean accessibility work is optional. It means the right
+goal is reasonable accessibility, honest support, and good
+participation, not a misleading promise of universal equivalence.</p>
+<h2 id="recommended-next-steps">Recommended Next Steps</h2>
+<ol type="1">
+<li>Audit all main controls with VoiceOver and TalkBack on real
+devices.</li>
+<li>Verify that all important controls have labels, hints where needed,
+and stable focus behavior.</li>
+<li>Audit hit targets across the whole control surface, not only the
+menu.</li>
+<li>Review color-only tool states and add non-color cues where
+practical.</li>
+<li>Audit all Glue, macro, export, and reset flows for clear
+announcements and recovery behavior.</li>
+<li>Test larger display and text scaling for dialogs, confirmations, and
+menu flows.</li>
+<li>Keep public positioning secondary until the actual user flows are
+tested thoroughly.</li>
+</ol>
+<h2 id="summary">Summary</h2>
+<p>For DoodleTag, accessibility should be treated as a concrete
+product-research and product-design problem.</p>
+<p>The main goal is:</p>
+<ul>
+<li>make the control surface understandable</li>
+<li>make state changes explicit</li>
+<li>make collaboration flows clearer</li>
+<li>make controls easier to hit</li>
+<li>reduce visual-only dependencies where possible</li>
+<li>and accept that some parts of freeform collaborative drawing will
+remain inherently visual</li>
+</ul>
+<p>That is the right path for making DoodleTag reasonably
+accessible.</p>
+</body>
+</html>

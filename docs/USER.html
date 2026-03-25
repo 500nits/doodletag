@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DoodleTag User Guide</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DoodleTag User Guide</h1>
+</header>
+<h1 id="doodletag-user-guide">DoodleTag User Guide</h1>
+<p>This guide documents the active, user-facing feature set as of the
+latest changelog updates.</p>
+<h2 id="1-canvas-fundamentals">1. Canvas Fundamentals</h2>
+<ul>
+<li>Infinite-session style drawing on a fixed paper world with pan and
+zoom.</li>
+<li>Single-tap viewport reset returns to full paper view.</li>
+<li>Long-press viewport reset cycles zoom presets
+(<code>view one</code>, <code>view two</code>) for quick framing.</li>
+<li>Drawing input outside the paper is ignored.</li>
+<li>Undo and redo are stack-based and operate on drawing/tool actions.
+Macro replay itself is one undoable operation that restores the canvas
+state from just before playback, while air blower and gum keep their own
+undoable operations.</li>
+</ul>
+<h2 id="2-main-controls-tap-vs-long-press">2. Main Controls (Tap vs
+Long-Press)</h2>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>Tap</th>
+<th>Long-Press</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Peers</code></td>
+<td>Toggle glue discovery/connect/disconnect flow. Entering Glue parks
+the current solo canvas locally and switches to the pair canvas for that
+device pair. Leaving Glue restores the parked solo canvas.</td>
+<td>Forget last glued peer preference</td>
+</tr>
+<tr>
+<td><code>Menu Toggle</code></td>
+<td>Open/close the radial menu.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Undo</code></td>
+<td>Undo last local action.</td>
+<td>Redo</td>
+</tr>
+<tr>
+<td><code>Clear Canvas</code></td>
+<td>Confirm and clear current doodle.</td>
+<td>While solo: clear saved sessions/snapshots and stored glue-session
+restore data without wiping the current canvas. While glued:
+hold-to-request clear flow</td>
+</tr>
+<tr>
+<td><code>Export</code></td>
+<td>Open export flow and save image output.</td>
+<td>Share the last recorded macro directly; if no macro is ready,
+DoodleTag shouts that out</td>
+</tr>
+<tr>
+<td><code>Reset View</code></td>
+<td>Reset pan/zoom to full paper.</td>
+<td>Cycle zoom presets</td>
+</tr>
+<tr>
+<td><code>Rainbow</code></td>
+<td>Toggle rainbow drawing mode.</td>
+<td>Open the rainbow color editor</td>
+</tr>
+<tr>
+<td><code>Color/Palette</code></td>
+<td>Open quick palette picker.</td>
+<td>Toggle debug overlay</td>
+</tr>
+<tr>
+<td><code>Stroke Width</code></td>
+<td>Cycle thickness presets.</td>
+<td>Open thickness slider dialog</td>
+</tr>
+<tr>
+<td><code>Gum</code></td>
+<td>Toggle eraser mode.</td>
+<td>Open gum-size dialog</td>
+</tr>
+<tr>
+<td><code>Air Blower</code></td>
+<td>Toggle blower mode.</td>
+<td>Open blower settings dialog</td>
+</tr>
+<tr>
+<td><code>Orthogonal</code></td>
+<td>Toggle directional snapping tool.</td>
+<td>None</td>
+</tr>
+<tr>
+<td><code>Square Grid</code></td>
+<td>Toggle square grid.</td>
+<td>Open grid settings</td>
+</tr>
+<tr>
+<td><code>Hex Grid</code></td>
+<td>Toggle hex grid.</td>
+<td>Open hex-grid settings</td>
+</tr>
+<tr>
+<td><code>Macro</code></td>
+<td>Start/stop/share macro recording flow. Stopping a recording shouts
+<code>MACRO RECORDED</code>.</td>
+<td>Reset current macro recording session and remove the currently
+stored pending macro slot</td>
+</tr>
+<tr>
+<td><code>Welcome Tour (?)</code></td>
+<td>Play bundled welcome macro in read-only mode.</td>
+<td>Reset "tour played" onboarding flag</td>
+</tr>
+<tr>
+<td><code>Tool Shouts</code></td>
+<td>Cycle banner modes: <code>all</code>, <code>announce-only</code>,
+<code>off</code>. The button announces the newly selected mode.</td>
+<td>Reset all tool settings to their default values</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-reset-and-recovery-actions">2.1 Reset and Recovery
+Actions</h2>
+<ul>
+<li>DoodleTag does not currently have one single "factory reset" button
+that makes the app behave exactly like a brand-new install.</li>
+<li>Instead, reset actions are split by domain so you can clear only the
+part you mean to reset.</li>
+</ul>
+<h3 id="211-reset-all-tool-settings">2.1.1 Reset All Tool Settings</h3>
+<ul>
+<li>Long-press the <code>Tool Shouts</code> megaphone button.</li>
+<li>This opens <code>Reset all tool settings?</code>.</li>
+<li>It restores default values for tool-facing state such as:
+<ul>
+<li>brush/tool thickness values</li>
+<li>palette-related tool settings</li>
+<li>rainbow settings</li>
+<li>gum / air blower settings</li>
+<li>grid / hex-grid settings</li>
+<li>shout-banner mode</li>
+</ul></li>
+<li>It is the closest thing to "reset my tools back to defaults".</li>
+<li>It does not clear saved macro files, onboarding flags, or saved
+session/snapshot files.</li>
+</ul>
+<h3 id="212-clear-saved-sessions-and-snapshot-restore-data">2.1.2 Clear
+Saved Sessions and Snapshot Restore Data</h3>
+<ul>
+<li>While not glued, long-press <code>Clear Canvas</code>.</li>
+<li>This opens the saved-session clearing confirmation flow.</li>
+<li>It deletes the persisted snapshot/session storage used for:
+<ul>
+<li>latest solo canvas restore</li>
+<li>parked solo restore snapshot</li>
+<li>glued pair snapshot files</li>
+<li>stored glue session restore metadata/preferences</li>
+</ul></li>
+<li>It keeps the current live canvas intact and only removes the stored
+restore/session data.</li>
+<li>After the wipe, DoodleTag shouts
+<code>GLUE SESSIONS CLEARED</code>.</li>
+<li>Use this when you want to remove remembered canvas/session state,
+not just erase what is currently visible.</li>
+</ul>
+<h3 id="213-reset-the-stored-macro-slot">2.1.3 Reset the Stored Macro
+Slot</h3>
+<ul>
+<li>Long-press <code>Macro</code>.</li>
+<li>DoodleTag asks <code>Reset recorded macro?</code> in a bottom sheet
+before doing anything.</li>
+<li>Choosing <code>Yes</code> resets the current macro recording state
+and removes the previously stored pending macro slot.</li>
+<li>Use this if you want to discard the last recorded macro before
+starting a new one.</li>
+<li>This does not reset general tool settings or snapshot/session
+storage.</li>
+</ul>
+<h3 id="214-reset-welcome-tour-onboarding">2.1.4 Reset Welcome Tour
+Onboarding</h3>
+<ul>
+<li>Long-press the <code>Welcome Tour (?)</code> button.</li>
+<li>This clears the "tour already played" flag.</li>
+<li>Use it when you want the welcome tour to be eligible again like a
+first-run onboarding prompt.</li>
+<li>This does not change drawing tools, snapshots, or macro
+storage.</li>
+</ul>
+<h2 id="3-glue-rules">3. Glue Rules</h2>
+<ul>
+<li>Entering Glue parks the current solo canvas locally.</li>
+<li>Glue always shows the pair canvas for that specific pair.</li>
+<li>Leaving Glue saves the pair canvas and restores the parked solo
+canvas.</li>
+<li>If the pair has no saved shared canvas yet, Glue starts from a blank
+shared canvas for that pair.</li>
+<li>While Glue is waiting for a peer, draw input is ignored and the
+canvas darkens.</li>
+<li>The <code>GLUE IN PROGRESS</code> shout follows the current banner
+mode, but the dimmed in-progress canvas state remains visible even when
+banners are limited or off.</li>
+</ul>
+<h2 id="4-tool-interactions-and-exclusivity">4. Tool Interactions and
+Exclusivity</h2>
+<ul>
+<li><code>Square Grid</code> and <code>Hex Grid</code> are mutually
+exclusive.</li>
+<li><code>Gum</code>, <code>Air Blower</code>, and
+<code>Orthogonal</code> are mutually exclusive in direct tool
+toggles.</li>
+<li>Enabling <code>Rainbow</code> turns off incompatible tools where
+needed and keeps rainbow-specific stroke behavior active.</li>
+<li>Orthogonal snapping behavior depends on guides:
+<ul>
+<li>If square grid is active: snaps to grid-aligned orthogonal
+directions.</li>
+<li>If hex grid is active: snaps along hex-edge directions.</li>
+<li>If no grid is active: snaps to orthogonal directions in free
+space.</li>
+</ul></li>
+<li>While Glue is active or waiting for a peer, actions that would cause
+local divergence are guarded.</li>
+</ul>
+<h2 id="5-drawing-and-color-features">5. Drawing and Color Features</h2>
+<ul>
+<li>Standard freehand drawing with thickness presets and precise
+thickness slider.</li>
+<li>Tool-specific feel is preserved: DoodleTag remembers the last
+thickness used for each drawing context, so switching between modes
+restores the width that felt right there.</li>
+<li>Example: a bold Rainbow stroke can stay bold while standard drawing
+stays ultra-thin, letting users jump between looks without re-tuning the
+brush every time.</li>
+<li>Quick palette includes:
+<ul>
+<li><code>Palette</code> tab for fast swatch picks.</li>
+<li><code>Wheel</code> tab for continuous color selection.</li>
+<li>Recent color history integration.</li>
+</ul></li>
+<li>Rainbow color editing is opened from the <code>Rainbow</code> tool
+path and uses its own dedicated editor flow.</li>
+<li>Closing the quick palette does not switch tools.</li>
+<li>Recent-color behavior is stable (reselecting colors does not
+unexpectedly delete history entries).</li>
+<li>Blue/green pair colors are used only for first-time Glue defaults;
+user-selected colors remain user-owned.</li>
+</ul>
+<h2 id="6-rainbow-tool-complete-option-set">6. Rainbow Tool (Complete
+Option Set)</h2>
+<ul>
+<li>Toggle rainbow on/off directly from the menu.</li>
+<li><code>Normal</code> rainbow follows a toothpaste-style model: colors
+are stored in a fixed internal sequence and come out from the point
+where the stroke starts. Reversing the draw direction remaps those
+colors around the shape instead of preserving the same edge-to-color
+assignment.</li>
+<li>Rainbow color progression is distance-based, not time-based. Moving
+faster or slower over the same path does not change the internal color
+order; it only changes how quickly that ordered color stream is laid
+down along the path.</li>
+<li>Styles:
+<ul>
+<li><code>Normal</code></li>
+<li><code>Pop</code></li>
+<li><code>Lanes</code></li>
+</ul></li>
+<li>Segment length is adjustable with step controls and displayed in
+centimeters.</li>
+<li>Palette control:
+<ul>
+<li>Six editable rainbow palette slots.</li>
+<li><code>Reset</code> to default rainbow palette.</li>
+<li>Uses the dedicated rainbow color editor.</li>
+</ul></li>
+<li><code>Lanes</code> style supports lane-aware turning/join behavior
+and ongoing geometry refinements.</li>
+<li>Rainbow settings persist across app restarts.</li>
+</ul>
+<h2 id="7-gum-eraser">7. Gum (Eraser)</h2>
+<ul>
+<li>Toggle gum and erase by dragging/tapping across strokes.</li>
+<li>Erase size is configurable via long-press settings dialog.</li>
+<li>Long erases show a progress overlay.</li>
+<li>Canceling a progress erase restores the pre-erase snapshot
+immediately.</li>
+<li>Supports undo/redo restoration of erasure operations.</li>
+</ul>
+<h2 id="8-air-blower">8. Air Blower</h2>
+<ul>
+<li>Toggle blower mode for stroke displacement/removal/mixing
+effects.</li>
+<li>Long-press settings include:
+<ul>
+<li>Radius</li>
+<li>Strength profile</li>
+<li>Kind:
+<ul>
+<li><code>Displace</code></li>
+<li><code>Vortex Remove</code></li>
+<li><code>Mix Colors</code></li>
+</ul></li>
+</ul></li>
+<li>Air blower actions are recorded as undoable operations with snapshot
+safety, including redo through full snapshots for merged drag
+actions.</li>
+<li>Remote/glued playback applies blower actions consistently.</li>
+</ul>
+<h2 id="9-macro-system">9. Macro System</h2>
+<h3 id="91-recording-and-sharing">9.1 Recording and Sharing</h3>
+<ul>
+<li>Macro record button starts recording.</li>
+<li>Tapping <code>Macro</code> again after stopping a recording does not
+immediately start a new one if the last recorded macro is still sitting
+in the slot unshared. Instead, DoodleTag shows an
+<code>Unshared macro</code> dialog with choices such as:
+<ul>
+<li><code>Start anyway</code></li>
+<li><code>Share first</code></li>
+<li><code>Play current</code></li>
+</ul></li>
+<li>Starting a macro recording never clears the current canvas.
+Recording begins on top of whatever is already visible.</li>
+<li>Recording captures:
+<ul>
+<li>Finger-driven drawing/tool events</li>
+<li>Tool snapshots</li>
+<li>Timeline events</li>
+<li>Viewport metadata</li>
+</ul></li>
+<li>Stopping a recording from the <code>Macro</code> button stores that
+finished macro as the current pending macro and shouts
+<code>MACRO RECORDED</code>.</li>
+<li>Once a macro has been recorded, there are two user-facing share
+paths:
+<ul>
+<li>Long-press <code>Export</code> to immediately share the last
+recorded macro.</li>
+<li>Tap <code>Export</code>, then use the export dialog action that
+shares the last recording.</li>
+</ul></li>
+<li>If there is no recorded macro ready to share, long-pressing
+<code>Export</code> does not silently fail: DoodleTag shouts
+<code>NO MACRO RECORDED</code>.</li>
+<li>Sharing the last recorded macro clears that pending macro slot after
+a successful share, so the app no longer treats it as an unshared
+recording.</li>
+<li>Long-pressing <code>Macro</code> resets the current recording state
+and removes the stored pending macro slot if you want to discard the
+last recorded macro instead of sharing it.</li>
+<li><code>Undo</code> and <code>Redo</code> pressed while recording
+still affect the live canvas locally, but they are not stored inside the
+macro.</li>
+<li><code>Clear Canvas</code> pressed while recording behaves like a
+normal local clear on the live canvas and is stored as a clear-canvas
+macro event.</li>
+<li>Export/share flow produces <code>.dtag</code> macro files.</li>
+</ul>
+<h3 id="92-macro-file-format-and-compatibility">9.2 Macro File Format
+and Compatibility</h3>
+<ul>
+<li><code>.dtag</code> uses password-protected ZIP packaging
+(<code>Doodle Tag</code>) with compatibility handling for legacy
+payloads.</li>
+<li>Import playback supports bundled assets, local files, and deep-link
+driven downloads.</li>
+</ul>
+<h3 id="93-playback-behavior">9.3 Playback Behavior</h3>
+<ul>
+<li>Macro playback is globally locked to one active playback at a
+time.</li>
+<li>Playback runs through a read-only long-task UI.</li>
+<li>Macro playback starts on top of the current canvas and does not
+clear it automatically.</li>
+<li>If the recorded macro contains <code>Clear Canvas</code>, replay
+treats that event as
+<code>restore the canvas to the exact snapshot from before playback started</code>.</li>
+<li>User controls during playback:
+<ul>
+<li><code>Skip</code> (fast-forward to end)</li>
+<li><code>Cancel</code> (restore pre-play snapshot)</li>
+</ul></li>
+<li>Skip/cancel reset viewport framing consistently.</li>
+<li>Replay completion adds one undoable macro-replay snapshot so undo
+restores the pre-playback canvas in a single step.</li>
+</ul>
+<h2 id="10-welcome-tour">10. Welcome Tour</h2>
+<ul>
+<li>Dedicated <code>?</code> utility button launches the bundled welcome
+tour macro.</li>
+<li>First-launch autoplay is supported (with local played-flag
+persistence).</li>
+<li>Tour can be reset by long-pressing <code>?</code>.</li>
+<li>Tour playback uses the same read-only macro pipeline with
+skip/cancel safety.</li>
+</ul>
+<h2 id="11-glue-collaborative-canvas">11. Glue (Collaborative
+Canvas)</h2>
+<ul>
+<li>Device discovery/connection for shared drawing sessions.</li>
+<li>Auto-glue session restoration and reconnect behavior with
+peer/session memory.</li>
+<li>Each device pair has its own shared canvas snapshot, and the same
+pair restores that shared canvas on reconnect.</li>
+<li>Entering Glue preserves the local solo canvas in a separate restore
+slot instead of merging solo and shared history.</li>
+<li>Leaving Glue saves the pair snapshot and restores the parked solo
+snapshot.</li>
+<li>Snapshot metadata/data exchange keeps peers converged on the newest
+shared state and avoids stale overwrites.</li>
+<li>Long-pressing <code>Peers</code> forgets the last preferred peer
+without deleting snapshots.</li>
+</ul>
+<h2 id="12-import-deep-links-and-file-handling">12. Import, Deep Links,
+and File Handling</h2>
+<ul>
+<li>OS-level <code>.dtag</code> opening support on Android and iOS.</li>
+<li>Android intent filters support custom and fallback MIME flows for
+better "Open with" behavior.</li>
+<li>Universal/App link intake supports macro links and remote macro
+download/play flow.</li>
+<li>Cold-start macro open is deferred until UI is ready so play dialogs
+render reliably.</li>
+</ul>
+<h2 id="13-export-and-long-tasks">13. Export and Long Tasks</h2>
+<ul>
+<li>Export uses controlled progress flows to avoid partial/interrupted
+output.</li>
+<li>Long-running operations use shared long-task overlay patterns for
+consistent UX.</li>
+<li>Long-task surfaces are integrated with the bottom menu replacement
+when applicable to reduce canvas obstruction.</li>
+</ul>
+<h2 id="14-persistence-and-restore">14. Persistence and Restore</h2>
+<ul>
+<li>Persisted settings include:
+<ul>
+<li>Color, thickness, cap</li>
+<li>Per-tool/per-context thickness memory so each drawing mode can
+return to its own preferred stroke feel</li>
+<li>Recent colors</li>
+<li>Grid/hex parameters</li>
+<li>Rainbow settings</li>
+<li>Gum/blower/tool toggles and related parameters</li>
+<li>Shout banner preference</li>
+<li>Glue preferences and session linkage</li>
+</ul></li>
+<li>Startup restore hardens against malformed settings by falling back
+safely to defaults.</li>
+</ul>
+<h2 id="15-current-ux-notes">15. Current UX Notes</h2>
+<ul>
+<li>Tool shout banners use a 3-level megaphone control:
+<code>all banners</code>, <code>announce-only</code>, and
+<code>silent</code>.</li>
+<li>Selecting a tool now emits an announcing banner using the same shout
+surface as live tool usage.</li>
+<li>Toggle-style tools announce explicit state labels such as
+<code>GRID ON</code>, <code>GRID OFF</code>, <code>HEX GRID ON</code>,
+<code>RAINBOW ON</code>, and <code>ORTHO SNAP OFF</code>.</li>
+<li>Tool shout banners are uppercase-normalized at render time.</li>
+<li>Welcome tour and macro playback surfaces share behavior and
+controls.</li>
+<li>Some internal diagnostics overlays exist for development/testing and
+are not part of regular drawing workflows.</li>
+</ul>
+</body>
+</html>
