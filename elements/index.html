@@ -5,59 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Doodle Tag Elements</title>
   <style>
-    :root {
-      --blue: #2991f5;
-      --green: #10cd55;
-      --ink: #142126;
-      --muted: #536269;
-      --paper: #f6fbfc;
-      --card: rgba(255,255,255,0.82);
-      --rule: rgba(20,33,38,0.1);
-    }
+    :root { --blue: #2991f5; --green: #10cd55; --ink: #142126; --muted: #536269; --paper: #f6fbfc; --card: rgba(255,255,255,0.82); --rule: rgba(20,33,38,0.1); }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(41,145,245,0.12), transparent 25%),
-        radial-gradient(circle at bottom right, rgba(16,205,85,0.12), transparent 25%),
-        var(--paper);
-      font: 16px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif;
-    }
-    main {
-      width: min(100%, 1500px);
-      margin: 0 auto;
-      padding: 32px 20px 56px;
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      letter-spacing: -0.05em;
-    }
-    .blue { color: var(--blue); }
-    .green { color: var(--green); }
-    .intro {
-      margin: 0 0 28px;
-      color: var(--muted);
-      max-width: 58rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      display: grid;
-      gap: 10px;
-      align-content: start;
-      padding: 16px;
-      border-radius: 22px;
-      border: 1px solid var(--rule);
-      background: var(--card);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 12px 28px rgba(20,33,38,0.06);
-    }
-    .card img { width: 100%; height: auto; display: block; border-radius: 18px; }
+    body { margin: 0; color: var(--ink); background: radial-gradient(circle at top left, rgba(41,145,245,0.12), transparent 25%), radial-gradient(circle at bottom right, rgba(16,205,85,0.12), transparent 25%), var(--paper); font: 16px/1.55 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    main { width: min(100%, 1600px); margin: 0 auto; padding: 32px 20px 56px; }
+    h1 { margin: 0 0 8px; font-size: clamp(2.4rem, 5vw, 4rem); letter-spacing: -0.05em; }
+    .blue { color: var(--blue); } .green { color: var(--green); }
+    .intro { margin: 0 0 28px; color: var(--muted); max-width: 60rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; }
+    .card { display: grid; gap: 10px; align-content: start; padding: 16px; border-radius: 22px; border: 1px solid var(--rule); background: var(--card); backdrop-filter: blur(8px); box-shadow: 0 12px 28px rgba(20,33,38,0.06); }
+    .card img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
     .copy h2 { margin: 0 0 4px; font-size: 1.05rem; }
     .copy p { margin: 0; color: var(--muted); }
   </style>
@@ -65,123 +22,141 @@
 <body>
   <main>
     <h1><span class="blue">Doodle</span> <span class="green">Tag</span> elements</h1>
-    <p class="intro">Current app controls, exported as simple website specimens. Each item below shows one button and a very brief description.</p>
+    <p class="intro">Actual controls captured from the live app UI. Each item below shows one real button and a very brief description.</p>
     <section class="grid">
       <article class="card">
-  <img src="peers.svg" alt="Peers button" loading="lazy" />
-  <div class="copy">
-    <h2>Peers</h2>
-    <p>Glue connect or disconnect control.</p>
-  </div>
-</article><article class="card">
-  <img src="menu-toggle.svg" alt="Menu Toggle button" loading="lazy" />
-  <div class="copy">
-    <h2>Menu Toggle</h2>
-    <p>Opens and closes the main tool menu.</p>
-  </div>
-</article><article class="card">
-  <img src="undo.svg" alt="Undo button" loading="lazy" />
-  <div class="copy">
-    <h2>Undo</h2>
-    <p>Undo and redo history control.</p>
-  </div>
-</article><article class="card">
-  <img src="clear-canvas.svg" alt="Clear Canvas button" loading="lazy" />
-  <div class="copy">
-    <h2>Clear Canvas</h2>
-    <p>Clear the current doodle or reset saved sessions.</p>
-  </div>
-</article><article class="card">
-  <img src="export.svg" alt="Export button" loading="lazy" />
-  <div class="copy">
-    <h2>Export</h2>
-    <p>Export the drawing or share the last macro.</p>
-  </div>
-</article><article class="card">
-  <img src="reset-view.svg" alt="Reset View button" loading="lazy" />
-  <div class="copy">
-    <h2>Reset View</h2>
-    <p>Reset or cycle the canvas framing.</p>
-  </div>
-</article><article class="card">
-  <img src="rainbow.svg" alt="Rainbow button" loading="lazy" />
-  <div class="copy">
-    <h2>Rainbow</h2>
-    <p>Toggle the rainbow drawing tool.</p>
-  </div>
-</article><article class="card">
-  <img src="color-palette.svg" alt="Color Palette button" loading="lazy" />
-  <div class="copy">
-    <h2>Color Palette</h2>
-    <p>Open the quick color picker.</p>
-  </div>
-</article><article class="card">
-  <img src="stroke-width.svg" alt="Stroke Width button" loading="lazy" />
-  <div class="copy">
-    <h2>Stroke Width</h2>
-    <p>Cycle or adjust brush thickness.</p>
-  </div>
-</article><article class="card">
-  <img src="gum.svg" alt="Gum button" loading="lazy" />
-  <div class="copy">
-    <h2>Gum</h2>
-    <p>Toggle the erasing tool and its strength.</p>
-  </div>
-</article><article class="card">
-  <img src="air-blower.svg" alt="Air Blower button" loading="lazy" />
-  <div class="copy">
-    <h2>Air Blower</h2>
-    <p>Displace, remove, or mix strokes.</p>
-  </div>
-</article><article class="card">
-  <img src="orthogonal.svg" alt="Orthogonal button" loading="lazy" />
-  <div class="copy">
-    <h2>Orthogonal</h2>
-    <p>Toggle directional snapping.</p>
-  </div>
-</article><article class="card">
-  <img src="square-grid.svg" alt="Square Grid button" loading="lazy" />
-  <div class="copy">
-    <h2>Square Grid</h2>
-    <p>Toggle the square guide grid.</p>
-  </div>
-</article><article class="card">
-  <img src="hex-grid.svg" alt="Hex Grid button" loading="lazy" />
-  <div class="copy">
-    <h2>Hex Grid</h2>
-    <p>Toggle the hex guide grid.</p>
-  </div>
-</article><article class="card">
-  <img src="macro.svg" alt="Macro button" loading="lazy" />
-  <div class="copy">
-    <h2>Macro</h2>
-    <p>Record, stop, or reset a macro.</p>
-  </div>
-</article><article class="card">
-  <img src="welcome-tour.svg" alt="Welcome Tour button" loading="lazy" />
-  <div class="copy">
-    <h2>Welcome Tour</h2>
-    <p>Play the built-in welcome tour.</p>
-  </div>
-</article><article class="card">
-  <img src="tool-shouts.svg" alt="Tool Shouts button" loading="lazy" />
-  <div class="copy">
-    <h2>Tool Shouts</h2>
-    <p>Cycle tool banner and shout modes.</p>
-  </div>
-</article><article class="card">
-  <img src="dark-mode.svg" alt="Dark Mode button" loading="lazy" />
-  <div class="copy">
-    <h2>Dark Mode</h2>
-    <p>Switch between light and dark mode.</p>
-  </div>
-</article><article class="card">
-  <img src="apple-pencil-mode.svg" alt="Apple Pencil Mode button" loading="lazy" />
-  <div class="copy">
-    <h2>Apple Pencil Mode</h2>
-    <p>Optional iPad-only Pencil or finger mode.</p>
-  </div>
-</article>
+        <img src="peers.png" alt="Peers button" loading="lazy" />
+        <div class="copy">
+          <h2>Peers</h2>
+          <p>Glue connect or disconnect control.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="menu-toggle.png" alt="Menu Toggle button" loading="lazy" />
+        <div class="copy">
+          <h2>Menu Toggle</h2>
+          <p>Opens and closes the main tool menu.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="reset-view.png" alt="Reset View button" loading="lazy" />
+        <div class="copy">
+          <h2>Reset View</h2>
+          <p>Reset or cycle the canvas framing.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="welcome-tour.png" alt="Welcome Tour button" loading="lazy" />
+        <div class="copy">
+          <h2>Welcome Tour</h2>
+          <p>Play the built-in welcome tour.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="tool-shouts.png" alt="Tool Shouts button" loading="lazy" />
+        <div class="copy">
+          <h2>Tool Shouts</h2>
+          <p>Cycle tool banner and shout modes.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="dark-mode.png" alt="Dark Mode button" loading="lazy" />
+        <div class="copy">
+          <h2>Dark Mode</h2>
+          <p>Switch between light and dark mode.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="apple-pencil-mode.png" alt="Apple Pencil Mode button" loading="lazy" />
+        <div class="copy">
+          <h2>Apple Pencil Mode</h2>
+          <p>Optional iPad-only Pencil or finger mode.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="undo.png" alt="Undo button" loading="lazy" />
+        <div class="copy">
+          <h2>Undo</h2>
+          <p>Undo and redo history control.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="clear-canvas.png" alt="Clear Canvas button" loading="lazy" />
+        <div class="copy">
+          <h2>Clear Canvas</h2>
+          <p>Clear the current doodle or reset saved sessions.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="export.png" alt="Export button" loading="lazy" />
+        <div class="copy">
+          <h2>Export</h2>
+          <p>Export the drawing or share the last macro.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="rainbow.png" alt="Rainbow button" loading="lazy" />
+        <div class="copy">
+          <h2>Rainbow</h2>
+          <p>Toggle the rainbow drawing tool.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="color-palette.png" alt="Color Palette button" loading="lazy" />
+        <div class="copy">
+          <h2>Color Palette</h2>
+          <p>Open the quick color picker.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="stroke-width.png" alt="Stroke Width button" loading="lazy" />
+        <div class="copy">
+          <h2>Stroke Width</h2>
+          <p>Cycle or adjust brush thickness.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="gum.png" alt="Gum button" loading="lazy" />
+        <div class="copy">
+          <h2>Gum</h2>
+          <p>Toggle the erasing tool and its strength.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="air-blower.png" alt="Air Blower button" loading="lazy" />
+        <div class="copy">
+          <h2>Air Blower</h2>
+          <p>Displace, remove, or mix strokes.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="orthogonal.png" alt="Orthogonal button" loading="lazy" />
+        <div class="copy">
+          <h2>Orthogonal</h2>
+          <p>Toggle directional snapping.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="square-grid.png" alt="Square Grid button" loading="lazy" />
+        <div class="copy">
+          <h2>Square Grid</h2>
+          <p>Toggle the square guide grid.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="hex-grid.png" alt="Hex Grid button" loading="lazy" />
+        <div class="copy">
+          <h2>Hex Grid</h2>
+          <p>Toggle the hex guide grid.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="macro.png" alt="Macro button" loading="lazy" />
+        <div class="copy">
+          <h2>Macro</h2>
+          <p>Record, stop, or reset a macro.</p>
+        </div>
+      </article>
     </section>
   </main>
 </body>

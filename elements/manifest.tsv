@@ -1,0 +1,19 @@
+peers.png	Peers	Glue connect or disconnect control.
+menu-toggle.png	Menu Toggle	Opens and closes the main tool menu.
+reset-view.png	Reset View	Reset or cycle the canvas framing.
+welcome-tour.png	Welcome Tour	Play the built-in welcome tour.
+tool-shouts.png	Tool Shouts	Cycle tool banner and shout modes.
+dark-mode.png	Dark Mode	Switch between light and dark mode.
+apple-pencil-mode.png	Apple Pencil Mode	Optional iPad-only Pencil or finger mode.
+undo.png	Undo	Undo and redo history control.
+clear-canvas.png	Clear Canvas	Clear the current doodle or reset saved sessions.
+export.png	Export	Export the drawing or share the last macro.
+rainbow.png	Rainbow	Toggle the rainbow drawing tool.
+color-palette.png	Color Palette	Open the quick color picker.
+stroke-width.png	Stroke Width	Cycle or adjust brush thickness.
+gum.png	Gum	Toggle the erasing tool and its strength.
+air-blower.png	Air Blower	Displace, remove, or mix strokes.
+orthogonal.png	Orthogonal	Toggle directional snapping.
+square-grid.png	Square Grid	Toggle the square guide grid.
+hex-grid.png	Hex Grid	Toggle the hex guide grid.
+macro.png	Macro	Record, stop, or reset a macro.
