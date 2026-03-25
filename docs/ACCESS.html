@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DoodleTag Access</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DoodleTag Access</h1>
+</header>
+<h1 id="doodletag-access">DoodleTag Access</h1>
+<p>DoodleTag is a playful drawing app where people can doodle alone or
+together.</p>
+<p>This page explains accessibility in simple terms:</p>
+<ul>
+<li>what already works,</li>
+<li>what is easier today than before,</li>
+<li>what still has limits,</li>
+<li>and where the app can improve further.</li>
+</ul>
+<p>This is not a compliance statement. It is a plain-language
+description of the current direction of the app.</p>
+<h2 id="what-doodletag-is">What DoodleTag Is</h2>
+<p>DoodleTag is designed for:</p>
+<ul>
+<li>casual drawing</li>
+<li>playful collaborative doodling</li>
+<li>expressive gesture-based creation</li>
+<li>solo and Glue-based shared drawing sessions</li>
+</ul>
+<p>Because of that, accessibility in DoodleTag is not only about reading
+labels. It is also about being able to discover tools, understand what
+state the app is in, and participate in the drawing experience with
+reasonable independence.</p>
+<h2 id="what-works-today">What Works Today</h2>
+<p>The app is becoming more accessible in the control surface and in the
+feedback it gives to the user.</p>
+<p>Today, the strongest accessibility support is around:</p>
+<ul>
+<li>clearer control labels for the main menu and utility buttons</li>
+<li>better explanation of what important controls do</li>
+<li>more explicit confirmation for destructive or state-changing
+actions</li>
+<li>stronger status feedback through banners and announcements</li>
+<li>easier discovery of hidden app state such as recording, Glue, and
+reset behavior</li>
+</ul>
+<p>In practice, that means DoodleTag is improving most clearly in the
+parts of the app that help users:</p>
+<ul>
+<li>find controls</li>
+<li>understand what just happened</li>
+<li>recover from mistakes</li>
+<li>and use the collaboration and recording features with less
+guesswork</li>
+</ul>
+<h2 id="what-is-accessible-now">What Is Accessible Now</h2>
+<p>At the current level of work, DoodleTag can reasonably say that it is
+improving accessibility in these areas:</p>
+<ul>
+<li>the main menu and utility controls can expose explicit accessibility
+labels</li>
+<li>icon-driven controls are less dependent on guesswork alone</li>
+<li>important actions increasingly give direct feedback instead of
+failing silently</li>
+<li>mode and state changes are easier to understand through
+announcements and visible feedback</li>
+<li>compact controls can be tuned to remain visually light while still
+being easier to tap</li>
+</ul>
+<p>This is real progress, especially for:</p>
+<ul>
+<li>screen-reader discovery of controls</li>
+<li>understanding app state</li>
+<li>learning the behavior of the tools</li>
+<li>and using the app without depending only on visual memory</li>
+</ul>
+<h2 id="what-still-has-limits">What Still Has Limits</h2>
+<p>Some limits come from the nature of the app itself.</p>
+<p>DoodleTag is a freeform visual collaborative drawing tool, so some
+parts of the experience remain harder to make fully equivalent for every
+user.</p>
+<p>Those limits include:</p>
+<ul>
+<li>freeform spatial drawing is still a strongly visual activity</li>
+<li>some tools depend on gesture precision, geometry, layering, and
+color relationships</li>
+<li>collaborative drawing results remain mainly visual even when the app
+announces state changes clearly</li>
+<li>long continuous gestures may remain harder for some users than
+structured button-driven interactions</li>
+</ul>
+<p>These are not reasons to stop improving accessibility. They are
+reasons to be honest about where the hardest problems still are.</p>
+<h2 id="what-we-care-about-improving">What We Care About Improving</h2>
+<p>The most important accessibility improvements for DoodleTag are not
+abstract ones. They are practical ones.</p>
+<p>The app should keep improving in these areas:</p>
+<ul>
+<li>clearer control discovery</li>
+<li>better announcements and state feedback</li>
+<li>more forgiving touch targets for important controls</li>
+<li>less dependence on color alone</li>
+<li>easier understanding of Glue, macro, export, and reset flows</li>
+<li>fewer confusing or hidden mode changes</li>
+</ul>
+<p>These improvements help many different users at once, including:</p>
+<ul>
+<li>people using screen readers</li>
+<li>people with low vision</li>
+<li>people with reduced dexterity</li>
+<li>people who simply need the app to be easier to understand</li>
+</ul>
+<h2 id="open-doors-for-improvement">Open Doors For Improvement</h2>
+<p>There is still a lot of room to make DoodleTag more accessible in a
+practical way.</p>
+<p>Some promising directions are:</p>
+<ul>
+<li>continuing to improve control labels and hints</li>
+<li>making major app states easier to announce and understand</li>
+<li>improving touch comfort without making the interface visually
+heavy</li>
+<li>reducing color-only meaning in tools and modes</li>
+<li>making collaboration states clearer during Glue waiting and
+connection flows</li>
+<li>making long-press actions easier to discover</li>
+<li>improving readability under larger display or text scaling</li>
+</ul>
+<p>The goal is not to force DoodleTag to behave like a generic utility
+app. The goal is to make its real creative and collaborative experience
+more understandable, more operable, and more welcoming.</p>
+<h2 id="a-friendly-summary">A Friendly Summary</h2>
+<p>DoodleTag is moving in a more accessible direction.</p>
+<p>What is strongest today:</p>
+<ul>
+<li>control discovery</li>
+<li>state feedback</li>
+<li>clearer confirmations</li>
+<li>better accessibility labels for important controls</li>
+</ul>
+<p>What still needs work:</p>
+<ul>
+<li>the drawing experience itself, because it is naturally visual and
+gesture-heavy</li>
+<li>touch comfort across the whole app</li>
+<li>reducing visual-only meaning</li>
+<li>making every major flow equally easy to understand</li>
+</ul>
+<p>That is the current picture: meaningful progress in the controls and
+feedback, with open space to keep improving the creative and
+collaborative experience.</p>
+</body>
+</html>
