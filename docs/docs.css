@@ -47,7 +47,8 @@ body {
   line-height: 1;
 }
 
-.doc-brand .brand-wordmark {
+.doc-brand .brand-blue,
+.doc-brand .brand-green {
   font-family: "Luckiest Guy", "Comic Sans MS", cursive;
   letter-spacing: 1px;
 }
