@@ -6,6 +6,8 @@
   --card: rgba(255, 255, 255, 0.72);
   --rule: rgba(30, 36, 40, 0.12);
   --link: #0d5f75;
+  --brand-blue: #2991f5;
+  --brand-green: #10cd55;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -148,4 +150,21 @@ blockquote {
 hr {
   border: 0;
   height: 1px;
+}
+
+.text-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35em;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.text-logo .brand-blue {
+  color: var(--brand-blue);
+}
+
+.text-logo .brand-green {
+  color: var(--brand-green);
 }
