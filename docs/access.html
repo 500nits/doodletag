@@ -9,16 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
     ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
       font-size: inherit;
@@ -34,9 +29,6 @@
 <main class="doc-shell">
 <h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">accessibility</span></h1>
 <article class="doc-panel">
-<h1 id="doodletag-access">Access</h1>
-<p>DoodleTag is a playful drawing app where people can doodle alone or
-together.</p>
 <p>DoodleTag is designed for:</p>
 <ul>
 <li>casual drawing</li>
@@ -50,44 +42,16 @@ state the app is in, and participate in the drawing experience with
 reasonable independence.</p>
 <h2 id="what-works-today">What Works Today</h2>
 <p>The app is becoming more accessible in the control surface and in the
-feedback it gives to the user.</p>
-<p>Today, the strongest accessibility support is around:</p>
+feedback it gives to the user. Today, the strongest accessibility
+support is around:</p>
 <ul>
-<li>clearer control labels for the main menu and utility buttons</li>
-<li>better explanation of what important controls do</li>
-<li>more explicit confirmation for destructive or state-changing
-actions</li>
-<li>stronger status feedback through banners and announcements</li>
-<li>easier discovery of hidden app state such as recording, Glue, and
+<li>clear control labels for the main menu and utility buttons</li>
+<li>explanation of what important controls do</li>
+<li>explicit confirmation for destructive or state-changing actions</li>
+<li>strong status feedback through banners and announcements</li>
+<li>easy discovery of hidden app state such as recording, Glue, and
 reset behavior</li>
-</ul>
-<p>In practice, that means DoodleTag is improving most clearly in the
-parts of the app that help users:</p>
-<ul>
-<li>find controls</li>
-<li>understand what just happened</li>
-<li>recover from mistakes</li>
-<li>and use the collaboration and recording features with less
-guesswork</li>
-</ul>
-<h2 id="what-is-accessible-now">What Is Accessible Now</h2>
-<p>At the current level of work, DoodleTag can reasonably say that it is
-improving accessibility in these areas:</p>
-<ul>
-<li>the main menu and utility controls can expose explicit accessibility
-labels</li>
-<li>icon-driven controls are less dependent on guesswork alone</li>
-<li>important actions increasingly give direct feedback instead of
-failing silently</li>
-<li>mode and state changes are easier to understand through
-announcements and visible feedback</li>
-<li>compact controls can be tuned to remain visually light while still
-being easier to tap</li>
-</ul>
-<p>This is real progress, especially for:</p>
-<ul>
 <li>screen-reader discovery of controls</li>
-<li>understanding app state</li>
 <li>learning the behavior of the tools</li>
 <li>and using the app without depending only on visual memory</li>
 </ul>
@@ -106,15 +70,13 @@ announces state changes clearly</li>
 <li>long continuous gestures may remain harder for some users than
 structured button-driven interactions</li>
 </ul>
-<p>These are not reasons to stop improving accessibility. They are
-reasons to be honest about where the hardest problems still are.</p>
 <h2 id="what-we-care-about-improving">What We Care About Improving</h2>
 <p>The most important accessibility improvements for DoodleTag are not
 abstract ones. They are practical ones.</p>
 <p>The app should keep improving in these areas:</p>
 <ul>
 <li>clearer control discovery</li>
-<li>better announcements and state feedback</li>
+<li>even better announcements and state feedback</li>
 <li>more forgiving touch targets for important controls</li>
 <li>less dependence on color alone</li>
 <li>easier understanding of Glue, macro, export, and reset flows</li>

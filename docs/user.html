@@ -9,16 +9,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <style>
-    /* Default styles provided by pandoc.
-    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
     ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
       font-size: inherit;
@@ -34,7 +29,7 @@
 <main class="doc-shell">
 <h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">user manual</span></h1>
 <article class="doc-panel">
-<h2 id="1-canvas-fundamentals">1. Canvas Fundamentals</h2>
+<h2 id="canvas-fundamentals">1. Canvas Fundamentals</h2>
 <ul>
 <li>Infinite-session style drawing on a fixed paper world with pan and
 zoom.</li>
@@ -47,9 +42,19 @@ Macro replay itself is one undoable operation that restores the canvas
 state from just before playback, while air blower and gum keep their own
 undoable operations.</li>
 </ul>
-<h2 id="2-main-controls-tap-vs-long-press">2. Main Controls (Tap vs
+<h2 id="main-controls-tap-vs-long-press">2. Main Controls (Tap vs
 Long-Press)</h2>
+<p>Most controls in DoodleTag have two gestures. A normal tap is the
+quick everyday action. A long press means touching and holding the
+control for a moment until its secondary action opens. In practice, most
+buttons are designed with one direct tap behavior and one longer-press
+behavior, so it is worth trying both when learning the app.</p>
 <table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
 <thead>
 <tr>
 <th>Control</th>
@@ -143,7 +148,7 @@ stored pending macro slot</td>
 <tr>
 <td><code>Welcome Tour (?)</code></td>
 <td>Play bundled welcome macro in read-only mode.</td>
-<td>Reset "tour played" onboarding flag</td>
+<td>Reset “tour played” onboarding flag</td>
 </tr>
 <tr>
 <td><code>Tool Shouts</code></td>
@@ -153,76 +158,17 @@ stored pending macro slot</td>
 </tr>
 </tbody>
 </table>
-<h2 id="21-reset-and-recovery-actions">2.1 Reset and Recovery
-Actions</h2>
+<h2 id="glue-collaborative-canvas">3. Glue (Collaborative Canvas)</h2>
+<p>Glue is DoodleTag’s shared drawing mode. It connects two devices into
+one live session so both people work on the same collaborative scene.
+The <code>pair canvas</code> means the shared canvas that belongs to
+that exact pair of devices. It is separate from each device’s solo
+canvas, so entering Glue does not overwrite your private drawing
+history.</p>
+<h3 id="glue-rules">3.1 Glue Rules</h3>
 <ul>
-<li>DoodleTag does not currently have one single "factory reset" button
-that makes the app behave exactly like a brand-new install.</li>
-<li>Instead, reset actions are split by domain so you can clear only the
-part you mean to reset.</li>
-</ul>
-<h3 id="211-reset-all-tool-settings">2.1.1 Reset All Tool Settings</h3>
-<ul>
-<li>Long-press the <code>Tool Shouts</code> megaphone button.</li>
-<li>This opens <code>Reset all tool settings?</code>.</li>
-<li>It restores default values for tool-facing state such as:
-<ul>
-<li>brush/tool thickness values</li>
-<li>palette-related tool settings</li>
-<li>rainbow settings</li>
-<li>gum / air blower settings</li>
-<li>grid / hex-grid settings</li>
-<li>shout-banner mode</li>
-</ul></li>
-<li>It is the closest thing to "reset my tools back to defaults".</li>
-<li>It does not clear saved macro files, onboarding flags, or saved
-session/snapshot files.</li>
-</ul>
-<h3 id="212-clear-saved-sessions-and-snapshot-restore-data">2.1.2 Clear
-Saved Sessions and Snapshot Restore Data</h3>
-<ul>
-<li>While not glued, long-press <code>Clear Canvas</code>.</li>
-<li>This opens the saved-session clearing confirmation flow.</li>
-<li>It deletes the persisted snapshot/session storage used for:
-<ul>
-<li>latest solo canvas restore</li>
-<li>parked solo restore snapshot</li>
-<li>glued pair snapshot files</li>
-<li>stored glue session restore metadata/preferences</li>
-</ul></li>
-<li>It keeps the current live canvas intact and only removes the stored
-restore/session data.</li>
-<li>After the wipe, DoodleTag shouts
-<code>GLUE SESSIONS CLEARED</code>.</li>
-<li>Use this when you want to remove remembered canvas/session state,
-not just erase what is currently visible.</li>
-</ul>
-<h3 id="213-reset-the-stored-macro-slot">2.1.3 Reset the Stored Macro
-Slot</h3>
-<ul>
-<li>Long-press <code>Macro</code>.</li>
-<li>DoodleTag asks <code>Reset recorded macro?</code> in a bottom sheet
-before doing anything.</li>
-<li>Choosing <code>Yes</code> resets the current macro recording state
-and removes the previously stored pending macro slot.</li>
-<li>Use this if you want to discard the last recorded macro before
-starting a new one.</li>
-<li>This does not reset general tool settings or snapshot/session
-storage.</li>
-</ul>
-<h3 id="214-reset-welcome-tour-onboarding">2.1.4 Reset Welcome Tour
-Onboarding</h3>
-<ul>
-<li>Long-press the <code>Welcome Tour (?)</code> button.</li>
-<li>This clears the "tour already played" flag.</li>
-<li>Use it when you want the welcome tour to be eligible again like a
-first-run onboarding prompt.</li>
-<li>This does not change drawing tools, snapshots, or macro
-storage.</li>
-</ul>
-<h2 id="3-glue-rules">3. Glue Rules</h2>
-<ul>
-<li>Entering Glue parks the current solo canvas locally.</li>
+<li>Entering Glue parks the current solo canvas locally and switches to
+the pair canvas for that device pair.</li>
 <li>Glue always shows the pair canvas for that specific pair.</li>
 <li>Leaving Glue saves the pair canvas and restores the parked solo
 canvas.</li>
@@ -234,29 +180,49 @@ canvas darkens.</li>
 mode, but the dimmed in-progress canvas state remains visible even when
 banners are limited or off.</li>
 </ul>
-<h2 id="4-tool-interactions-and-exclusivity">4. Tool Interactions and
-Exclusivity</h2>
+<h3 id="controls-that-do-not-work-in-glued-mode">3.2 Controls That Do
+Not Work In Glued Mode</h3>
+<p>These controls are blocked or changed while Glue is active or still
+searching, because they would otherwise fork local state away from the
+shared pair canvas:</p>
 <ul>
-<li><code>Square Grid</code> and <code>Hex Grid</code> are mutually
-exclusive.</li>
-<li><code>Gum</code>, <code>Air Blower</code>, and
-<code>Orthogonal</code> are mutually exclusive in direct tool
-toggles.</li>
-<li>Enabling <code>Rainbow</code> turns off incompatible tools where
-needed and keeps rainbow-specific stroke behavior active.</li>
-<li>Orthogonal snapping behavior depends on guides:
-<ul>
-<li>If square grid is active: snaps to grid-aligned orthogonal
-directions.</li>
-<li>If hex grid is active: snaps along hex-edge directions.</li>
-<li>If no grid is active: snaps to orthogonal directions in free
-space.</li>
-</ul></li>
-<li>While Glue is active or waiting for a peer, actions that would cause
-local divergence are guarded.</li>
+<li><code>Undo</code> / <code>Redo</code></li>
+<li>direct solo <code>Clear Canvas</code></li>
+<li><code>Macro</code> recording</li>
+<li><code>Welcome Tour</code></li>
 </ul>
-<h2 id="5-drawing-and-color-features">5. Drawing and Color Features</h2>
+<h3 id="glue-behavior-and-restore">3.3 Glue Behavior and Restore</h3>
 <ul>
+<li>Device discovery/connection for shared drawing sessions.</li>
+<li>Auto-glue session restoration and reconnect behavior with
+peer/session memory.</li>
+<li>Each device pair has its own shared canvas snapshot, and the same
+pair restores that shared canvas on reconnect.</li>
+<li>Entering Glue preserves the local solo canvas in a separate restore
+slot instead of merging solo and shared history.</li>
+<li>Leaving Glue saves the pair snapshot and restores the parked solo
+snapshot.</li>
+<li>Snapshot metadata/data exchange keeps peers converged on the newest
+shared state and avoids stale overwrites.</li>
+<li>Long-pressing <code>Peers</code> forgets the last preferred peer
+without deleting snapshots.</li>
+</ul>
+<h2 id="drawing-and-color-features">4. Drawing and Color Features</h2>
+<ul>
+<li>DoodleTag stores drawing as vector strokes and segments. Each mark
+keeps its own geometry, point path, stroke width, cap, color, and
+stacking order instead of being flattened into one bitmap.</li>
+<li>In practice, this means every piece of the drawing remains a
+structured part of the scene. Zoom stays clean, Glue can synchronize
+authored strokes, macros can replay drawing actions, undo can restore
+individual operations, and tools like Gum or Air Blower can affect
+stroke geometry without reducing the whole canvas to one merged
+image.</li>
+<li>Compared with simpler draw-style apps where marks are treated more
+like immediate screen output, DoodleTag keeps the drawing as a live
+composition of stroke objects. That is why the same authored drawing can
+be restored, replayed, shared, cut, moved, recolored, or re-layered
+through later tools and sessions.</li>
 <li>Standard freehand drawing with thickness presets and precise
 thickness slider.</li>
 <li>Tool-specific feel is preserved: DoodleTag remembers the last
@@ -279,8 +245,28 @@ unexpectedly delete history entries).</li>
 <li>Blue/green pair colors are used only for first-time Glue defaults;
 user-selected colors remain user-owned.</li>
 </ul>
-<h2 id="6-rainbow-tool-complete-option-set">6. Rainbow Tool (Complete
-Option Set)</h2>
+<h2 id="tool-interactions-and-exclusivity">5. Tool Interactions and
+Exclusivity</h2>
+<ul>
+<li><code>Square Grid</code> and <code>Hex Grid</code> are mutually
+exclusive.</li>
+<li><code>Gum</code>, <code>Air Blower</code>, and
+<code>Orthogonal</code> are mutually exclusive in direct tool
+toggles.</li>
+<li>Enabling <code>Rainbow</code> turns off incompatible tools where
+needed and keeps rainbow-specific stroke behavior active.</li>
+<li>Orthogonal snapping behavior depends on guides:
+<ul>
+<li>If square grid is active: snaps to grid-aligned orthogonal
+directions.</li>
+<li>If hex grid is active: snaps along hex-edge directions.</li>
+<li>If no grid is active: snaps to orthogonal directions in free
+space.</li>
+</ul></li>
+<li>While Glue is active or waiting for a peer, actions that would cause
+local divergence are guarded.</li>
+</ul>
+<h2 id="rainbow-tool">6. Rainbow Tool</h2>
 <ul>
 <li>Toggle rainbow on/off directly from the menu.</li>
 <li><code>Normal</code> rainbow follows a toothpaste-style model: colors
@@ -310,7 +296,7 @@ centimeters.</li>
 and ongoing geometry refinements.</li>
 <li>Rainbow settings persist across app restarts.</li>
 </ul>
-<h2 id="7-gum-eraser">7. Gum (Eraser)</h2>
+<h2 id="gum-eraser">7. Gum (Eraser)</h2>
 <ul>
 <li>Toggle gum and erase by dragging/tapping across strokes.</li>
 <li>Gum strength is configurable via the long-press settings dialog and
@@ -320,7 +306,7 @@ currently scales up to <code>10.0x</code>.</li>
 immediately.</li>
 <li>Supports undo/redo restoration of erasure operations.</li>
 </ul>
-<h2 id="8-air-blower">8. Air Blower</h2>
+<h2 id="air-blower">8. Air Blower</h2>
 <ul>
 <li>Toggle blower mode for stroke displacement/removal/mixing
 effects.</li>
@@ -340,8 +326,8 @@ safety, including redo through full snapshots for merged drag
 actions.</li>
 <li>Remote/glued playback applies blower actions consistently.</li>
 </ul>
-<h2 id="9-macro-system">9. Macro System</h2>
-<h3 id="91-recording-and-sharing">9.1 Recording and Sharing</h3>
+<h2 id="macro-system">9. Macro System</h2>
+<h3 id="recording-and-sharing">9.1 Recording and Sharing</h3>
 <ul>
 <li>Macro record button starts recording.</li>
 <li>Tapping <code>Macro</code> again after stopping a recording does not
@@ -390,8 +376,8 @@ normal local clear on the live canvas and is stored as a clear-canvas
 macro event.</li>
 <li>Export/share flow produces <code>.dtag</code> macro files.</li>
 </ul>
-<h3 id="92-macro-file-format-and-compatibility">9.2 Macro File Format
-and Compatibility</h3>
+<h3 id="macro-file-format-and-compatibility">9.2 Macro File Format and
+Compatibility</h3>
 <ul>
 <li><code>.dtag</code> uses password-protected ZIP packaging
 (<code>Doodle Tag</code>) with compatibility handling for legacy
@@ -399,7 +385,7 @@ payloads.</li>
 <li>Import playback supports bundled assets, local files, and deep-link
 driven downloads.</li>
 </ul>
-<h3 id="93-playback-behavior">9.3 Playback Behavior</h3>
+<h3 id="playback-behavior">9.3 Playback Behavior</h3>
 <ul>
 <li>Macro playback is globally locked to one active playback at a
 time.</li>
@@ -418,7 +404,7 @@ treats that event as
 <li>Replay completion adds one undoable macro-replay snapshot so undo
 restores the pre-playback canvas in a single step.</li>
 </ul>
-<h2 id="10-welcome-tour">10. Welcome Tour</h2>
+<h2 id="welcome-tour">10. Welcome Tour</h2>
 <ul>
 <li>Dedicated <code>?</code> utility button launches the bundled welcome
 tour macro.</li>
@@ -428,35 +414,18 @@ persistence).</li>
 <li>Tour playback uses the same read-only macro pipeline with
 skip/cancel safety.</li>
 </ul>
-<h2 id="11-glue-collaborative-canvas">11. Glue (Collaborative
-Canvas)</h2>
-<ul>
-<li>Device discovery/connection for shared drawing sessions.</li>
-<li>Auto-glue session restoration and reconnect behavior with
-peer/session memory.</li>
-<li>Each device pair has its own shared canvas snapshot, and the same
-pair restores that shared canvas on reconnect.</li>
-<li>Entering Glue preserves the local solo canvas in a separate restore
-slot instead of merging solo and shared history.</li>
-<li>Leaving Glue saves the pair snapshot and restores the parked solo
-snapshot.</li>
-<li>Snapshot metadata/data exchange keeps peers converged on the newest
-shared state and avoids stale overwrites.</li>
-<li>Long-pressing <code>Peers</code> forgets the last preferred peer
-without deleting snapshots.</li>
-</ul>
-<h2 id="12-import-deep-links-and-file-handling">12. Import, Deep Links,
-and File Handling</h2>
+<h2 id="import-deep-links-and-file-handling">11. Import, Deep Links, and
+File Handling</h2>
 <ul>
 <li>OS-level <code>.dtag</code> opening support on Android and iOS.</li>
 <li>Android intent filters support custom and fallback MIME flows for
-better "Open with" behavior.</li>
+better “Open with” behavior.</li>
 <li>Universal/App link intake supports macro links and remote macro
 download/play flow.</li>
 <li>Cold-start macro open is deferred until UI is ready so play dialogs
 render reliably.</li>
 </ul>
-<h2 id="13-export-and-long-tasks">13. Export and Long Tasks</h2>
+<h2 id="export-and-long-tasks">12. Export and Long Tasks</h2>
 <ul>
 <li>Export uses controlled progress flows to avoid partial/interrupted
 output.</li>
@@ -465,7 +434,7 @@ consistent UX.</li>
 <li>Long-task surfaces are integrated with the bottom menu replacement
 when applicable to reduce canvas obstruction.</li>
 </ul>
-<h2 id="14-persistence-and-restore">14. Persistence and Restore</h2>
+<h2 id="persistence-and-restore">13. Persistence and Restore</h2>
 <ul>
 <li>Persisted settings include:
 <ul>
@@ -482,7 +451,73 @@ return to its own preferred stroke feel</li>
 <li>Startup restore hardens against malformed settings by falling back
 safely to defaults.</li>
 </ul>
-<h2 id="15-current-ux-notes">15. Current UX Notes</h2>
+<h2 id="reset-and-recovery-actions">14. Reset and Recovery Actions</h2>
+<ul>
+<li>DoodleTag does not currently have one single “factory reset” button
+that makes the app behave exactly like a brand-new install.</li>
+<li>Instead, reset actions are split by domain so you can clear only the
+part you mean to reset.</li>
+</ul>
+<h3 id="reset-all-tool-settings">14.1 Reset All Tool Settings</h3>
+<ul>
+<li>Long-press the <code>Tool Shouts</code> megaphone button.</li>
+<li>This opens <code>Reset all tool settings?</code>.</li>
+<li>It restores default values for tool-facing state such as:
+<ul>
+<li>brush/tool thickness values</li>
+<li>palette-related tool settings</li>
+<li>rainbow settings</li>
+<li>gum / air blower settings</li>
+<li>grid / hex-grid settings</li>
+<li>shout-banner mode</li>
+</ul></li>
+<li>It is the closest thing to “reset my tools back to defaults”.</li>
+<li>It does not clear saved macro files, onboarding flags, or saved
+session/snapshot files.</li>
+</ul>
+<h3 id="clear-saved-sessions-and-snapshot-restore-data">14.2 Clear Saved
+Sessions and Snapshot Restore Data</h3>
+<ul>
+<li>While not glued, long-press <code>Clear Canvas</code>.</li>
+<li>This opens the saved-session clearing confirmation flow.</li>
+<li>It deletes the persisted snapshot/session storage used for:
+<ul>
+<li>latest solo canvas restore</li>
+<li>parked solo restore snapshot</li>
+<li>glued pair snapshot files</li>
+<li>stored glue session restore metadata/preferences</li>
+</ul></li>
+<li>It keeps the current live canvas intact and only removes the stored
+restore/session data.</li>
+<li>After the wipe, DoodleTag shouts
+<code>GLUE SESSIONS CLEARED</code>.</li>
+<li>Use this when you want to remove remembered canvas/session state,
+not just erase what is currently visible.</li>
+</ul>
+<h3 id="reset-the-stored-macro-slot">14.3 Reset the Stored Macro
+Slot</h3>
+<ul>
+<li>Long-press <code>Macro</code>.</li>
+<li>DoodleTag asks <code>Reset recorded macro?</code> in a bottom sheet
+before doing anything.</li>
+<li>Choosing <code>Yes</code> resets the current macro recording state
+and removes the previously stored pending macro slot.</li>
+<li>Use this if you want to discard the last recorded macro before
+starting a new one.</li>
+<li>This does not reset general tool settings or snapshot/session
+storage.</li>
+</ul>
+<h3 id="reset-welcome-tour-onboarding">14.4 Reset Welcome Tour
+Onboarding</h3>
+<ul>
+<li>Long-press the <code>Welcome Tour (?)</code> button.</li>
+<li>This clears the “tour already played” flag.</li>
+<li>Use it when you want the welcome tour to be eligible again like a
+first-run onboarding prompt.</li>
+<li>This does not change drawing tools, snapshots, or macro
+storage.</li>
+</ul>
+<h2 id="current-ux-notes">15. Current UX Notes</h2>
 <ul>
 <li>Main menu and utility controls expose accessibility labels, and the
 compact top-right utility buttons keep a larger effective tap target
