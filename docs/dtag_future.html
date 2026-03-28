@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DoodleTag .dtag Files and Possible Future Directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="docs.css?v=2" />
+  <style>
+    .doc-intro {
+      margin: 0 0 1.5rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 72ch;
+    }
+
+    .doc-section-nav {
+      margin: 0 0 1.75rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--rule);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .doc-section-nav h2 {
+      margin-top: 0;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .doc-section-nav ol {
+      columns: 2 16rem;
+      column-gap: 2rem;
+      margin-bottom: 0;
+    }
+
+    .doc-callout {
+      padding: 1rem 1.1rem;
+      border-left: 4px solid var(--blue);
+      border-radius: 14px;
+      background: rgba(41, 145, 245, 0.08);
+    }
+
+    .doc-split {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin: 1rem 0 1.25rem;
+    }
+
+    .doc-card {
+      padding: 1rem 1.1rem;
+      border: 1px solid var(--rule);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .doc-card > :first-child {
+      margin-top: 0;
+    }
+
+    .doc-footer-note {
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+<main class="doc-shell">
+<h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">.dtag notes</span></h1>
+<article class="doc-panel">
+<p class="doc-intro">This page summarizes how DoodleTag shares <code>.dtag</code> macro files today, how iOS intake currently works, and what a future public-sharing path could look like.</p>
+
+<section class="doc-section-nav" aria-labelledby="page-contents">
+  <h2 id="page-contents">Contents</h2>
+  <ol>
+    <li><a href="#current-implementation">Current implementation</a></li>
+    <li><a href="#current-ios-behavior">Current iOS behavior</a></li>
+    <li><a href="#current-product-position">Current product position</a></li>
+    <li><a href="#future-direction-upload-to-one-server-and-share-the-link">Future direction</a></li>
+    <li><a href="#recipient-behavior-in-the-future-model">Recipient behavior</a></li>
+    <li><a href="#the-server-side-of-that-future-direction">Server side</a></li>
+    <li><a href="#privacy-and-product-implications">Privacy implications</a></li>
+    <li><a href="#recommended-future-shape">Recommended shape</a></li>
+  </ol>
+</section>
+
+<h2 id="current-implementation">Current Implementation</h2>
+<p>DoodleTag currently shares macros as raw <code>.dtag</code> files.</p>
+<ul>
+<li>a user records or exports a macro</li>
+<li>DoodleTag shares the raw <code>.dtag</code> file</li>
+<li>another device with DoodleTag can open that file</li>
+</ul>
+<p>This path works best when both devices already have DoodleTag installed and the host app hands the file through correctly.</p>
+
+<h2 id="current-ios-behavior">Current iOS Behavior</h2>
+<p>Files and Messages behave differently on iOS. Files is usually willing to hand a registered document type to its owner app, while Messages often keeps the attachment inside its own interface.</p>
+<p>DoodleTag now ships an iOS Share Extension to improve intake from share-sheet hosts:</p>
+<ul>
+<li><code>DoodleTag</code> can appear in the iOS share sheet for compatible <code>.dtag</code> file, file URL, URL, or generic data shares</li>
+<li>the extension writes accepted items into the shared app-group inbox</li>
+<li>the main app imports the pending item when DoodleTag becomes active</li>
+</ul>
+<div class="doc-callout">
+  This improves the share-sheet route from Messages-like hosts. It does not guarantee that tapping an attachment bubble in Messages will open DoodleTag directly.
+</div>
+
+<h2 id="current-product-position">Current Product Position</h2>
+<ul>
+<li>macro sharing remains file-based</li>
+<li>the primary shared artifact is the raw <code>.dtag</code> file</li>
+<li>the iOS Share Extension is part of that installed-device file-sharing workflow</li>
+<li>sharing is still one-to-one between devices that already use DoodleTag</li>
+</ul>
+
+<h2 id="future-direction-upload-to-one-server-and-share-the-link">Future Direction: Upload to One Server and Share the Link</h2>
+<p>The next larger direction would be a separate public-sharing path:</p>
+<ol>
+<li>a user records or exports a macro</li>
+<li>DoodleTag uploads the <code>.dtag</code> file to one server</li>
+<li>the server returns a public URL for that file</li>
+<li>DoodleTag shares a web link that points to the uploaded macro</li>
+</ol>
+<p>The strongest version of that flow would use a <code>doodletag.500nits.com</code> landing URL rather than exposing the raw storage URL directly.</p>
+
+<h2 id="recipient-behavior-in-the-future-model">Recipient Behavior in the Future Model</h2>
+<div class="doc-split">
+  <section class="doc-card">
+    <h3>If DoodleTag Is Installed</h3>
+    <ul>
+    <li>the shared link can route into DoodleTag through the existing URL handling path</li>
+    <li>DoodleTag can resolve the real <code>.dtag</code></li>
+    <li>DoodleTag can download the file and show the normal import or play flow</li>
+    </ul>
+  </section>
+  <section class="doc-card">
+    <h3>If DoodleTag Is Not Installed</h3>
+    <ul>
+    <li>the shared link opens in the browser</li>
+    <li>the browser can land on a DoodleTag page</li>
+    <li>that page can explain what the macro file is</li>
+    <li>that page can send the user to the App Store</li>
+    </ul>
+  </section>
+</div>
+<p>This is the growth effect of the public-sharing model: the public share can reach existing users and people who do not yet have DoodleTag installed.</p>
+
+<h2 id="the-server-side-of-that-future-direction">The Server Side of That Future Direction</h2>
+<p>The simplest implementation shape is:</p>
+<ul>
+<li>one public object-storage bucket</li>
+<li>one random object path per uploaded macro</li>
+<li>one public URL returned after upload</li>
+</ul>
+<p>Simple storage choices include Cloudflare R2, Amazon S3, and Supabase Storage. A minimal object path could look like <code>macros/2026/03/&lt;random-token&gt;.dtag</code>.</p>
+<p>The important detail is not the exact vendor. It is that the path must be long, random, and hard to guess.</p>
+
+<h2 id="privacy-and-product-implications">Privacy and Product Implications</h2>
+<p>Public link sharing means anyone with the link can access the macro, recipients can forward it, and the link may appear in previews, logs, analytics, or other third-party systems.</p>
+<p>The private one-to-one <code>.dtag</code> format can contain creator or device-related information, timestamps, and detailed stroke or event history.</p>
+<p>That is why a public-sharing flow should use a dedicated sanitized export instead of uploading the private exchange file verbatim.</p>
+<ul>
+<li>use random, non-guessable object names</li>
+<li>make the UI explicit that the generated link is public-by-link</li>
+<li>strip creator identity, device-related fields, and any other sensitive or protected metadata before upload</li>
+<li>consider later support for expiration or deletion</li>
+</ul>
+
+<h2 id="recommended-future-shape">Recommended Future Shape</h2>
+<p>The cleanest product split is to keep the two sharing modes separate.</p>
+<div class="doc-split">
+  <section class="doc-card">
+    <h3>Share File</h3>
+    <ul>
+    <li>direct device-to-device exchange</li>
+    <li>best for installed users</li>
+    <li>uses the raw <code>.dtag</code> file</li>
+    </ul>
+  </section>
+  <section class="doc-card">
+    <h3>Share Publicly</h3>
+    <ul>
+    <li>upload to one server</li>
+    <li>share a public URL</li>
+    <li>best for Messages, social sharing, and recipients who may not have DoodleTag installed</li>
+    </ul>
+  </section>
+</div>
+
+<p class="doc-footer-note">Source document in the app repository: <code>docs/DTAG_FUTURE.md</code>.</p>
+</article>
+</main>
+</body>
+</html>
