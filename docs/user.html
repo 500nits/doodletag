@@ -5,15 +5,17 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>DoodleTag User Guide</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
     ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
       font-size: inherit;
@@ -23,6 +25,9 @@
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="docs.css?v=2" />
 </head>
 <body>
@@ -337,18 +342,29 @@ actions.</li>
 <h2 id="macro-system">9. Macro System</h2>
 <h3 id="recording-and-sharing">9.1 Recording and Sharing</h3>
 <ul>
-<li>Macro record button starts recording.</li>
-<li>Tapping <code>Macro</code> again after stopping a recording does not
-immediately start a new one if the last recorded macro is still sitting
-in the slot unshared. Instead, DoodleTag shows an
-<code>Unshared macro</code> dialog with choices such as:
+<li>Tapping <code>Macro</code> while idle first opens
+<code>Start macro recording?</code>; recording does not begin until you
+confirm with <code>Start recording</code>.</li>
+<li>That confirmation explains the real flow: DoodleTag snapshots the
+current canvas, clears it to blank for recording, and restores the
+previous canvas when recording ends.</li>
+<li>If the stored macro slot still contains an unshared recording,
+DoodleTag shows <code>Unshared macro</code> instead of jumping straight
+to the start confirmation. That sheet offers:
 <ul>
+<li><code>Cancel</code></li>
 <li><code>Start anyway</code></li>
 <li><code>Share first</code></li>
 <li><code>Play current</code></li>
 </ul></li>
-<li>Starting a macro recording never clears the current canvas.
-Recording begins on top of whatever is already visible.</li>
+<li>Choosing <code>Start anyway</code> replaces the pending slot with
+the new recording.</li>
+<li>Choosing <code>Share first</code> runs the normal macro-share path
+instead of starting a new recording immediately.</li>
+<li>Choosing <code>Play current</code> plays the stored macro from the
+slot instead of starting a new recording.</li>
+<li>Once recording actually starts, the macro is authored on a blank
+canvas as a standalone take.</li>
 <li>Recording captures:
 <ul>
 <li>Finger-driven drawing/tool events</li>
@@ -357,8 +373,9 @@ Recording begins on top of whatever is already visible.</li>
 <li>Viewport metadata</li>
 </ul></li>
 <li>Stopping a recording from the <code>Macro</code> button stores that
-finished macro as the current pending macro and shouts
-<code>MACRO RECORDED</code>.</li>
+finished macro as the current pending macro, flashes
+<code>MACRO RECORDED</code>, restores the canvas that was visible before
+recording began, and reports that the recording is ready to share.</li>
 <li>Once a macro has been recorded, there are two user-facing share
 paths:
 <ul>
@@ -368,20 +385,21 @@ recorded macro.</li>
 shares the last recording.</li>
 </ul></li>
 <li>If there is no recorded macro ready to share, long-pressing
-<code>Export</code> does not silently fail: DoodleTag shouts
-<code>NO MACRO RECORDED</code>.</li>
+<code>Export</code> does not silently fail: DoodleTag flashes
+<code>NO MACRO RECORDED</code> and also reports that no macro has been
+recorded yet.</li>
 <li>Sharing the last recorded macro clears that pending macro slot after
-a successful share, so the app no longer treats it as an unshared
-recording.</li>
-<li>Long-pressing <code>Macro</code> resets the current recording state
-and removes the stored pending macro slot if you want to discard the
-last recorded macro instead of sharing it.</li>
+a successful share and reports <code>Macro shared</code>, so the app no
+longer treats it as an unshared recording.</li>
+<li>Long-pressing <code>Macro</code> opens
+<code>Reset recorded macro?</code> before discarding the stored macro
+slot; if a recording is currently active, DoodleTag stops it first and
+then clears the slot.</li>
 <li><code>Undo</code> and <code>Redo</code> pressed while recording
 still affect the live canvas locally, but they are not stored inside the
 macro.</li>
-<li><code>Clear Canvas</code> pressed while recording behaves like a
-normal local clear on the live canvas and is stored as a clear-canvas
-macro event.</li>
+<li><code>Clear Canvas</code> pressed while recording clears the macro
+canvas back to blank and is stored as a clear-canvas macro event.</li>
 <li>Export/share flow produces <code>.dtag</code> macro files.</li>
 </ul>
 <h3 id="macro-file-format-and-compatibility">9.2 Macro File Format and
@@ -398,11 +416,10 @@ driven downloads.</li>
 <li>Macro playback is globally locked to one active playback at a
 time.</li>
 <li>Playback runs through a read-only long-task UI.</li>
-<li>Macro playback starts on top of the current canvas and does not
-clear it automatically.</li>
+<li>Macro playback starts from a blank canvas and resets the view so the
+macro replays as a standalone recording.</li>
 <li>If the recorded macro contains <code>Clear Canvas</code>, replay
-treats that event as
-<code>restore the canvas to the exact snapshot from before playback started</code>.</li>
+clears the playback canvas back to blank at that moment.</li>
 <li>User controls during playback:
 <ul>
 <li><code>Skip</code> (fast-forward to end)</li>
