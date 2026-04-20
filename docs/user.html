@@ -42,8 +42,8 @@ zoom.</li>
 (<code>view one</code>, <code>view two</code>) for quick framing.</li>
 <li>Drawing input outside the paper is ignored.</li>
 <li>Undo and redo are stack-based and operate on drawing/tool actions.
-Macro replay itself is one undoable operation that restores the canvas
-state from just before playback, while air blower and gum keep their own
+Playback itself is one undoable operation that restores the canvas state
+from just before playback, while air blower and gum keep their own
 undoable operations.</li>
 </ul>
 <h2 id="main-controls-tap-vs-long-press">2. Main Controls (Tap vs
@@ -94,7 +94,7 @@ hold-to-request clear flow</td>
 <tr>
 <td><code>Export</code></td>
 <td>Open export flow and save image output.</td>
-<td>Share the last recorded macro directly; if no macro is ready,
+<td>Share the last saved recording directly; if no recording is ready,
 DoodleTag shouts that out</td>
 </tr>
 <tr>
@@ -143,15 +143,15 @@ DoodleTag shouts that out</td>
 <td>Open hex-grid settings</td>
 </tr>
 <tr>
-<td><code>Macro</code></td>
-<td>Start/stop/share macro recording flow. Stopping a recording shouts
-<code>MACRO RECORDED</code>.</td>
-<td>Reset current macro recording session and remove the currently
-stored pending macro slot</td>
+<td><code>Recording</code></td>
+<td>Start or stop a recording. Stopping a recording shouts
+<code>RECORDING SAVED</code>.</td>
+<td>Reset the current recording session and remove the current saved
+recording file</td>
 </tr>
 <tr>
 <td><code>Welcome Tour (?)</code></td>
-<td>Play bundled welcome macro in read-only mode.</td>
+<td>Play the bundled welcome tour recording in read-only mode.</td>
 <td>Reset “tour played” onboarding flag</td>
 </tr>
 <tr>
@@ -192,7 +192,7 @@ shared pair canvas:</p>
 <ul>
 <li><code>Undo</code> / <code>Redo</code></li>
 <li>direct solo <code>Clear Canvas</code></li>
-<li><code>Macro</code> recording</li>
+<li>recording</li>
 <li><code>Welcome Tour</code></li>
 </ul>
 <h3 id="glue-behavior-and-restore">3.3 Glue Behavior and Restore</h3>
@@ -218,9 +218,9 @@ keeps its own geometry, point path, stroke width, cap, color, and
 stacking order instead of being flattened into one bitmap.</li>
 <li>In practice, this means every piece of the drawing remains a
 structured part of the scene. Zoom stays clean, Glue can synchronize
-authored strokes, macros can replay drawing actions, undo can restore
-individual operations, and tools like Gum or Air Blower can affect
-stroke geometry without reducing the whole canvas to one merged
+authored strokes, playback can replay recorded drawing actions, undo can
+restore individual operations, and tools like Gum or Air Blower can
+affect stroke geometry without reducing the whole canvas to one merged
 image.</li>
 <li>Compared with simpler draw-style apps where marks are treated more
 like immediate screen output, DoodleTag keeps the drawing as a live
@@ -338,116 +338,107 @@ safety, including redo through full snapshots for merged drag
 actions.</li>
 <li>Remote/glued playback applies blower actions consistently.</li>
 </ul>
-<h2 id="macro-system">9. Macro System</h2>
+<h2 id="recording-system">9. Recording System</h2>
 <h3 id="recording-and-sharing">9.1 Recording and Sharing</h3>
 <ul>
-<li>Tapping <code>Macro</code> while idle first opens
-<code>Start macro recording?</code>; recording does not begin until you
-confirm with <code>Start recording</code>.</li>
-<li>That confirmation explains the real flow: DoodleTag snapshots the
-current canvas, clears it to blank for recording, and restores the
-previous canvas when recording ends.</li>
-<li>If the stored macro slot still contains an unshared recording,
-DoodleTag shows <code>Unshared macro</code> instead of jumping straight
-to the start confirmation. That sheet offers:
-<ul>
-<li><code>Cancel</code></li>
-<li><code>Start anyway</code></li>
-<li><code>Share first</code></li>
-<li><code>Play current</code></li>
-</ul></li>
-<li>Choosing <code>Start anyway</code> replaces the pending slot with
-the new recording.</li>
-<li>Choosing <code>Share first</code> runs the normal macro-share path
-instead of starting a new recording immediately.</li>
-<li>Choosing <code>Play current</code> plays the stored macro from the
-slot instead of starting a new recording.</li>
-<li>Once recording actually starts, the macro is authored on a blank
-canvas as a standalone take.</li>
+<li>Tapping the recording control while idle first opens
+<code>Record your drawing</code>.</li>
+<li>Starting a recording snapshots the current canvas, clears it to
+blank for recording, and restores the previous canvas when the recording
+ends.</li>
+<li>Once recording starts, your drawing is captured on a blank
+canvas.</li>
 <li>Recording captures:
 <ul>
 <li>Finger-driven drawing/tool events</li>
-<li>Tool snapshots</li>
+<li>Tool setup at the moment of use</li>
 <li>Timeline events</li>
 <li>Viewport metadata</li>
 </ul></li>
-<li>Stopping a recording from the <code>Macro</code> button stores that
-finished macro as the current pending macro, flashes
-<code>MACRO RECORDED</code>, restores the canvas that was visible before
-recording began, and reports that the recording is ready to share.</li>
-<li>Once a macro has been recorded, there are two user-facing share
-paths:
-<ul>
-<li>Long-press <code>Export</code> to immediately share the last
-recorded macro.</li>
-<li>Tap <code>Export</code>, then use the export dialog action that
-shares the last recording.</li>
-</ul></li>
-<li>If there is no recorded macro ready to share, long-pressing
-<code>Export</code> does not silently fail: DoodleTag flashes
-<code>NO MACRO RECORDED</code> and also reports that no macro has been
-recorded yet.</li>
-<li>Sharing the last recorded macro clears that pending macro slot after
-a successful share and reports <code>Macro shared</code>, so the app no
-longer treats it as an unshared recording.</li>
-<li>Long-pressing <code>Macro</code> opens
-<code>Reset recorded macro?</code> before discarding the stored macro
-slot; if a recording is currently active, DoodleTag stops it first and
-then clears the slot.</li>
-<li><code>Undo</code> and <code>Redo</code> pressed while recording
-still affect the live canvas locally, but they are not stored inside the
-macro.</li>
-<li><code>Clear Canvas</code> pressed while recording clears the macro
-canvas back to blank and is stored as a clear-canvas macro event.</li>
-<li>Export/share flow produces <code>.dtag</code> macro files.</li>
+<li>Stopping a recording saves that finished <code>.dtag</code>
+recording file in the Doodle Tag folder, restores the canvas that was
+visible before recording began, and reports that the recording was
+saved.</li>
+<li>Once a recording has been saved, the export dialog offers
+<code>Share Video</code>, which renders the last saved recording into an
+<code>.mp4</code> on the device before opening the system share
+sheet.</li>
+<li>Video export now shows a progress form with a <code>Cancel</code>
+button. Canceling stops the export and removes any temporary frame/video
+files created for that attempt.</li>
+<li>Recorded <code>.dtag</code> files are saved with their canonical
+file name directly in the Doodle Tag folder.</li>
+<li>While recording, your drawing stays in step with what you are
+shaping on screen: keep what you like, roll back what you do not, and
+continue refining before you stop.</li>
+<li>Playback focuses on the finished drawing you crafted, without
+turning playback into a visible sequence of backstage corrections.</li>
+<li><code>Clear Canvas</code> is disabled while recording so the drawing
+remains a pure event stream without canvas reset events.</li>
+<li>Export/share flow produces <code>.dtag</code> recording files.</li>
 </ul>
-<h3 id="macro-file-format-and-compatibility">9.2 Macro File Format and
-Compatibility</h3>
+<h3 id="recording-file-format-and-compatibility">9.2 Recording File
+Format and Compatibility</h3>
 <ul>
 <li><code>.dtag</code> uses password-protected ZIP packaging
 (<code>Doodle Tag</code>) with compatibility handling for legacy
 payloads.</li>
-<li>Import playback supports bundled assets, local files, and deep-link
-driven downloads.</li>
+<li>Playback supports bundled assets, local files, and deep-link driven
+downloads.</li>
 </ul>
 <h3 id="playback-behavior">9.3 Playback Behavior</h3>
 <ul>
-<li>Macro playback is globally locked to one active playback at a
+<li>Recording playback is globally locked to one active playback at a
 time.</li>
 <li>Playback runs through a read-only long-task UI.</li>
-<li>Macro playback starts from a blank canvas and resets the view so the
-macro replays as a standalone recording.</li>
-<li>If the recorded macro contains <code>Clear Canvas</code>, replay
-clears the playback canvas back to blank at that moment.</li>
+<li>Playback starts from a blank canvas and resets the view so the saved
+drawing replays on its own.</li>
 <li>User controls during playback:
 <ul>
 <li><code>Skip</code> (fast-forward to end)</li>
 <li><code>Cancel</code> (restore pre-play snapshot)</li>
 </ul></li>
 <li>Skip/cancel reset viewport framing consistently.</li>
-<li>Replay completion adds one undoable macro-replay snapshot so undo
-restores the pre-playback canvas in a single step.</li>
+<li>Playback completion adds one undoable snapshot so undo restores the
+pre-playback canvas in a single step, and redo restores the fully played
+result.</li>
 </ul>
 <h2 id="welcome-tour">10. Welcome Tour</h2>
 <ul>
 <li>Dedicated <code>?</code> utility button launches the bundled welcome
-tour macro.</li>
+tour recording.</li>
 <li>First-launch autoplay is supported (with local played-flag
 persistence).</li>
 <li>Tour can be reset by long-pressing <code>?</code>.</li>
-<li>Tour playback uses the same read-only macro pipeline with
+<li>Tour playback uses the same read-only recording pipeline with
 skip/cancel safety.</li>
 </ul>
 <h2 id="import-deep-links-and-file-handling">11. Import, Deep Links, and
 File Handling</h2>
 <ul>
 <li>OS-level <code>.dtag</code> opening support on Android and iOS.</li>
+<li>DoodleTag recordings are saved as <code>.dtag</code> files.</li>
+<li>On iPhone and iPad, <code>.dtag</code> files can be opened with
+DoodleTag through supported file flows such as the Files app.</li>
+<li>Not all apps handle <code>.dtag</code> attachments in the same way.
+Some apps, such as Files, can pass the file to DoodleTag directly.
+Others, such as some messaging apps, may keep the file inside their own
+preview or sharing interface.</li>
+<li>If a <code>.dtag</code> file does not open directly from a messaging
+app, try saving it to Files or sharing it from there into
+DoodleTag.</li>
+<li>On iPhone and iPad, that recording folder appears in Files as
+<code>On My iPhone &gt; Doodle Tag</code>.</li>
+<li>On Android, recordings are saved in
+<code>Download/Doodle Tag</code>.</li>
+<li>Internal app support files stay separate under <code>System</code>
+for debugging or reset purposes.</li>
 <li>Android intent filters support custom and fallback MIME flows for
 better “Open with” behavior.</li>
-<li>Universal/App link intake supports macro links and remote macro
-download/play flow.</li>
-<li>Cold-start macro open is deferred until UI is ready so play dialogs
-render reliably.</li>
+<li>Universal/App link intake supports <code>.dtag</code> links and
+remote recording download/playback flow.</li>
+<li>Cold-start <code>.dtag</code> open is deferred until UI is ready so
+play dialogs render reliably.</li>
 </ul>
 <h2 id="export-and-long-tasks">12. Export and Long Tasks</h2>
 <ul>
@@ -457,6 +448,22 @@ output.</li>
 consistent UX.</li>
 <li>Long-task surfaces are integrated with the bottom menu replacement
 when applicable to reduce canvas obstruction.</li>
+</ul>
+<h3 id="video-export-expectations">12.1 Video Export Expectations</h3>
+<ul>
+<li>Video export is intentionally a light, playful extra rather than a
+production-grade rendering system.</li>
+<li>The MP4 is produced on the device itself, so results depend on the
+platform and the specific phone or tablet doing the work.</li>
+<li>Android and iPhone do not use the same native encoder stack, so one
+platform may succeed where the other fails.</li>
+<li>Encoding can fail on some devices or for some recordings even when
+playback itself works correctly.</li>
+<li>Video smoothness is influenced by device CPU performance, so older
+or weaker devices may produce less fluid results.</li>
+<li>In short: use recording video export as a <code>for fun only</code>
+sharing feature, not as a guaranteed archival or studio-quality export
+path.</li>
 </ul>
 <h2 id="persistence-and-restore">13. Persistence and Restore</h2>
 <ul>
@@ -496,7 +503,7 @@ part you mean to reset.</li>
 <li>shout-banner mode</li>
 </ul></li>
 <li>It is the closest thing to “reset my tools back to defaults”.</li>
-<li>It does not clear saved macro files, onboarding flags, or saved
+<li>It does not clear saved recording files, onboarding flags, or saved
 session/snapshot files.</li>
 </ul>
 <h3 id="clear-saved-sessions-and-snapshot-restore-data">14.2 Clear Saved
@@ -518,19 +525,6 @@ restore/session data.</li>
 <li>Use this when you want to remove remembered canvas/session state,
 not just erase what is currently visible.</li>
 </ul>
-<h3 id="reset-the-stored-macro-slot">14.3 Reset the Stored Macro
-Slot</h3>
-<ul>
-<li>Long-press <code>Macro</code>.</li>
-<li>DoodleTag asks <code>Reset recorded macro?</code> in a bottom sheet
-before doing anything.</li>
-<li>Choosing <code>Yes</code> resets the current macro recording state
-and removes the previously stored pending macro slot.</li>
-<li>Use this if you want to discard the last recorded macro before
-starting a new one.</li>
-<li>This does not reset general tool settings or snapshot/session
-storage.</li>
-</ul>
 <h3 id="reset-welcome-tour-onboarding">14.4 Reset Welcome Tour
 Onboarding</h3>
 <ul>
@@ -538,7 +532,7 @@ Onboarding</h3>
 <li>This clears the “tour already played” flag.</li>
 <li>Use it when you want the welcome tour to be eligible again like a
 first-run onboarding prompt.</li>
-<li>This does not change drawing tools, snapshots, or macro
+<li>This does not change drawing tools, snapshots, or recording
 storage.</li>
 </ul>
 <h2 id="current-ux-notes">15. Current UX Notes</h2>
@@ -558,8 +552,7 @@ surface as live tool usage.</li>
 <code>RAINBOW</code>, <code>POP RAINBOW</code>, and
 <code>LANES RAINBOW</code>.</li>
 <li>Tool shout banners are uppercase-normalized at render time.</li>
-<li>Welcome tour and macro playback surfaces share behavior and
-controls.</li>
+<li>Welcome tour and playback surfaces share behavior and controls.</li>
 <li>Some internal diagnostics overlays exist for development/testing and
 are not part of regular drawing workflows.</li>
 </ul>
