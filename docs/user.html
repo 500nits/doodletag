@@ -115,7 +115,8 @@ DoodleTag shouts that out</td>
 <tr>
 <td><code>Stroke Width</code></td>
 <td>Cycle thickness presets.</td>
-<td>Open thickness slider dialog</td>
+<td>Open the thickness dialog; in normal drawing this is also where you
+switch between <code>Plain</code> and <code>Outline</code></td>
 </tr>
 <tr>
 <td><code>Gum</code></td>
@@ -249,6 +250,23 @@ than reconfiguring it.</li>
 <li><code>Wheel</code> tab for continuous color selection.</li>
 <li>Recent color history integration.</li>
 </ul></li>
+<li>In normal drawing, the thickness dialog now also holds the
+<code>Plain</code> / <code>Outline</code> choice.</li>
+<li>The quick palette stays focused on color editing:
+<ul>
+<li>In <code>Plain</code>, the palette and wheel edit the main stroke
+color.</li>
+<li>In <code>Outline</code>, the inside color still comes from the
+current plain color.</li>
+<li>In <code>Outline</code>, tap the bordered preview circle to switch
+which color you are editing: one tap selects the inside color, the next
+tap selects the outer border, and so on.</li>
+<li>In <code>Outline</code>, the palette, wheel, and history edit
+whichever part of that preview is currently selected.</li>
+<li>When you change the inside color, DoodleTag automatically returns
+the outline to its default tuning: a <code>40%</code> darker border with
+a <code>17%</code> border size.</li>
+</ul></li>
 <li>Rainbow color editing is opened from the <code>Rainbow</code> tool
 path and uses its own dedicated editor flow.</li>
 <li>Closing the quick palette does not switch tools.</li>
@@ -311,8 +329,38 @@ and ongoing geometry refinements.</li>
 <h2 id="gum-eraser">7. Gum (Eraser)</h2>
 <ul>
 <li>Toggle gum and erase by dragging/tapping across strokes.</li>
+<li>Gum is geometry-based: it does not paint transparent pixels over the
+canvas. Instead, it traces your gum path through the stored stroke
+geometry and cuts intersected stroke segments out of the scene.</li>
+<li>In practice, each gum move is treated as a short line segment, and
+the full drag becomes a chain of segment cuts. A tap works like a tiny
+centered cut at that point.</li>
 <li>Gum strength is configurable via the long-press settings dialog and
 currently scales up to <code>10.0x</code>.</li>
+<li>Strength changes the cut width, meaning the size of the gap removed
+from any intersected stroke geometry.</li>
+<li>Higher gum strength removes a wider band and is therefore more
+effective at clearing thick strokes or wiping across multiple nearby
+segments in one pass.</li>
+<li>Lower gum strength removes a narrower band and is better when you
+want to trim geometry more precisely without opening such a wide
+gap.</li>
+<li>On long strokes or large shapes, gum usually splits the original
+stroke into smaller surviving pieces on either side of the removed
+gap.</li>
+<li>On short segments or tiny fragments, the removed gap can consume the
+whole remaining piece, so that fragment disappears entirely instead of
+being split into even smaller parts.</li>
+<li>Because gum works on stored stroke geometry, the surviving pieces
+remain normal vector strokes: they still participate in zoom, replay,
+Glue sync, and later editing instead of becoming flattened bitmap
+damage.</li>
+<li>Gum preserves stacking by replacing affected strokes with the
+resulting cut pieces in the same scene position, so later overlapping
+content continues to layer consistently.</li>
+<li>Multi-lane rainbow strokes are erased as one coordinated lane
+bundle, so sibling lanes break together instead of each lane being cut
+independently.</li>
 <li>Long erases show a progress overlay.</li>
 <li>Canceling a progress erase restores the pre-erase snapshot
 immediately.</li>
