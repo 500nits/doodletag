@@ -69,9 +69,11 @@ behavior, so it is worth trying both when learning the app.</p>
 <tbody>
 <tr>
 <td><code>Peers</code></td>
-<td>Toggle glue discovery/connect/disconnect flow. Entering Glue parks
-the current solo canvas locally and switches to the pair canvas for that
-device pair. Leaving Glue restores the parked solo canvas.</td>
+<td>Open the focused Glue process. If solo, DoodleTag searches for
+another doodler, connects, and switches to that pair’s shared canvas. If
+already glued, DoodleTag saves the shared pair canvas and returns to
+solo. During the process, the Glue layer blocks drawing and other
+controls until connect/cancel cleanup finishes.</td>
 <td>Forget last glued peer preference</td>
 </tr>
 <tr>
@@ -168,44 +170,67 @@ recording file</td>
 one live session so both people work on the same collaborative scene.
 The <code>pair canvas</code> means the shared canvas that belongs to
 that exact pair of devices. It is separate from each device’s solo
-canvas, so entering Glue does not overwrite your private drawing
-history.</p>
+canvas, so entering Glue does not overwrite your private drawing.</p>
 <h3 id="glue-rules">3.1 Glue Rules</h3>
 <ul>
-<li>Entering Glue parks the current solo canvas locally and switches to
-the pair canvas for that device pair.</li>
+<li>Glue is one-to-one: one active peer at a time.</li>
+<li>Each device pair has its own persistent shared canvas.</li>
+<li>Entering Glue saves/parks the current solo canvas locally and
+switches to the pair canvas for the connected device pair.</li>
 <li>Glue always shows the pair canvas for that specific pair.</li>
-<li>Leaving Glue saves the pair canvas and restores the parked solo
+<li>Leaving Glue saves the pair canvas and restores the solo
 canvas.</li>
 <li>If the pair has no saved shared canvas yet, Glue starts from a blank
 shared canvas for that pair.</li>
-<li>While Glue is waiting for a peer, draw input is ignored and the
-canvas darkens.</li>
-<li>The <code>GLUE IN PROGRESS</code> shout follows the current banner
-mode, but the dimmed in-progress canvas state remains visible even when
-banners are limited or off.</li>
+<li>If the same two devices Glue again later, DoodleTag restores their
+previous shared pair canvas.</li>
+<li>Undo/redo history does not travel between solo and Glue canvases.
+After DoodleTag restores a solo or pair canvas, undo/redo starts clean
+for that restored canvas.</li>
 </ul>
-<h3 id="controls-that-do-not-work-in-glued-mode">3.2 Controls That Do
-Not Work In Glued Mode</h3>
-<p>These controls are blocked or changed while Glue is active or still
-searching, because they would otherwise fork local state away from the
-shared pair canvas:</p>
+<h3 id="the-glue-process-layer">3.2 The Glue Process Layer</h3>
+<p>When you tap <code>Peers</code>, DoodleTag opens a Glue process
+layer. This layer may appear only briefly if Glue connects quickly.</p>
+<p>The layer shows simple, readable progress messages such as:</p>
+<pre class="text"><code>Searching for doodlers...
+Found Tycho Nokia G42 5G
+Dialing Tycho Nokia G42 5G...
+Receiving a doodler...
+Connected with Tycho Nokia G42 5G
+Restoring your shared drawing...
+Shared drawing restored.</code></pre>
+<p>While this layer is visible, DoodleTag blocks other actions that
+could interfere with the Glue operation.</p>
+<h3 id="canceling-glue">3.3 Canceling Glue</h3>
+<p>The Glue process layer has its own <code>Cancel</code> button.</p>
+<p>Cancel does not dismiss the layer instantly. After pressing
+<code>Cancel</code>, DoodleTag must finish the cleanup first. During
+cleanup, the layer may show messages such as:</p>
+<pre class="text"><code>Canceling glue...
+Saving shared drawing...
+Returning to your canvas...</code></pre>
+<p>Only after cleanup has finished does the layer disappear and unlock
+the rest of the app.</p>
+<h3 id="glue-needs-attention">3.4 Glue Needs Attention</h3>
+<p>If the layer says <code>Glue needs attention</code>, the Glue process
+hit a real connection or cleanup problem and needs the user to let it
+finish or press <code>Cancel</code>.</p>
+<p>This state is meant for explicit problems such as:</p>
 <ul>
-<li><code>Undo</code> / <code>Redo</code></li>
-<li>direct solo <code>Clear Canvas</code></li>
-<li>recording</li>
-<li><code>Welcome Tour</code></li>
+<li>the connection could not be made</li>
+<li>the network/socket failed</li>
+<li>Glue startup / cleanup failed</li>
 </ul>
-<h3 id="glue-behavior-and-restore">3.3 Glue Behavior and Restore</h3>
+<h3 id="glue-behavior-and-restore">3.2 Glue Behavior and Restore</h3>
 <ul>
 <li>Device discovery/connection for shared drawing sessions.</li>
 <li>Auto-glue session restoration and reconnect behavior with
-peer/session memory.</li>
+peer/session memory where applicable.</li>
 <li>Each device pair has its own shared canvas snapshot, and the same
 pair restores that shared canvas on reconnect.</li>
 <li>Entering Glue preserves the local solo canvas in a separate restore
 slot instead of merging solo and shared history.</li>
-<li>Leaving Glue saves the pair snapshot and restores the parked solo
+<li>Leaving Glue saves the pair snapshot and restores the solo
 snapshot.</li>
 <li>Snapshot metadata/data exchange keeps peers converged on the newest
 shared state and avoids stale overwrites.</li>
@@ -230,20 +255,55 @@ be restored, replayed, shared, cut, moved, recolored, or re-layered
 through later tools and sessions.</li>
 <li>Standard freehand drawing with thickness presets and precise
 thickness slider.</li>
-<li>Tool-specific feel is preserved: DoodleTag remembers the last
-thickness used for each drawing context, so switching between modes
-restores the width that felt right there.</li>
-<li>Example: a bold Rainbow stroke can stay bold while standard drawing
-stays ultra-thin, letting users jump between looks without re-tuning the
-brush every time.</li>
-<li>Example: if Rainbow is set to a thick stroke and Orthogonal drawing
-is set to a thinner one, switching between Rainbow and Ortho Draw
-restores each tool’s own last thickness instead of forcing one shared
-width onto both.</li>
-<li>Example: a broad freehand sketch, a thin orthogonal guide line, and
-a medium Rainbow lane can each keep their own remembered thickness, so
-returning to any of those modes feels like resuming that tool rather
-than reconfiguring it.</li>
+<li>Thickness is not one global number that every tool shares. Each
+supported tool/context carries its own remembered thickness, and
+switching away does not overwrite the widths you previously chose
+elsewhere.</li>
+<li>The practical rule is: when you return to a tool/context, DoodleTag
+restores the last thickness that belonged to that same
+tool/context.</li>
+<li>This is meant to preserve tool feel. A tool that makes sense as
+delicate can stay delicate, while a tool that makes sense as broad can
+stay broad, without forcing you to re-tune the width every time you
+switch.</li>
+<li>The remembered thickness contexts currently documented in the
+product are:
+<ul>
+<li>normal drawing</li>
+<li>drawing with orthogonal square-grid snapping</li>
+<li>drawing with orthogonal hex-grid snapping</li>
+<li>gum</li>
+<li>rainbow</li>
+<li>rainbow with orthogonal square-grid snapping</li>
+<li>rainbow with orthogonal hex-grid snapping</li>
+</ul></li>
+<li>Example: set normal drawing to <code>extra thin</code>, switch to
+Gum and make Gum much wider, then switch back to normal drawing. Normal
+drawing comes back at its own thin width; it does not inherit Gum’s
+width.</li>
+<li>Example: set Gum to a narrow erase width, switch to normal drawing
+and make the brush large, then switch back to Gum. Gum comes back with
+its own remembered erase width.</li>
+<li>Example: set Rainbow to a bold width for expressive color strokes,
+then switch to normal drawing and keep that brush narrow for sketch
+details. Returning to Rainbow brings back the bold Rainbow width instead
+of the narrow sketch width.</li>
+<li>Example: set orthogonal square-grid drawing to a thin guide-line
+width, then switch to freehand drawing or Gum and use thicker marks
+there. Returning to orthogonal square-grid drawing restores the thin
+guide-line width that belonged to that snapped context.</li>
+<li>Example: set orthogonal hex-grid drawing to one width and orthogonal
+square-grid drawing to another. Those snapped contexts can keep
+different remembered widths, so moving between them does not force one
+grid style to borrow the other’s thickness.</li>
+<li>Example: rainbow freehand, rainbow orthogonal square-grid, and
+rainbow orthogonal hex-grid can each keep different remembered widths.
+Returning to one of those rainbow contexts restores that context’s own
+last width rather than reusing the last rainbow-related width from
+somewhere else.</li>
+<li>In short: each supported tool/context carries its own thickness
+memory, so switching tools feels like resuming that exact mode rather
+than reconfiguring a single shared brush setting.</li>
 <li>Quick palette includes:
 <ul>
 <li><code>Palette</code> tab for fast swatch picks.</li>
@@ -258,6 +318,11 @@ than reconfiguring it.</li>
 color.</li>
 <li>In <code>Outline</code>, the inside color still comes from the
 current plain color.</li>
+<li>In <code>Outline</code>, the selected <code>Stroke Width</code> is
+the final outside size of the stroke. Border size is taken out of the
+inside fill, so switching between <code>Plain</code> and
+<code>Outline</code> at the same width keeps the same overall
+thickness.</li>
 <li>In <code>Outline</code>, tap the bordered preview circle to switch
 which color you are editing: one tap selects the inside color, the next
 tap selects the outer border, and so on.</li>
@@ -293,8 +358,6 @@ directions.</li>
 <li>If no grid is active: snaps to orthogonal directions in free
 space.</li>
 </ul></li>
-<li>While Glue is active or waiting for a peer, actions that would cause
-local divergence are guarded.</li>
 </ul>
 <h2 id="rainbow-tool">6. Rainbow Tool</h2>
 <ul>
@@ -525,10 +588,9 @@ return to its own preferred stroke feel</li>
 <li>Rainbow settings</li>
 <li>Gum/blower/tool toggles and related parameters</li>
 <li>Shout banner preference</li>
-<li>Glue preferences and session linkage</li>
+<li>Glue preferences, session linkage, and per-peer shared canvas
+restore data</li>
 </ul></li>
-<li>Startup restore hardens against malformed settings by falling back
-safely to defaults.</li>
 </ul>
 <h2 id="reset-and-recovery-actions">14. Reset and Recovery Actions</h2>
 <ul>
@@ -563,15 +625,16 @@ Sessions and Snapshot Restore Data</h3>
 <ul>
 <li>latest solo canvas restore</li>
 <li>parked solo restore snapshot</li>
-<li>glued pair snapshot files</li>
-<li>stored glue session restore metadata/preferences</li>
+<li>saved per-peer Glue pair canvases</li>
+<li>stored Glue session restore metadata/preferences</li>
 </ul></li>
 <li>It keeps the current live canvas intact and only removes the stored
 restore/session data.</li>
 <li>After the wipe, DoodleTag shouts
 <code>GLUE SESSIONS CLEARED</code>.</li>
-<li>Use this when you want to remove remembered canvas/session state,
-not just erase what is currently visible.</li>
+<li>Use this when you intentionally want to remove remembered
+canvas/session state, including saved shared pair canvases, not just
+erase what is currently visible.</li>
 </ul>
 <h3 id="reset-welcome-tour-onboarding">14.4 Reset Welcome Tour
 Onboarding</h3>
