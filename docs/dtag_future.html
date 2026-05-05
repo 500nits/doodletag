@@ -34,13 +34,13 @@
 <main class="doc-shell">
 <h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">.dtag notes</span></h1>
 <article class="doc-panel"><p>This document records the current DoodleTag behavior for sharing
-<code>.dtag</code> macro files and outlines the next larger sharing
+<code>.dtag</code> recording files and outlines the next larger sharing
 direction that may be pursued later.</p>
 <h2 id="current-implementation">Current Implementation</h2>
-<p>DoodleTag currently shares macros as raw <code>.dtag</code>
+<p>DoodleTag currently shares recordings as raw <code>.dtag</code>
 files:</p>
 <ul>
-<li>a user records or exports a macro</li>
+<li>a user records or exports a recording</li>
 <li>DoodleTag shares the raw <code>.dtag</code> file</li>
 <li>another device with DoodleTag can open that file</li>
 </ul>
@@ -49,7 +49,7 @@ files:</p>
 <li>both devices already have DoodleTag installed</li>
 <li>the host app or system surface hands the file to DoodleTag
 correctly</li>
-<li>the recipient is intentionally exchanging the macro file, not
+<li>the recipient is intentionally exchanging the recording file, not
 discovering it publicly</li>
 </ul>
 <h2 id="current-ios-behavior">Current iOS Behavior</h2>
@@ -89,7 +89,7 @@ handoff rules. The Share Extension improves the share-sheet route, not
 every attachment-preview route.</p>
 <h2 id="current-product-position">Current Product Position</h2>
 <ul>
-<li>macro sharing remains file-based</li>
+<li>recording sharing remains file-based</li>
 <li>the primary shared artifact is the raw <code>.dtag</code> file</li>
 <li>the iOS Share Extension is part of that installed-device
 file-sharing workflow</li>
@@ -100,17 +100,18 @@ DoodleTag</li>
 Direction: Upload to One Server and Share the Link</h2>
 <p>The next larger direction would be:</p>
 <ul>
-<li>upload the <code>.dtag</code> macro file to one public server</li>
+<li>upload the <code>.dtag</code> recording file to one public
+server</li>
 <li>generate one openly accessible URL for that file</li>
 <li>share the link instead of sharing the file itself</li>
 </ul>
 <h2 id="proposed-flow">Proposed Flow</h2>
 <ol type="1">
-<li>A user records or exports a macro.</li>
+<li>A user records or exports a recording.</li>
 <li>DoodleTag uploads the <code>.dtag</code> file to one server.</li>
-<li>The server returns a public URL for that macro file.</li>
+<li>The server returns a public URL for that recording file.</li>
 <li>DoodleTag shares a normal web link that points to the uploaded
-macro.</li>
+recording.</li>
 </ol>
 <p>That shared link could be:</p>
 <ul>
@@ -136,7 +137,7 @@ Recipient Does Not Have DoodleTag Installed</h3>
 <ul>
 <li>the shared link opens in the browser</li>
 <li>the browser can land on a DoodleTag page</li>
-<li>that page can explain what the macro file is</li>
+<li>that page can explain what the recording file is</li>
 <li>that page can send the user to the App Store</li>
 </ul>
 <p>This is the main growth effect of the link-based model:</p>
@@ -162,7 +163,7 @@ That Future Direction</h2>
 <p>The simplest implementation shape is:</p>
 <ul>
 <li>one public object-storage bucket</li>
-<li>one random object path per uploaded macro</li>
+<li>one random object path per uploaded recording</li>
 <li>one public URL returned after upload</li>
 </ul>
 <p>Examples of simple storage choices:</p>
@@ -181,7 +182,7 @@ cost</li>
 </ul>
 <p>A minimal object shape could be:</p>
 <ul>
-<li><code>macros/2026/03/&lt;random-token&gt;.dtag</code></li>
+<li><code>recordings/2026/03/&lt;random-token&gt;.dtag</code></li>
 </ul>
 <p>The important detail is that the file key should be long and
 unguessable.</p>
@@ -189,14 +190,14 @@ unguessable.</p>
 Implications</h2>
 <p>Public link sharing means:</p>
 <ul>
-<li>anyone with the link can access the macro</li>
+<li>anyone with the link can access the recording</li>
 <li>recipients can forward the link to other people</li>
 <li>the link may appear in previews, logs, analytics, or other
 third-party systems</li>
 <li>if object keys are weak, the uploaded files may become guessable or
 enumerable</li>
 </ul>
-<p>There is also macro metadata exposure to consider.</p>
+<p>There is also recording metadata exposure to consider.</p>
 <p>The current private <code>.dtag</code> format can contain information
 such as:</p>
 <ul>

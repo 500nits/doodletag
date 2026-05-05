@@ -41,10 +41,25 @@ zoom.</li>
 <li>Long-press viewport reset cycles zoom presets
 (<code>view one</code>, <code>view two</code>) for quick framing.</li>
 <li>Drawing input outside the paper is ignored.</li>
-<li>Undo and redo are stack-based and operate on drawing/tool actions.
-Playback itself is one undoable operation that restores the canvas state
-from just before playback, while air blower and gum keep their own
-undoable operations.</li>
+<li>Undo and redo are personal action stacks. Tap <code>Undo</code> to
+remove your latest undoable drawing/tool action; long-press
+<code>Undo</code> to redo your latest undone action.</li>
+<li>In Glue, each doodler keeps their own undo/redo flow. When one
+doodler undoes or redoes an action, the peer receives the matching
+canvas update for that doodler’s action.</li>
+<li>The Eraser is undoable because it stores the exact stroke cuts it
+makes: the original affected stroke geometry, the surviving replacement
+fragments, and the stacking order needed to restore the scene. It only
+affects finalized strokes.</li>
+<li>In solo mode, Air Blower actions are undoable as snapshot-backed
+<code>_UndoType.airBlower</code> actions. In Glue, Air Blower commits
+the changed shared canvas as a fresh baseline and clears undo/redo
+history for the shared session.</li>
+<li>Recording playback is a solo-only controlled operation. Completed
+playback adds one snapshot undo action, so undo restores the
+pre-playback canvas and redo restores the fully played playback result.
+Canceling playback restores the canvas that was visible when playback
+started.</li>
 </ul>
 <h2 id="main-controls-tap-vs-long-press">2. Main Controls (Tap vs
 Long-Press)</h2>
@@ -83,8 +98,9 @@ controls until connect/cancel cleanup finishes.</td>
 </tr>
 <tr>
 <td><code>Undo</code></td>
-<td>Undo last local action.</td>
-<td>Redo</td>
+<td>Undo your latest undoable action. In Glue, your undo is mirrored to
+the peer as your canvas action.</td>
+<td>Redo your latest undone action</td>
 </tr>
 <tr>
 <td><code>Clear Canvas</code></td>
@@ -121,9 +137,9 @@ DoodleTag shouts that out</td>
 switch between <code>Plain</code> and <code>Outline</code></td>
 </tr>
 <tr>
-<td><code>Gum</code></td>
+<td><code>Eraser</code></td>
 <td>Toggle eraser mode.</td>
-<td>Open gum-strength dialog</td>
+<td>Open eraser settings dialog</td>
 </tr>
 <tr>
 <td><code>Air Blower</code></td>
@@ -162,6 +178,142 @@ recording file</td>
 <td>Cycle banner modes: <code>all</code>, <code>announce-only</code>,
 <code>off</code>. The button announces the newly selected mode.</td>
 <td>Reset all tool settings to their default values</td>
+</tr>
+</tbody>
+</table>
+<h3 id="startup-tool-defaults">2.1 Startup Tool Defaults</h3>
+<p>When DoodleTag starts without saved tool settings, and when tool
+settings are reset from <code>Tool Shouts</code>, the drawing tools
+return to these defaults:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool area</th>
+<th>Startup default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drawing style</td>
+<td><code>Plain</code> drawing</td>
+</tr>
+<tr>
+<td>Brush color</td>
+<td>Doodle blue, <code>#2991F5</code></td>
+</tr>
+<tr>
+<td>Brush cap</td>
+<td>Round</td>
+</tr>
+<tr>
+<td>Brush thickness</td>
+<td><code>medium</code>, <code>100 px</code></td>
+</tr>
+<tr>
+<td>Thickness presets</td>
+<td><code>extra thin</code> <code>12 px</code>, <code>thin</code>
+<code>25 px</code>, <code>normal</code> <code>50 px</code>,
+<code>medium</code> <code>100 px</code>, <code>big</code>
+<code>180 px</code></td>
+</tr>
+<tr>
+<td>Remembered thickness contexts</td>
+<td>Normal drawing, square-grid snap drawing, hex-grid snap drawing,
+eraser, rainbow, rainbow square-grid snap, and rainbow hex-grid snap all
+start at <code>100 px</code></td>
+</tr>
+<tr>
+<td>Quick palette</td>
+<td>Opens on the <code>Palette</code> tab; pinned quick colors include
+Doodle blue <code>#2991F5</code>, Tag green <code>#10CD55</code>, white,
+and black</td>
+</tr>
+<tr>
+<td>Outline</td>
+<td>Off at startup; when selected, the outline starts with a round cap,
+a border <code>40%</code> darker than the brush color, and a
+<code>17%</code> border width</td>
+</tr>
+<tr>
+<td>Rainbow</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Rainbow style</td>
+<td><code>Normal</code></td>
+</tr>
+<tr>
+<td>Rainbow segment length</td>
+<td><code>2.0 cm</code></td>
+</tr>
+<tr>
+<td>Rainbow palette</td>
+<td>Red, orange, yellow, green, blue, purple</td>
+</tr>
+<tr>
+<td>Orthogonal snap</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Square grid</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Square-grid spacing</td>
+<td><code>168 px</code></td>
+</tr>
+<tr>
+<td>Square-grid inclination</td>
+<td><code>0°</code></td>
+</tr>
+<tr>
+<td>Square-grid display</td>
+<td><code>Normal</code> lines</td>
+</tr>
+<tr>
+<td>Hex grid</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Hex-grid cell size</td>
+<td><code>96 px</code></td>
+</tr>
+<tr>
+<td>Hex-grid display</td>
+<td><code>Normal</code> lines</td>
+</tr>
+<tr>
+<td>Eraser</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Eraser strength</td>
+<td><code>7.4x</code>, using the default <code>100 px</code> eraser base
+width for an effective erase width of <code>740 px</code></td>
+</tr>
+<tr>
+<td>Air Blower</td>
+<td>Off at startup</td>
+</tr>
+<tr>
+<td>Air Blower radius</td>
+<td><code>520 px</code></td>
+</tr>
+<tr>
+<td>Air Blower strength profile</td>
+<td>Gentle</td>
+</tr>
+<tr>
+<td>Air Blower kind</td>
+<td><code>Displace</code></td>
+</tr>
+<tr>
+<td>Tool Shouts</td>
+<td><code>all</code> banners enabled</td>
 </tr>
 </tbody>
 </table>
@@ -245,9 +397,9 @@ stacking order instead of being flattened into one bitmap.</li>
 <li>In practice, this means every piece of the drawing remains a
 structured part of the scene. Zoom stays clean, Glue can synchronize
 authored strokes, playback can replay recorded drawing actions, undo can
-restore individual operations, and tools like Gum or Air Blower can
-affect stroke geometry without reducing the whole canvas to one merged
-image.</li>
+restore individual operations, and tools like the Eraser or Air Blower
+can affect stroke geometry without reducing the whole canvas to one
+merged image.</li>
 <li>Compared with simpler draw-style apps where marks are treated more
 like immediate screen output, DoodleTag keeps the drawing as a live
 composition of stroke objects. That is why the same authored drawing can
@@ -272,26 +424,26 @@ product are:
 <li>normal drawing</li>
 <li>drawing with orthogonal square-grid snapping</li>
 <li>drawing with orthogonal hex-grid snapping</li>
-<li>gum</li>
+<li>eraser</li>
 <li>rainbow</li>
 <li>rainbow with orthogonal square-grid snapping</li>
 <li>rainbow with orthogonal hex-grid snapping</li>
 </ul></li>
 <li>Example: set normal drawing to <code>extra thin</code>, switch to
-Gum and make Gum much wider, then switch back to normal drawing. Normal
-drawing comes back at its own thin width; it does not inherit Gum’s
-width.</li>
-<li>Example: set Gum to a narrow erase width, switch to normal drawing
-and make the brush large, then switch back to Gum. Gum comes back with
-its own remembered erase width.</li>
+the Eraser and make it much wider, then switch back to normal drawing.
+Normal drawing comes back at its own thin width; it does not inherit the
+Eraser’s width.</li>
+<li>Example: set the Eraser to a narrow erase width, switch to normal
+drawing and make the brush large, then switch back to the Eraser. The
+Eraser comes back with its own remembered erase width.</li>
 <li>Example: set Rainbow to a bold width for expressive color strokes,
 then switch to normal drawing and keep that brush narrow for sketch
 details. Returning to Rainbow brings back the bold Rainbow width instead
 of the narrow sketch width.</li>
 <li>Example: set orthogonal square-grid drawing to a thin guide-line
-width, then switch to freehand drawing or Gum and use thicker marks
-there. Returning to orthogonal square-grid drawing restores the thin
-guide-line width that belonged to that snapped context.</li>
+width, then switch to freehand drawing or the Eraser and use thicker
+marks there. Returning to orthogonal square-grid drawing restores the
+thin guide-line width that belonged to that snapped context.</li>
 <li>Example: set orthogonal hex-grid drawing to one width and orthogonal
 square-grid drawing to another. Those snapped contexts can keep
 different remembered widths, so moving between them does not force one
@@ -345,7 +497,7 @@ Exclusivity</h2>
 <ul>
 <li><code>Square Grid</code> and <code>Hex Grid</code> are mutually
 exclusive.</li>
-<li><code>Gum</code>, <code>Air Blower</code>, and
+<li><code>Eraser</code>, <code>Air Blower</code>, and
 <code>Orthogonal</code> are mutually exclusive in direct tool
 toggles.</li>
 <li>Enabling <code>Rainbow</code> turns off incompatible tools where
@@ -389,50 +541,61 @@ centimeters.</li>
 and ongoing geometry refinements.</li>
 <li>Rainbow settings persist across app restarts.</li>
 </ul>
-<h2 id="gum-eraser">7. Gum (Eraser)</h2>
+<h2 id="eraser">7. Eraser</h2>
 <ul>
-<li>Toggle gum and erase by dragging/tapping across strokes.</li>
-<li>Gum is geometry-based: it does not paint transparent pixels over the
-canvas. Instead, it traces your gum path through the stored stroke
-geometry and cuts intersected stroke segments out of the scene.</li>
-<li>In practice, each gum move is treated as a short line segment, and
+<li>Toggle the eraser and erase by dragging/tapping across strokes.</li>
+<li>The Eraser is geometry-based: it does not paint transparent pixels
+over the canvas. Instead, it traces your erase path through the stored
+stroke geometry and cuts intersected stroke segments out of the
+scene.</li>
+<li>In practice, each erase move is treated as a short line segment, and
 the full drag becomes a chain of segment cuts. A tap works like a tiny
 centered cut at that point.</li>
-<li>Gum strength is configurable via the long-press settings dialog and
-currently scales up to <code>10.0x</code>.</li>
-<li>Strength changes the cut width, meaning the size of the gap removed
-from any intersected stroke geometry.</li>
-<li>Higher gum strength removes a wider band and is therefore more
-effective at clearing thick strokes or wiping across multiple nearby
-segments in one pass.</li>
-<li>Lower gum strength removes a narrower band and is better when you
-want to trim geometry more precisely without opening such a wide
-gap.</li>
-<li>On long strokes or large shapes, gum usually splits the original
-stroke into smaller surviving pieces on either side of the removed
-gap.</li>
+<li>Eraser settings are configurable via the long-press settings
+dialog.</li>
+<li>Eraser size controls the visible eraser band, the narrow hit area
+used to decide which stroke geometry is touched, and the maximum gap the
+eraser can cut.</li>
+<li>Eraser strength controls how much of that selected size is applied
+after a hit.</li>
+<li>Higher eraser strength uses the full selected eraser size, so a
+small eraser remains a small precision cut even at high strength.</li>
+<li>Lower eraser strength cuts a smaller gap inside the selected size
+for finer trimming.</li>
+<li>On long strokes or large shapes, the eraser usually splits the
+original stroke into smaller surviving pieces on either side of the
+removed gap.</li>
 <li>On short segments or tiny fragments, the removed gap can consume the
 whole remaining piece, so that fragment disappears entirely instead of
 being split into even smaller parts.</li>
-<li>Because gum works on stored stroke geometry, the surviving pieces
-remain normal vector strokes: they still participate in zoom, replay,
-Glue sync, and later editing instead of becoming flattened bitmap
-damage.</li>
-<li>Gum preserves stacking by replacing affected strokes with the
+<li>Because the Eraser works on stored stroke geometry, the surviving
+pieces remain normal vector strokes: they still participate in zoom,
+replay, Glue sync, and later editing instead of becoming flattened
+bitmap damage.</li>
+<li>The Eraser preserves stacking by replacing affected strokes with the
 resulting cut pieces in the same scene position, so later overlapping
 content continues to layer consistently.</li>
 <li>Multi-lane rainbow strokes are erased as one coordinated lane
 bundle, so sibling lanes break together instead of each lane being cut
 independently.</li>
+<li>Eraser undo/redo is based on the exact stroke transformation: the
+app records the original affected stroke geometry, the replacement
+fragments that survive the cut, and the archive-order data needed to
+restore stacking on undo and redo.</li>
+<li>Undoing an erase removes the replacement fragments and restores the
+original affected strokes. Redoing the erase removes the restored
+originals and brings back the cut fragments.</li>
+<li>The Eraser works only on finalized stored strokes. In-progress
+active strokes are allowed to finish before they can participate in
+later geometry erasing.</li>
 <li>Long erases show a progress overlay.</li>
-<li>Canceling a progress erase restores the pre-erase snapshot
-immediately.</li>
-<li>Supports undo/redo restoration of erasure operations.</li>
+<li>Canceling a progress erase restores the canvas state from the start
+of that erase gesture.</li>
 </ul>
 <h2 id="air-blower">8. Air Blower</h2>
 <ul>
-<li>Toggle blower mode for stroke displacement/removal/mixing
-effects.</li>
+<li>Toggle blower mode for playful stroke displacement, removal, and
+color-mixing effects.</li>
 <li>Long-press settings include:
 <ul>
 <li>Radius</li>
@@ -444,16 +607,28 @@ effects.</li>
 <li><code>Mix Colors</code></li>
 </ul></li>
 </ul></li>
-<li>Air blower actions are recorded as undoable operations with snapshot
-safety, including redo through full snapshots for merged drag
-actions.</li>
-<li>Remote/glued playback applies blower actions consistently.</li>
+<li>In solo mode, Air Blower actions are undoable as snapshot-backed
+<code>_UndoType.airBlower</code> actions.</li>
+<li>In Glue or remote application, Air Blower commits the changed shared
+canvas as the current undo/redo baseline for that shared session.</li>
+<li>In Glue, an Air Blower baseline commit clears the shared undo/redo
+history before later shared actions begin a fresh chain.</li>
+<li>Tap and drag blower gestures both follow the same split rule: solo
+gestures remain undoable, while Glue drag gestures commit one
+shared-session baseline when the gesture completes.</li>
+<li>Hotspot zap erasures count as Air Blower canvas changes, so they
+participate in the same solo-undo vs Glue-baseline rule.</li>
+<li>Remote/glued playback applies blower actions consistently on both
+devices.</li>
 </ul>
 <h2 id="recording-system">9. Recording System</h2>
 <h3 id="recording-and-sharing">9.1 Recording and Sharing</h3>
 <ul>
-<li>Tapping the recording control while idle first opens
+<li>While solo, tapping the recording control while idle first opens
 <code>Record your drawing</code>.</li>
+<li>While glued and connected, recording starts only when both peers
+hold <code>REC</code> together; the solo recording form does not appear
+in that shared flow.</li>
 <li>Starting a recording snapshots the current canvas, clears it to
 blank for recording, and restores the previous canvas when the recording
 ends.</li>
@@ -506,13 +681,14 @@ time.</li>
 drawing replays on its own.</li>
 <li>User controls during playback:
 <ul>
-<li><code>Skip</code> (fast-forward to end)</li>
-<li><code>Cancel</code> (restore pre-play snapshot)</li>
+<li><code>Skip</code> fast-forwards to the end of the recording.</li>
+<li><code>Cancel</code> restores the canvas that was visible when
+playback started.</li>
 </ul></li>
 <li>Skip/cancel reset viewport framing consistently.</li>
-<li>Playback completion adds one undoable snapshot so undo restores the
-pre-playback canvas in a single step, and redo restores the fully played
-result.</li>
+<li>When playback completes, the fully played drawing is added as one
+undoable snapshot playback result. Undo restores the pre-playback
+canvas, and redo restores the fully played recording result.</li>
 </ul>
 <h2 id="welcome-tour">10. Welcome Tour</h2>
 <ul>
@@ -522,7 +698,8 @@ tour recording.</li>
 persistence).</li>
 <li>Tour can be reset by long-pressing <code>?</code>.</li>
 <li>Tour playback uses the same read-only recording pipeline with
-skip/cancel safety.</li>
+skip/cancel safety and one snapshot-based undoable playback result when
+playback completes.</li>
 </ul>
 <h2 id="import-deep-links-and-file-handling">11. Import, Deep Links, and
 File Handling</h2>
@@ -586,7 +763,7 @@ return to its own preferred stroke feel</li>
 <li>Recent colors</li>
 <li>Grid/hex parameters</li>
 <li>Rainbow settings</li>
-<li>Gum/blower/tool toggles and related parameters</li>
+<li>eraser/blower/tool toggles and related parameters</li>
 <li>Shout banner preference</li>
 <li>Glue preferences, session linkage, and per-peer shared canvas
 restore data</li>
@@ -608,7 +785,7 @@ part you mean to reset.</li>
 <li>brush/tool thickness values</li>
 <li>palette-related tool settings</li>
 <li>rainbow settings</li>
-<li>gum / air blower settings</li>
+<li>eraser / air blower settings</li>
 <li>grid / hex-grid settings</li>
 <li>shout-banner mode</li>
 </ul></li>
@@ -645,6 +822,24 @@ Onboarding</h3>
 first-run onboarding prompt.</li>
 <li>This does not change drawing tools, snapshots, or recording
 storage.</li>
+</ul>
+<h3 id="undoredo-recovery-boundaries">14.5 Undo/Redo Recovery
+Boundaries</h3>
+<ul>
+<li>Undo and redo are meant for recent personal drawing and precise
+geometry edits.</li>
+<li>Eraser actions are undoable because they store the exact stroke cuts
+they made, including the replacement fragments and the stacking order
+needed to restore the scene.</li>
+<li>Solo Air Blower actions stay undoable as snapshot-backed
+<code>_UndoType.airBlower</code> actions.</li>
+<li>Glue Air Blower actions commit the changed shared drawing as a
+baseline and clear the shared-session undo/redo history.</li>
+<li>Completed recording playback stays undoable as one snapshot
+operation, with undo restoring the pre-playback canvas and redo
+restoring the fully played result.</li>
+<li>Restoring a solo canvas or Glue pair canvas also starts with clean
+undo/redo history for that restored canvas.</li>
 </ul>
 <h2 id="current-ux-notes">15. Current UX Notes</h2>
 <ul>
