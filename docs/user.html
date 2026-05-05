@@ -83,12 +83,12 @@ behavior, so it is worth trying both when learning the app.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>Peers</code></td>
-<td>Open the focused Glue process. If solo, DoodleTag searches for
-another doodler, connects, and switches to that pair’s shared canvas. If
-already glued, DoodleTag saves the shared pair canvas and returns to
-solo. During the process, the Glue layer blocks drawing and other
-controls until connect/cancel cleanup finishes.</td>
+<td><code>Glue</code></td>
+<td>Open the focused Glue process. DoodleTag searches for another
+doodler, connects, and switches to that pair’s shared canvas. If already
+glued, DoodleTag saves the shared pair canvas and returns to solo.
+During the process, the Glue layer blocks drawing and other controls
+until connect/cancel cleanup finishes.</td>
 <td>Forget last glued peer preference</td>
 </tr>
 <tr>
@@ -112,8 +112,7 @@ hold-to-request clear flow</td>
 <tr>
 <td><code>Export</code></td>
 <td>Open export flow and save image output.</td>
-<td>Share the last saved recording directly; if no recording is ready,
-DoodleTag shouts that out</td>
+<td>Share the last saved recording as an mp4 video</td>
 </tr>
 <tr>
 <td><code>Reset View</code></td>
@@ -128,7 +127,7 @@ DoodleTag shouts that out</td>
 <tr>
 <td><code>Color/Palette</code></td>
 <td>Open quick palette picker.</td>
-<td>Toggle debug overlay</td>
+<td>None</td>
 </tr>
 <tr>
 <td><code>Stroke Width</code></td>
@@ -694,12 +693,6 @@ canvas, and redo restores the fully played recording result.</li>
 <ul>
 <li>Dedicated <code>?</code> utility button launches the bundled welcome
 tour recording.</li>
-<li>First-launch autoplay is supported (with local played-flag
-persistence).</li>
-<li>Tour can be reset by long-pressing <code>?</code>.</li>
-<li>Tour playback uses the same read-only recording pipeline with
-skip/cancel safety and one snapshot-based undoable playback result when
-playback completes.</li>
 </ul>
 <h2 id="import-deep-links-and-file-handling">11. Import, Deep Links, and
 File Handling</h2>
@@ -719,14 +712,6 @@ DoodleTag.</li>
 <code>On My iPhone &gt; Doodle Tag</code>.</li>
 <li>On Android, recordings are saved in
 <code>Download/Doodle Tag</code>.</li>
-<li>Internal app support files stay separate under <code>System</code>
-for debugging or reset purposes.</li>
-<li>Android intent filters support custom and fallback MIME flows for
-better “Open with” behavior.</li>
-<li>Universal/App link intake supports <code>.dtag</code> links and
-remote recording download/playback flow.</li>
-<li>Cold-start <code>.dtag</code> open is deferred until UI is ready so
-play dialogs render reliably.</li>
 </ul>
 <h2 id="export-and-long-tasks">12. Export and Long Tasks</h2>
 <ul>
@@ -739,19 +724,18 @@ when applicable to reduce canvas obstruction.</li>
 </ul>
 <h3 id="video-export-expectations">12.1 Video Export Expectations</h3>
 <ul>
-<li>Video export is intentionally a light, playful extra rather than a
+<li>Video export is intentionally light and playful rather than a
 production-grade rendering system.</li>
 <li>The MP4 is produced on the device itself, so results depend on the
 platform and the specific phone or tablet doing the work.</li>
-<li>Android and iPhone do not use the same native encoder stack, so one
-platform may succeed where the other fails.</li>
+<li>Android and iPhone do not use the same native encoder stack, so the
+result will be different.</li>
 <li>Encoding can fail on some devices or for some recordings even when
 playback itself works correctly.</li>
 <li>Video smoothness is influenced by device CPU performance, so older
 or weaker devices may produce less fluid results.</li>
-<li>In short: use recording video export as a <code>for fun only</code>
-sharing feature, not as a guaranteed archival or studio-quality export
-path.</li>
+<li>Use recording video export as a <code>for fun only</code> sharing
+feature.</li>
 </ul>
 <h2 id="persistence-and-restore">13. Persistence and Restore</h2>
 <ul>
@@ -771,10 +755,8 @@ restore data</li>
 </ul>
 <h2 id="reset-and-recovery-actions">14. Reset and Recovery Actions</h2>
 <ul>
-<li>DoodleTag does not currently have one single “factory reset” button
-that makes the app behave exactly like a brand-new install.</li>
-<li>Instead, reset actions are split by domain so you can clear only the
-part you mean to reset.</li>
+<li>DoodleTag reset actions are split by domain so you can clear only
+the part you mean to reset.</li>
 </ul>
 <h3 id="reset-all-tool-settings">14.1 Reset All Tool Settings</h3>
 <ul>
@@ -826,15 +808,11 @@ storage.</li>
 <h3 id="undoredo-recovery-boundaries">14.5 Undo/Redo Recovery
 Boundaries</h3>
 <ul>
-<li>Undo and redo are meant for recent personal drawing and precise
-geometry edits.</li>
+<li>Undo and redo are meant for recent personal drawing and geometry
+edits.</li>
 <li>Eraser actions are undoable because they store the exact stroke cuts
 they made, including the replacement fragments and the stacking order
 needed to restore the scene.</li>
-<li>Solo Air Blower actions stay undoable as snapshot-backed
-<code>_UndoType.airBlower</code> actions.</li>
-<li>Glue Air Blower actions commit the changed shared drawing as a
-baseline and clear the shared-session undo/redo history.</li>
 <li>Completed recording playback stays undoable as one snapshot
 operation, with undo restoring the pre-playback canvas and redo
 restoring the fully played result.</li>
