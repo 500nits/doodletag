@@ -47,10 +47,10 @@ remove your latest undoable drawing/tool action; long-press
 <li>In Glue, each doodler keeps their own undo/redo flow. When one
 doodler undoes or redoes an action, the peer receives the matching
 canvas update for that doodler’s action.</li>
-<li>The Eraser is undoable because it stores the exact stroke cuts it
-makes: the original affected stroke geometry, the surviving replacement
+<li>The Eraser is undoable because it stores the exact line cuts it
+makes: the original affected line geometry, the surviving replacement
 fragments, and the stacking order needed to restore the scene. It only
-affects finalized strokes.</li>
+affects finalized lines.</li>
 <li>In solo mode, Air Blower actions are undoable as snapshot-backed
 <code>_UndoType.airBlower</code> actions. In Glue, Air Blower commits
 the changed shared canvas as a fresh baseline and clears undo/redo
@@ -130,10 +130,9 @@ hold-to-request clear flow</td>
 <td>None</td>
 </tr>
 <tr>
-<td><code>Stroke Width</code></td>
-<td>Cycle thickness presets.</td>
-<td>Open the thickness dialog; in normal drawing this is also where you
-switch between <code>Plain</code> and <code>Outline</code></td>
+<td><code>Line Size</code></td>
+<td>Cycle pencil size presets.</td>
+<td>Open <code>Pencil setup</code></td>
 </tr>
 <tr>
 <td><code>Eraser</code></td>
@@ -197,30 +196,30 @@ return to these defaults:</p>
 </thead>
 <tbody>
 <tr>
-<td>Drawing style</td>
+<td>Drawing mode</td>
 <td><code>Plain</code> drawing</td>
 </tr>
 <tr>
-<td>Brush color</td>
+<td>Pencil color</td>
 <td>Doodle blue, <code>#2991F5</code></td>
 </tr>
 <tr>
-<td>Brush cap</td>
+<td>Pencil cap</td>
 <td>Round</td>
 </tr>
 <tr>
-<td>Brush thickness</td>
+<td>Pencil setup</td>
 <td><code>medium</code>, <code>100 px</code></td>
 </tr>
 <tr>
-<td>Thickness presets</td>
+<td>Pencil size presets</td>
 <td><code>extra thin</code> <code>12 px</code>, <code>thin</code>
 <code>25 px</code>, <code>normal</code> <code>50 px</code>,
 <code>medium</code> <code>100 px</code>, <code>big</code>
 <code>180 px</code></td>
 </tr>
 <tr>
-<td>Remembered thickness contexts</td>
+<td>Remembered size contexts</td>
 <td>Normal drawing, square-grid snap drawing, hex-grid snap drawing,
 eraser, rainbow, rainbow square-grid snap, and rainbow hex-grid snap all
 start at <code>100 px</code></td>
@@ -234,7 +233,7 @@ and black</td>
 <tr>
 <td>Outline</td>
 <td>Off at startup; when selected, the outline starts with a round cap,
-a border <code>40%</code> darker than the brush color, and a
+a border <code>40%</code> darker than the Pencil color, and a
 <code>17%</code> border width</td>
 </tr>
 <tr>
@@ -390,35 +389,33 @@ without deleting snapshots.</li>
 </ul>
 <h2 id="drawing-and-color-features">4. Drawing and Color Features</h2>
 <ul>
-<li>DoodleTag stores drawing as vector strokes and segments. Each mark
-keeps its own geometry, point path, stroke width, cap, color, and
-stacking order instead of being flattened into one bitmap.</li>
+<li>DoodleTag stores drawing as vector lines and segments. Each mark
+keeps its own geometry, point path, line size, cap, color, and stacking
+order instead of being flattened into one bitmap.</li>
 <li>In practice, this means every piece of the drawing remains a
 structured part of the scene. Zoom stays clean, Glue can synchronize
-authored strokes, playback can replay recorded drawing actions, undo can
+authored lines, playback can replay recorded drawing actions, undo can
 restore individual operations, and tools like the Eraser or Air Blower
-can affect stroke geometry without reducing the whole canvas to one
-merged image.</li>
-<li>Compared with simpler draw-style apps where marks are treated more
-like immediate screen output, DoodleTag keeps the drawing as a live
-composition of stroke objects. That is why the same authored drawing can
+can affect line geometry without reducing the whole canvas to one merged
+image.</li>
+<li>Compared with simpler drawing apps where marks are treated more like
+immediate screen output, DoodleTag keeps the drawing as a live
+composition of line objects. That is why the same authored drawing can
 be restored, replayed, shared, cut, moved, recolored, or re-layered
 through later tools and sessions.</li>
-<li>Standard freehand drawing with thickness presets and precise
-thickness slider.</li>
-<li>Thickness is not one global number that every tool shares. Each
-supported tool/context carries its own remembered thickness, and
-switching away does not overwrite the widths you previously chose
+<li>Standard freehand drawing with pencil size presets and a precise
+size slider.</li>
+<li>Pencil/tool size is not one global number that every tool shares.
+Each supported tool/context carries its own remembered size, and
+switching away does not overwrite the sizes you previously chose
 elsewhere.</li>
 <li>The practical rule is: when you return to a tool/context, DoodleTag
-restores the last thickness that belonged to that same
-tool/context.</li>
-<li>This is meant to preserve tool feel. A tool that makes sense as
-delicate can stay delicate, while a tool that makes sense as broad can
-stay broad, without forcing you to re-tune the width every time you
-switch.</li>
-<li>The remembered thickness contexts currently documented in the
-product are:
+restores the last size that belonged to that same tool/context.</li>
+<li>This preserves tool feel. A tool that makes sense as delicate can
+stay delicate, while a tool that makes sense as broad can stay broad,
+without forcing you to re-tune size every time you switch.</li>
+<li>The remembered size contexts currently documented in the product
+are:
 <ul>
 <li>normal drawing</li>
 <li>drawing with orthogonal square-grid snapping</li>
@@ -433,10 +430,10 @@ the Eraser and make it much wider, then switch back to normal drawing.
 Normal drawing comes back at its own thin width; it does not inherit the
 Eraser’s width.</li>
 <li>Example: set the Eraser to a narrow erase width, switch to normal
-drawing and make the brush large, then switch back to the Eraser. The
+drawing and make the Pencil large, then switch back to the Eraser. The
 Eraser comes back with its own remembered erase width.</li>
-<li>Example: set Rainbow to a bold width for expressive color strokes,
-then switch to normal drawing and keep that brush narrow for sketch
+<li>Example: set Rainbow to a bold width for expressive color lines,
+then switch to normal drawing and keep that Pencil narrow for sketch
 details. Returning to Rainbow brings back the bold Rainbow width instead
 of the narrow sketch width.</li>
 <li>Example: set orthogonal square-grid drawing to a thin guide-line
@@ -446,45 +443,64 @@ thin guide-line width that belonged to that snapped context.</li>
 <li>Example: set orthogonal hex-grid drawing to one width and orthogonal
 square-grid drawing to another. Those snapped contexts can keep
 different remembered widths, so moving between them does not force one
-grid style to borrow the other’s thickness.</li>
+grid mode to borrow the other’s size.</li>
 <li>Example: rainbow freehand, rainbow orthogonal square-grid, and
 rainbow orthogonal hex-grid can each keep different remembered widths.
 Returning to one of those rainbow contexts restores that context’s own
 last width rather than reusing the last rainbow-related width from
 somewhere else.</li>
-<li>In short: each supported tool/context carries its own thickness
-memory, so switching tools feels like resuming that exact mode rather
-than reconfiguring a single shared brush setting.</li>
+<li>In short: each supported tool/context carries its own size memory,
+so switching tools feels like resuming that exact mode rather than
+reconfiguring a single shared Pencil setting.</li>
 <li>Quick palette includes:
 <ul>
 <li><code>Palette</code> tab for fast swatch picks.</li>
 <li><code>Wheel</code> tab for continuous color selection.</li>
 <li>Recent color history integration.</li>
 </ul></li>
-<li>In normal drawing, the thickness dialog now also holds the
-<code>Plain</code> / <code>Outline</code> choice.</li>
+<li><code>Pencil setup</code> opens from long-pressing
+<code>Line Size</code>.</li>
+<li><code>Pencil setup</code> controls the current pencil/tool size with
+a slider and the same preset values used by the quick tap.</li>
+<li>The <code>Plain</code> and <code>Outline</code> choices inside
+<code>Pencil setup</code> are tool selectors:
+<ul>
+<li><code>Plain</code> selects normal drawing.</li>
+<li><code>Outline</code> selects <code>Outline Pencil</code>.</li>
+<li>Selecting <code>Outline</code> deselects Rainbow, Eraser, and Air
+Blower for drawing.</li>
+<li>If <code>Pencil setup</code> opens while another tool is active and
+<code>Outline</code> is selected temporarily, selecting
+<code>Plain</code> in that same open form returns to the tool that was
+active when the form opened.</li>
+<li><code>Outline</code> is selected only while
+<code>Outline Pencil</code> is the active drawing tool.</li>
+<li>Tool Shouts announce selector choices, such as
+<code>OUTLINE PENCIL!</code>, <code>DRAW</code>, or the restored tool
+name.</li>
+</ul></li>
+<li>In <code>Outline Pencil</code>, the selected size is the final
+outside size of the mark. Border size is taken out of the inside fill,
+so <code>Plain</code> and <code>Outline</code> at the same size keep the
+same overall footprint.</li>
 <li>The quick palette stays focused on color editing:
 <ul>
-<li>In <code>Plain</code>, the palette and wheel edit the main stroke
+<li>In <code>Plain</code>, the palette and wheel edit the main pencil
 color.</li>
-<li>In <code>Outline</code>, the inside color still comes from the
-current plain color.</li>
-<li>In <code>Outline</code>, the selected <code>Stroke Width</code> is
-the final outside size of the stroke. Border size is taken out of the
-inside fill, so switching between <code>Plain</code> and
-<code>Outline</code> at the same width keeps the same overall
-thickness.</li>
-<li>In <code>Outline</code>, tap the bordered preview circle to switch
-which color you are editing: one tap selects the inside color, the next
-tap selects the outer border, and so on.</li>
-<li>In <code>Outline</code>, the palette, wheel, and history edit
+<li>In <code>Outline Pencil</code>, the inside color comes from the
+current plain pencil color.</li>
+<li>In <code>Outline Pencil</code>, tap the bordered preview circle to
+switch which color you are editing: one tap selects the inside color,
+the next tap selects the outer border, and so on.</li>
+<li>In <code>Outline Pencil</code>, the palette, wheel, and history edit
 whichever part of that preview is currently selected.</li>
-<li>When you change the inside color, DoodleTag automatically returns
-the outline to its default tuning: a <code>40%</code> darker border with
-a <code>17%</code> border size.</li>
+<li>When you change the inside color, DoodleTag automatically uses the
+default outline tuning: a <code>40%</code> darker border with a
+<code>17%</code> border size.</li>
 </ul></li>
 <li>Rainbow color editing is opened from the <code>Rainbow</code> tool
-path and uses its own dedicated editor flow.</li>
+path, or by tapping <code>Color/Palette</code> while Rainbow is active.
+The Rainbow color editor keeps Rainbow selected.</li>
 <li>Closing the quick palette does not switch tools.</li>
 <li>Recent-color behavior is stable (reselecting colors does not
 unexpectedly delete history entries).</li>
@@ -500,7 +516,7 @@ exclusive.</li>
 <code>Orthogonal</code> are mutually exclusive in direct tool
 toggles.</li>
 <li>Enabling <code>Rainbow</code> turns off incompatible tools where
-needed and keeps rainbow-specific stroke behavior active.</li>
+needed and keeps rainbow-specific line behavior active.</li>
 <li>Orthogonal snapping behavior depends on guides:
 <ul>
 <li>If square grid is active: snaps to grid-aligned orthogonal
@@ -515,8 +531,8 @@ space.</li>
 <li>Toggle rainbow on/off directly from the menu.</li>
 <li><code>Normal</code> rainbow follows a toothpaste-style model: colors
 are stored in a fixed internal sequence and come out from the point
-where the stroke starts. Reversing the draw direction remaps those
-colors around the shape instead of preserving the same edge-to-color
+where the line starts. Reversing the draw direction remaps those colors
+around the shape instead of preserving the same edge-to-color
 assignment.</li>
 <li>Rainbow color progression is distance-based, not time-based. Moving
 faster or slower over the same path does not change the internal color
@@ -535,6 +551,9 @@ centimeters.</li>
 <li>Six editable rainbow palette slots.</li>
 <li><code>Reset</code> to default rainbow palette.</li>
 <li>Uses the dedicated rainbow color editor.</li>
+<li>Long-press <code>Rainbow</code>, or tap <code>Color/Palette</code>
+while Rainbow is active, to tune Rainbow colors without leaving
+Rainbow.</li>
 </ul></li>
 <li><code>Lanes</code> style supports lane-aware turning/join behavior
 and ongoing geometry refinements.</li>
@@ -542,18 +561,17 @@ and ongoing geometry refinements.</li>
 </ul>
 <h2 id="eraser">7. Eraser</h2>
 <ul>
-<li>Toggle the eraser and erase by dragging/tapping across strokes.</li>
+<li>Toggle the eraser and erase by dragging/tapping across lines.</li>
 <li>The Eraser is geometry-based: it does not paint transparent pixels
 over the canvas. Instead, it traces your erase path through the stored
-stroke geometry and cuts intersected stroke segments out of the
-scene.</li>
+line geometry and cuts intersected line segments out of the scene.</li>
 <li>In practice, each erase move is treated as a short line segment, and
 the full drag becomes a chain of segment cuts. A tap works like a tiny
 centered cut at that point.</li>
 <li>Eraser settings are configurable via the long-press settings
 dialog.</li>
 <li>Eraser size controls the visible eraser band, the narrow hit area
-used to decide which stroke geometry is touched, and the maximum gap the
+used to decide which line geometry is touched, and the maximum gap the
 eraser can cut.</li>
 <li>Eraser strength controls how much of that selected size is applied
 after a hit.</li>
@@ -561,39 +579,39 @@ after a hit.</li>
 small eraser remains a small precision cut even at high strength.</li>
 <li>Lower eraser strength cuts a smaller gap inside the selected size
 for finer trimming.</li>
-<li>On long strokes or large shapes, the eraser usually splits the
-original stroke into smaller surviving pieces on either side of the
+<li>On long lines or large shapes, the eraser usually splits the
+original line into smaller surviving pieces on either side of the
 removed gap.</li>
 <li>On short segments or tiny fragments, the removed gap can consume the
 whole remaining piece, so that fragment disappears entirely instead of
 being split into even smaller parts.</li>
-<li>Because the Eraser works on stored stroke geometry, the surviving
-pieces remain normal vector strokes: they still participate in zoom,
+<li>Because the Eraser works on stored line geometry, the surviving
+pieces remain normal vector lines: they still participate in zoom,
 replay, Glue sync, and later editing instead of becoming flattened
 bitmap damage.</li>
-<li>The Eraser preserves stacking by replacing affected strokes with the
+<li>The Eraser preserves stacking by replacing affected lines with the
 resulting cut pieces in the same scene position, so later overlapping
 content continues to layer consistently.</li>
-<li>Multi-lane rainbow strokes are erased as one coordinated lane
-bundle, so sibling lanes break together instead of each lane being cut
+<li>Multi-lane rainbow lines are erased as one coordinated lane bundle,
+so sibling lanes break together instead of each lane being cut
 independently.</li>
-<li>Eraser undo/redo is based on the exact stroke transformation: the
-app records the original affected stroke geometry, the replacement
-fragments that survive the cut, and the archive-order data needed to
-restore stacking on undo and redo.</li>
+<li>Eraser undo/redo is based on the exact line transformation: the app
+records the original affected line geometry, the replacement fragments
+that survive the cut, and the archive-order data needed to restore
+stacking on undo and redo.</li>
 <li>Undoing an erase removes the replacement fragments and restores the
-original affected strokes. Redoing the erase removes the restored
+original affected lines. Redoing the erase removes the restored
 originals and brings back the cut fragments.</li>
-<li>The Eraser works only on finalized stored strokes. In-progress
-active strokes are allowed to finish before they can participate in
-later geometry erasing.</li>
+<li>The Eraser works only on finalized stored lines. In-progress active
+lines are allowed to finish before they can participate in later
+geometry erasing.</li>
 <li>Long erases show a progress overlay.</li>
 <li>Canceling a progress erase restores the canvas state from the start
 of that erase gesture.</li>
 </ul>
 <h2 id="air-blower">8. Air Blower</h2>
 <ul>
-<li>Toggle blower mode for playful stroke displacement, removal, and
+<li>Toggle blower mode for playful line displacement, removal, and
 color-mixing effects.</li>
 <li>Long-press settings include:
 <ul>
@@ -741,9 +759,9 @@ feature.</li>
 <ul>
 <li>Persisted settings include:
 <ul>
-<li>Color, thickness, cap</li>
-<li>Per-tool/per-context thickness memory so each drawing mode can
-return to its own preferred stroke feel</li>
+<li>Color, size, cap</li>
+<li>Per-tool/per-context size memory so each drawing mode can return to
+its own preferred feel</li>
 <li>Recent colors</li>
 <li>Grid/hex parameters</li>
 <li>Rainbow settings</li>
@@ -764,7 +782,7 @@ the part you mean to reset.</li>
 <li>This opens <code>Reset all tool settings?</code>.</li>
 <li>It restores default values for tool-facing state such as:
 <ul>
-<li>brush/tool thickness values</li>
+<li>Pencil/tool size values</li>
 <li>palette-related tool settings</li>
 <li>rainbow settings</li>
 <li>eraser / air blower settings</li>
@@ -810,7 +828,7 @@ Boundaries</h3>
 <ul>
 <li>Undo and redo are meant for recent personal drawing and geometry
 edits.</li>
-<li>Eraser actions are undoable because they store the exact stroke cuts
+<li>Eraser actions are undoable because they store the exact line cuts
 they made, including the replacement fragments and the stacking order
 needed to restore the scene.</li>
 <li>Completed recording playback stays undoable as one snapshot
