@@ -111,8 +111,15 @@ hold-to-request clear flow</td>
 </tr>
 <tr>
 <td><code>Export</code></td>
-<td>Open export flow and save image output.</td>
-<td>Share the last saved recording as an mp4 video</td>
+<td>Open the Export sheet: pick an image size preset
+(<code>Small 1024px</code>, <code>Normal 2048px</code>,
+<code>Max 4096px</code>) to save a PNG to Photos in the
+<code>Doodle Tag</code> album, with an optional
+<code>Include grid</code> toggle. When a recording is saved, the sheet’s
+<code>Video</code> section also offers <code>Share last recording</code>
+to render and share the <code>.dtag</code> as an <code>.mp4</code>.</td>
+<td>Share the last saved <code>.dtag</code> recording file directly
+through the system share sheet</td>
 </tr>
 <tr>
 <td><code>Reset View</code></td>
@@ -544,8 +551,9 @@ down along the path.</li>
 <li><code>Pop</code></li>
 <li><code>Lanes</code></li>
 </ul></li>
-<li>Segment length is adjustable with step controls and displayed in
-centimeters.</li>
+<li>Segment length is adjustable with step controls for
+<code>Normal</code> and <code>Pop</code>; it is disabled for
+<code>Lanes</code>.</li>
 <li>Palette control:
 <ul>
 <li>Six editable rainbow palette slots.</li>
@@ -662,11 +670,16 @@ canvas.</li>
 recording file in the Doodle Tag folder, restores the canvas that was
 visible before recording began, and reports that the recording was
 saved.</li>
-<li>Once a recording has been saved, the export dialog offers
-<code>Share Video</code>, which renders the last saved recording into an
+<li>Once a recording has been saved, the Export sheet’s
+<code>Video</code> section offers <code>Share last recording</code>,
+which renders the last saved <code>.dtag</code> into an
 <code>.mp4</code> on the device before opening the system share
 sheet.</li>
-<li>Video export now shows a progress form with a <code>Cancel</code>
+<li>Long-pressing the <code>Export</code> button skips the sheet and
+shares the last saved <code>.dtag</code> recording file directly through
+the system share sheet. With no recording saved, this shouts
+<code>NO RECORDING SAVED</code>.</li>
+<li>Video export shows a progress form with a <code>Cancel</code>
 button. Canceling stops the export and removes any temporary frame/video
 files created for that attempt.</li>
 <li>Recorded <code>.dtag</code> files are saved with their canonical
@@ -733,6 +746,26 @@ DoodleTag.</li>
 </ul>
 <h2 id="export-and-long-tasks">12. Export and Long Tasks</h2>
 <ul>
+<li>Tap <code>Export</code> to open the Export bottom sheet. The sheet
+has:
+<ul>
+<li>An <code>Include grid</code> toggle (off by default) that controls
+whether the active grid is rendered into the exported PNG.</li>
+<li>Three size presets that immediately start the image export when
+tapped: <code>Small (1024px)</code>, <code>Normal (2048px)</code>,
+<code>Max (4096px)</code>.</li>
+<li>A <code>Video</code> section that, when a saved recording exists,
+offers <code>Share last recording</code> to render that recording into
+an <code>.mp4</code>. When no recording exists, the section shows
+<code>No recording saved yet</code>.</li>
+</ul></li>
+<li>Image export saves the PNG to the device Photos library under the
+<code>Doodle Tag</code> album and also writes a copy into the app’s
+<code>exports/</code> folder. The export adds a small Doodle Tag
+watermark to the image.</li>
+<li>Dismiss the sheet by tapping outside it; size-preset and
+<code>Share last recording</code> taps start their action
+immediately.</li>
 <li>Export uses controlled progress flows to avoid partial/interrupted
 output.</li>
 <li>Long-running operations use shared long-task overlay patterns for
