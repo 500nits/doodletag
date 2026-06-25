@@ -66,7 +66,7 @@
         }
 
         .hero {
-            max-width: 760px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 0 72px;
         }
@@ -101,16 +101,27 @@
         }
 
         .hero-intro {
-            max-width: 660px;
+            max-width: 900px;
             margin: 0;
             color: var(--muted);
             font-size: clamp(1.08rem, 2.4vw, 1.3rem);
             line-height: 1.6;
+            text-wrap: pretty;
+        }
+
+        .local-sentence {
+            display: block;
+            white-space: nowrap;
         }
 
         .connection {
             color: var(--text);
             font-weight: 800;
+        }
+
+        .sentence-part {
+            display: inline-block;
+            white-space: nowrap;
         }
 
         .actions {
@@ -248,6 +259,12 @@
             color: var(--text) !important;
         }
 
+        @media (max-width: 980px) {
+            .local-sentence {
+                white-space: normal;
+            }
+        }
+
         @media (max-width: 760px) {
             main {
                 padding-top: 34px;
@@ -323,8 +340,11 @@
             <h2 id="hero-title">Draw together over Wi-Fi.</h2>
             <p class="hero-intro">
                 A shared sketchbook for two people in the same room.<br>
-                <span class="connection">Connect iOS and Android</span>,
-                draw on one giant canvas, and keep it local.
+                <span class="local-sentence">
+                    <span class="connection sentence-part">Connect iOS and Android,</span>
+                    <span class="sentence-part">draw on one giant canvas,</span>
+                    <span class="sentence-part">shared directly between your devices.</span>
+                </span>
             </p>
             <div class="actions">
                 <nav class="stores" aria-label="Download Doodle Tag">
