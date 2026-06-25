@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>doodle tag</title>
+    <meta name="description" content="Doodle Tag is a shared sketchbook for two people drawing together over local Wi-Fi on iOS and Android.">
+    <title>Doodle Tag - Draw together over Wi-Fi</title>
     <link rel="icon" href="./assets/feature_graphic.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&amp;display=swap" rel="stylesheet">
     <style>
         :root {
             --blue: #2991f5;
             --green: #10cd55;
-            --text: #111111;
-            --muted: #4a4a4a;
+            --text: #132019;
+            --muted: #526058;
+            --surface: rgba(255, 255, 255, 0.9);
+            --line: rgba(19, 32, 25, 0.1);
             --bg: #ffffff;
         }
 
@@ -21,14 +24,17 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            margin: 0;
-            background: var(--bg);
-            color: var(--text);
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Nunito Sans", "Helvetica Neue", Arial, sans-serif;
+            font-size: 17px;
+            line-height: 1.65;
             position: relative;
             overflow-x: hidden;
         }
@@ -38,40 +44,121 @@
             position: fixed;
             inset: 0;
             background-image: url("./assets/feature_graphic.svg");
-            background-size: 85% auto;
+            background-size: min(85%, 1100px) auto;
             background-position: top center;
             background-repeat: no-repeat;
-            opacity: 0.3168;
+            opacity: 0.16;
             pointer-events: none;
             z-index: 0;
         }
 
+        a {
+            color: inherit;
+        }
+
         main {
+            width: min(100%, 1040px);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 48px 20px 64px;
-            gap: 28px;
+            margin: 0 auto;
+            padding: 52px 24px 72px;
             position: relative;
             z-index: 1;
         }
 
-        h1 {
-            margin: 0;
-            font-family: "Luckiest Guy", "Comic Sans MS", cursive;
-            font-size: clamp(2.6rem, 5vw, 3.6rem);
-            letter-spacing: 1px;
-            margin-bottom: 90px;
+        .hero {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 0 72px;
         }
 
-        .word-blue {
+        .brand {
+            margin: 0 0 88px;
+            font-family: "Luckiest Guy", "Comic Sans MS", cursive;
+            font-size: clamp(2.8rem, 8vw, 4.6rem);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .word-blue,
+        .accent-blue {
             color: var(--blue);
         }
 
-        .word-green {
+        .word-green,
+        .accent-green {
             color: var(--green);
+        }
+
+        .hero h2 {
+            margin: 0 0 14px;
+            font-size: clamp(1.8rem, 4vw, 2.7rem);
+            font-weight: 800;
+            letter-spacing: -0.035em;
+            line-height: 1.12;
+            text-wrap: balance;
+        }
+
+        .hero-intro {
+            max-width: 900px;
+            margin: 0;
+            color: var(--muted);
+            font-size: clamp(1.08rem, 2.4vw, 1.3rem);
+            line-height: 1.6;
+            text-wrap: pretty;
+        }
+
+        .local-sentence {
+            display: block;
+            white-space: nowrap;
+        }
+
+        .connection {
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .sentence-part {
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .actions {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 32px;
+        }
+
+        .trust {
+            position: relative;
+            flex: 0 0 auto;
+            width: fit-content;
+            max-width: 100%;
+            margin: 0 2px 0 auto;
+            padding: 12px 17px 11px;
+            border: 2px solid var(--green);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.74);
+            color: #087a34;
+            font-size: clamp(0.92rem, 2vw, 1.02rem);
+            font-weight: 800;
+            font-style: oblique 6deg;
+            letter-spacing: 0.025em;
+            line-height: 1.35;
+            transform: rotate(-1.6deg);
+            transform-origin: left center;
+        }
+
+        .trust::after {
+            content: "";
+            position: absolute;
+            inset: 3px;
+            border: 1px solid rgba(16, 205, 85, 0.62);
+            border-radius: 2px;
+            pointer-events: none;
         }
 
         .stores {
@@ -79,7 +166,6 @@
             flex-wrap: wrap;
             gap: 18px;
             align-items: center;
-            justify-content: center;
         }
 
         .stores a {
@@ -90,6 +176,7 @@
             min-width: 100px;
             height: 30px;
             text-decoration: none;
+            transition: transform 160ms ease, opacity 160ms ease;
         }
 
         .stores a.android {
@@ -98,32 +185,195 @@
         }
 
         .stores img {
-            max-height: 100%;
+            display: block;
+            width: auto;
             max-width: 100%;
             height: auto;
-            width: auto;
-            display: block;
+            max-height: 100%;
         }
 
-        .note {
-            color: var(--muted);
-            font-size: 0.95rem;
+        .stores a:hover {
+            transform: translateY(-2px);
+            opacity: 0.86;
+        }
+
+        .stores a:focus-visible {
+            outline: 3px solid rgba(19, 32, 25, 0.22);
+            outline-offset: 4px;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: var(--surface);
+            box-shadow: 0 22px 60px rgba(19, 32, 25, 0.08);
+            backdrop-filter: blur(12px);
+        }
+
+        .detail {
+            padding: 32px;
+        }
+
+        .detail + .detail {
+            border-left: 1px solid var(--line);
+        }
+
+        .detail::before {
+            content: "";
+            display: block;
+            width: 42px;
+            height: 4px;
+            margin-bottom: 22px;
+            border-radius: 999px;
+            background: var(--blue);
+        }
+
+        .detail:nth-child(even)::before {
+            background: var(--green);
+        }
+
+        .detail:last-child::before {
+            background: linear-gradient(90deg, var(--blue) 0 48%, transparent 48% 52%, var(--green) 52%);
+        }
+
+        .detail h3 {
+            margin: 0 0 12px;
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+        }
+
+        .detail p {
             margin: 0;
+            color: var(--muted);
+            font-size: 0.98rem;
+            line-height: 1.65;
+        }
+
+        .privacy-note {
+            margin-top: 18px !important;
+            color: var(--text) !important;
+        }
+
+        @media (max-width: 980px) {
+            .local-sentence {
+                white-space: normal;
+            }
+        }
+
+        @media (max-width: 760px) {
+            main {
+                padding-top: 34px;
+            }
+
+            .hero {
+                padding-bottom: 48px;
+            }
+
+            .brand {
+                margin-bottom: 68px;
+            }
+
+            .actions {
+                flex-wrap: wrap;
+            }
+
+            .trust {
+                margin-left: auto;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .detail {
+                padding: 28px;
+            }
+
+            .detail + .detail {
+                border-top: 1px solid var(--line);
+                border-left: 0;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                font-size: 16px;
+            }
+
+            main {
+                padding-inline: 18px;
+            }
+
+            .brand {
+                margin-bottom: 58px;
+            }
+
+            .trust {
+                font-size: 0.86rem;
+            }
+
+            .stores {
+                gap: 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            .stores a {
+                transition: none;
+            }
         }
     </style>
 </head>
 <body>
     <main>
-        <h1><span class="word-blue">doodle</span> <span class="word-green">tag</span></h1>
-        <div class="stores" aria-label="Download links">
-            <a href="https://testflight.apple.com/join/S6Y1V65b" aria-label="Get on iOS (TestFlight)">
-                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Testflight" title="Testflight">
-            </a>
-            <a class="android" href="https://play.google.com/store/apps/details?id=com.u500nits.DoodleTag" aria-label="Get on Android (Early access)">
-                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Open Testing" title="Open Testing">
-            </a>
-        </div>
-        <p class="note">Early access only.</p>
+        <section class="hero" aria-labelledby="hero-title">
+            <h1 class="brand"><span class="word-blue">Doodle</span> <span class="word-green">Tag</span></h1>
+            <h2 id="hero-title">Draw together over Wi-Fi.</h2>
+            <p class="hero-intro">
+                A shared sketchbook for two people in the same room.<br>
+                <span class="local-sentence">
+                    <span class="connection sentence-part">Connect iOS and Android,</span>
+                    <span class="sentence-part">draw on one giant canvas,</span>
+                    <span class="sentence-part">shared directly between your devices.</span>
+                </span>
+            </p>
+            <div class="actions">
+                <nav class="stores" aria-label="Download Doodle Tag">
+                    <a href="https://apps.apple.com/cy/app/doodle-tag/id1543231802" aria-label="Download Doodle Tag on the App Store">
+                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+                    </a>
+                    <a class="android" href="https://play.google.com/store/apps/details?id=com.u500nits.DoodleTag" aria-label="Get Doodle Tag on Google Play">
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play">
+                    </a>
+                </nav>
+                <p class="trust">No accounts. No invites. No cloud. Just doodles.</p>
+            </div>
+        </section>
+
+        <section class="details" aria-label="Doodle Tag features">
+            <article class="detail">
+                <h3><span class="accent-blue">iOS</span> + <span class="accent-green">Android</span> together</h3>
+                <p>Doodle Tag for iOS can connect with Doodle Tag for Android over the same Wi-Fi.</p>
+            </article>
+            <article class="detail">
+                <h3>Playful tools</h3>
+                <p>Plain and Outline pencils, Rainbow in Normal, Pop and Lanes, a true Eraser, Wind, guide grids, pan and zoom, PNG export, recording and MP4 video export.</p>
+            </article>
+            <article class="detail">
+                <h3>Private by design</h3>
+                <p>Doodle Tag works locally over Wi-Fi. Your drawings stay between your devices and are never sent to external servers.</p>
+                <p class="privacy-note">No sign-ups. No tracking. No analytics.</p>
+            </article>
+        </section>
     </main>
 </body>
 </html>
