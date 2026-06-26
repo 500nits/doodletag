@@ -9,7 +9,6 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
@@ -33,86 +32,61 @@
 <body>
 <main class="doc-shell">
 <h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">accessibility</span></h1>
-<article class="doc-panel"><p>DoodleTag is designed for:</p>
-<ul>
-<li>casual drawing</li>
-<li>playful collaborative doodling</li>
-<li>expressive gesture-based creation</li>
-<li>solo and Glue-based shared drawing sessions</li>
-</ul>
-<p>Because of that, accessibility in DoodleTag is not only about reading
-labels. It is also about being able to discover tools, understand what
-state the app is in, and participate in the drawing experience with
-reasonable independence.</p>
+<article class="doc-panel"><p>Doodle Tag is a visual drawing app, so accessibility starts with a
+realistic goal: make the controls, state changes, and recovery points
+understandable, even when the drawing itself remains spatial and
+expressive.</p>
+<p>The app is built around living vector lines. That matters for access
+because a line can be selected by later tools, recovered by undo,
+replayed from a recording, and shared in Together without turning the
+whole canvas into one flat image.</p>
 <h2 id="what-works-today">What Works Today</h2>
-<p>The app is becoming more accessible in the control surface and in the
-feedback it gives to the user. Today, the strongest accessibility
-support is around:</p>
 <ul>
-<li>clear control labels for the main menu and utility buttons</li>
-<li>explanation of what important controls do</li>
-<li>explicit confirmation for destructive or state-changing actions</li>
-<li>strong status feedback through banners and announcements</li>
-<li>easy discovery of hidden app state such as recording, Glue, and
-reset behavior</li>
-<li>screen-reader discovery of controls</li>
-<li>learning the behavior of the tools</li>
-<li>understandable recovery behavior for recent drawing actions, precise
-eraser edits, recording playback, and toy-style destructive tools</li>
-<li>and using the app without depending only on visual memory</li>
+<li>Main menu and utility controls expose readable accessibility
+labels.</li>
+<li>Buttons use short hints for common tap and hold behavior.</li>
+<li>Important destructive actions ask for confirmation.</li>
+<li>Tool and status banners announce mode changes, disabled actions,
+recording state, export progress, and Together state.</li>
+<li><code>Alert style</code> lets users choose all alerts, key alerts,
+or silence.</li>
+<li>Compact utility buttons keep larger effective tap areas than their
+visible size.</li>
+<li>Eraser, Wind, recording playback, and finished recordings have clear
+undo boundaries.</li>
+<li>Together uses a focused process layer while it connects, restores,
+cancels, or returns to the solo canvas.</li>
 </ul>
-<h2 id="what-still-has-limits">What Still Has Limits</h2>
-<p>Some limits come from the nature of the app itself.</p>
-<p>DoodleTag is a freeform visual collaborative drawing tool, so some
-parts of the experience remain harder to make fully equivalent for every
-user.</p>
-<p>Those limits include:</p>
+<h2 id="known-limits">Known Limits</h2>
+<p>Doodle Tag is still a freeform drawing surface. Some parts cannot be
+made fully equivalent through labels alone:</p>
 <ul>
-<li>freeform spatial drawing is still a strongly visual activity</li>
-<li>some tools depend on gesture precision, geometry, layering, and
-color relationships</li>
-<li>collaborative drawing results remain mainly visual even when the app
-announces state changes clearly</li>
-<li>long continuous gestures may remain harder for some users than
-structured button-driven interactions</li>
+<li>spatial drawing depends on position, motion, and scale</li>
+<li>color-heavy tools such as Rainbow and <code>Color</code> Wind depend
+on visual relationships</li>
+<li>long drags can be harder than discrete button actions</li>
+<li>shared drawings in Together remain mostly visual, even when
+connection state is announced clearly</li>
 </ul>
-<h2 id="what-we-care-about-improving">What We Care About Improving</h2>
-<p>The most important accessibility improvements for DoodleTag are not
-abstract ones. They are practical ones.</p>
-<p>The app should keep improving in these areas:</p>
+<h2 id="what-we-keep-improving">What We Keep Improving</h2>
+<p>The useful accessibility work is practical:</p>
 <ul>
-<li>clearer control discovery</li>
-<li>even better announcements and state feedback</li>
-<li>more forgiving touch targets for important controls</li>
-<li>less dependence on color alone</li>
-<li>easier understanding of Glue, recording, export, and reset
-flows</li>
-<li>fewer confusing or hidden mode changes</li>
-<li>clearer explanations when a tool commits the drawing as a fresh
-recovery point</li>
+<li>clearer labels and hints for every control</li>
+<li>more stable focus and screen-reader behavior around animated
+menus</li>
+<li>better touch comfort for small controls</li>
+<li>readable sheets and banners under larger text or display
+scaling</li>
+<li>less reliance on color alone for important meaning</li>
+<li>clearer explanations for Together, Recording, Export, reset, and
+undo recovery flows</li>
+<li>easier discovery of hold actions where a hold is the only route to a
+secondary command</li>
 </ul>
-<p>These improvements help many different users at once, including:</p>
-<ul>
-<li>people using screen readers</li>
-<li>people with low vision</li>
-<li>people with reduced dexterity</li>
-<li>people who simply need the app to be easier to understand</li>
-</ul>
-<h2 id="open-doors-for-improvement">Open Doors For Improvement</h2>
-<p>There is still a lot of room to make DoodleTag more accessible in a
-practical way.</p>
-<p>Some promising directions are:</p>
-<ul>
-<li>continuing to improve control labels and hints</li>
-<li>making major app states easier to announce and understand</li>
-<li>improving touch comfort without making the interface visually
-heavy</li>
-<li>reducing color-only meaning in tools and modes</li>
-<li>making collaboration states clearer during Glue waiting and
-connection flows</li>
-<li>making long-press actions easier to discover</li>
-<li>improving readability under larger display or text scaling</li>
-</ul>
+<p>The aim is not to claim that freeform drawing is the same for
+everyone. The aim is to make Doodle Tag easier to discover, operate,
+understand, and recover from while preserving the playful drawing
+experience.</p>
 </article>
 </main>
 </body>

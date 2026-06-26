@@ -9,7 +9,6 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
@@ -33,41 +32,30 @@
 <body>
 <main class="doc-shell">
 <h1 class="doc-brand"><span class="brand-blue">doodle</span> <span class="brand-green">tag</span><span class="brand-suffix">user manual</span></h1>
-<article class="doc-panel"><h2 id="canvas-fundamentals">1. Canvas Fundamentals</h2>
+<article class="doc-panel"><p>Doodle Tag is a drawing app built around living lines. A stroke is
+not flattened into paint on a bitmap. It keeps its shape, color, size,
+order, and owner, which is why Doodle Tag can later cut it with the
+Eraser, bend it with Wind, replay it from a recording, share it through
+Together, and undo the operation as a drawing action.</p>
+<p>The app is meant to feel playful, but the rules underneath are
+simple: draw what you want, shape the line objects, and use the menus
+when you need more precision.</p>
+<h2 id="the-canvas">The Canvas</h2>
 <ul>
-<li>Infinite-session style drawing on a fixed paper world with pan and
-zoom.</li>
-<li>Single-tap viewport reset returns to full paper view.</li>
-<li>Long-press viewport reset cycles zoom presets
-(<code>view one</code>, <code>view two</code>) for quick framing.</li>
-<li>Drawing input outside the paper is ignored.</li>
-<li>Undo and redo are personal action stacks. Tap <code>Undo</code> to
-remove your latest undoable drawing/tool action; long-press
-<code>Undo</code> to redo your latest undone action.</li>
-<li>In Glue, each doodler keeps their own undo/redo flow. When one
-doodler undoes or redoes an action, the peer receives the matching
-canvas update for that doodler’s action.</li>
-<li>The Eraser is undoable because it stores the exact line cuts it
-makes: the original affected line geometry, the surviving replacement
-fragments, and the stacking order needed to restore the scene. It only
-affects finalized lines.</li>
-<li>In solo mode, Air Blower actions are undoable as snapshot-backed
-<code>_UndoType.airBlower</code> actions. In Glue, Air Blower commits
-the changed shared canvas as a fresh baseline and clears undo/redo
-history for the shared session.</li>
-<li>Recording playback is a solo-only controlled operation. Completed
-playback adds one snapshot undo action, so undo restores the
-pre-playback canvas and redo restores the fully played playback result.
-Canceling playback restores the canvas that was visible when playback
-started.</li>
+<li>Draw with one finger or Pencil.</li>
+<li>Use two fingers to pan, zoom, and rotate the paper.</li>
+<li>Tap <code>Reset</code> to frame the whole paper again.</li>
+<li>Hold <code>Reset</code> to cycle the fixed zoom stops
+<code>x2</code>, <code>x3</code>, and <code>RESET</code>.</li>
+<li>Drawing outside the paper is ignored.</li>
+<li>Undo is personal: tap <code>Undo</code> for your latest action, hold
+it to redo.</li>
+<li>Restored solo canvases and restored Together canvases start with
+clean undo/redo history.</li>
 </ul>
-<h2 id="main-controls-tap-vs-long-press">2. Main Controls (Tap vs
-Long-Press)</h2>
-<p>Most controls in DoodleTag have two gestures. A normal tap is the
-quick everyday action. A long press means touching and holding the
-control for a moment until its secondary action opens. In practice, most
-buttons are designed with one direct tap behavior and one longer-press
-behavior, so it is worth trying both when learning the app.</p>
+<h2 id="main-controls">Main Controls</h2>
+<p>Most buttons have a quick tap action and, when useful, a hold
+action.</p>
 <table>
 <colgroup>
 <col style="width: 33%" />
@@ -78,819 +66,249 @@ behavior, so it is worth trying both when learning the app.</p>
 <tr>
 <th>Control</th>
 <th>Tap</th>
-<th>Long-Press</th>
+<th>Hold</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Glue</code></td>
-<td>Open the focused Glue process. DoodleTag searches for another
-doodler, connects, and switches to that pair’s shared canvas. If already
-glued, DoodleTag saves the shared pair canvas and returns to solo.
-During the process, the Glue layer blocks drawing and other controls
-until connect/cancel cleanup finishes.</td>
-<td>Forget last glued peer preference</td>
+<td><code>Together</code></td>
+<td>Find another nearby Doodle Tag device and draw on the pair canvas.
+If you are already together, leave and return to your solo canvas.</td>
+<td>Forget the last preferred peer.</td>
 </tr>
 <tr>
 <td><code>Menu Toggle</code></td>
-<td>Open/close the radial menu.</td>
-<td>None</td>
+<td>Open or close the tool menu.</td>
+<td>None.</td>
 </tr>
 <tr>
 <td><code>Undo</code></td>
-<td>Undo your latest undoable action. In Glue, your undo is mirrored to
-the peer as your canvas action.</td>
-<td>Redo your latest undone action</td>
+<td>Undo your latest undoable drawing action.</td>
+<td>Redo your latest undone action.</td>
 </tr>
 <tr>
-<td><code>Clear Canvas</code></td>
-<td>Confirm and clear current doodle.</td>
-<td>While solo: clear saved sessions/snapshots and stored glue-session
-restore data without wiping the current canvas. While glued:
-hold-to-request clear flow</td>
+<td><code>Clear</code></td>
+<td>Confirm and clear the current doodle.</td>
+<td>In solo mode, clear saved sessions and restore data without wiping
+the visible canvas. While together, request a shared clear.</td>
 </tr>
 <tr>
 <td><code>Export</code></td>
-<td>Open the Export sheet: pick an image size preset
-(<code>Small 1024px</code>, <code>Normal 2048px</code>,
-<code>Max 4096px</code>) to save a PNG to Photos in the
-<code>Doodle Tag</code> album, with an optional
-<code>Include grid</code> toggle. When a recording is saved, the sheet’s
-<code>Video</code> section also offers <code>Share last recording</code>
-to render and share the <code>.dtag</code> as an <code>.mp4</code>.</td>
-<td>Share the last saved <code>.dtag</code> recording file directly
-through the system share sheet</td>
+<td>Open <code>Share Drawing</code> for PNG sharing and MP4 sharing from
+the last saved recording.</td>
+<td>Open <code>Export Drawing</code> for saving a PNG to Photos and
+sharing the last <code>.dtag</code> recording file.</td>
 </tr>
 <tr>
-<td><code>Reset View</code></td>
-<td>Reset pan/zoom to full paper.</td>
-<td>Cycle zoom presets</td>
+<td><code>Reset</code></td>
+<td>Return to the full-paper view.</td>
+<td>Cycle zoom stops.</td>
 </tr>
 <tr>
 <td><code>Rainbow</code></td>
-<td>Toggle rainbow drawing mode.</td>
-<td>Open the rainbow color editor</td>
+<td>Turn rainbow drawing on or off.</td>
+<td>Open rainbow color and style editing.</td>
 </tr>
 <tr>
-<td><code>Color/Palette</code></td>
-<td>Open quick palette picker.</td>
-<td>None</td>
+<td><code>Colors</code></td>
+<td>Open the quick color palette.</td>
+<td>Open <code>Pencil</code> setup.</td>
 </tr>
 <tr>
-<td><code>Line Size</code></td>
-<td>Cycle pencil size presets.</td>
-<td>Open <code>Pencil setup</code></td>
+<td><code>Pencil</code> size</td>
+<td>Cycle the active size presets. In Wind, this cycles Wind radius
+presets.</td>
+<td>Open <code>Thickness setup</code>.</td>
 </tr>
 <tr>
 <td><code>Eraser</code></td>
-<td>Toggle eraser mode.</td>
-<td>Open eraser settings dialog</td>
+<td>Turn geometry erasing on or off.</td>
+<td>Open Eraser settings.</td>
 </tr>
 <tr>
-<td><code>Air Blower</code></td>
-<td>Toggle blower mode.</td>
-<td>Open blower settings dialog</td>
+<td><code>Wind</code></td>
+<td>Turn Wind on or off.</td>
+<td>Open Wind settings.</td>
 </tr>
 <tr>
-<td><code>Orthogonal</code></td>
-<td>Toggle directional snapping tool.</td>
-<td>None</td>
+<td><code>Snap</code></td>
+<td>Turn directional snapping on or off.</td>
+<td>None.</td>
 </tr>
 <tr>
-<td><code>Square Grid</code></td>
-<td>Toggle square grid.</td>
-<td>Open grid settings</td>
+<td><code>Grid</code></td>
+<td>Turn the square grid on or off.</td>
+<td>Open grid settings.</td>
 </tr>
 <tr>
-<td><code>Hex Grid</code></td>
-<td>Toggle hex grid.</td>
-<td>Open hex-grid settings</td>
+<td><code>Hex grid</code></td>
+<td>Turn the hex grid on or off.</td>
+<td>Open hex-grid settings.</td>
 </tr>
 <tr>
 <td><code>Recording</code></td>
-<td>Start or stop a recording. Stopping a recording shouts
-<code>RECORDING SAVED</code>.</td>
-<td>Reset the current recording session and remove the current saved
-recording file</td>
+<td>Start or stop a solo recording.</td>
+<td>None.</td>
 </tr>
 <tr>
-<td><code>Welcome Tour (?)</code></td>
-<td>Play the bundled welcome tour recording in read-only mode.</td>
-<td>Reset “tour played” onboarding flag</td>
+<td><code>Alert style</code></td>
+<td>Cycle all alerts, key alerts, and alerts off.</td>
+<td>Reset all tool settings to defaults.</td>
 </tr>
 <tr>
-<td><code>Tool Shouts</code></td>
-<td>Cycle banner modes: <code>all</code>, <code>announce-only</code>,
-<code>off</code>. The button announces the newly selected mode.</td>
-<td>Reset all tool settings to their default values</td>
+<td><code>Dark mode</code></td>
+<td>Toggle dark mode.</td>
+<td>None.</td>
 </tr>
 </tbody>
 </table>
-<h3 id="startup-tool-defaults">2.1 Startup Tool Defaults</h3>
-<p>When DoodleTag starts without saved tool settings, and when tool
-settings are reset from <code>Tool Shouts</code>, the drawing tools
-return to these defaults:</p>
-<table>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr>
-<th>Tool area</th>
-<th>Startup default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Drawing mode</td>
-<td><code>Plain</code> drawing</td>
-</tr>
-<tr>
-<td>Pencil color</td>
-<td>Doodle blue, <code>#2991F5</code></td>
-</tr>
-<tr>
-<td>Pencil cap</td>
-<td>Round</td>
-</tr>
-<tr>
-<td>Pencil setup</td>
-<td><code>medium</code>, <code>100 px</code></td>
-</tr>
-<tr>
-<td>Pencil size presets</td>
-<td><code>extra thin</code> <code>12 px</code>, <code>thin</code>
-<code>25 px</code>, <code>normal</code> <code>50 px</code>,
-<code>medium</code> <code>100 px</code>, <code>big</code>
-<code>180 px</code></td>
-</tr>
-<tr>
-<td>Remembered size contexts</td>
-<td>Normal drawing, square-grid snap drawing, hex-grid snap drawing,
-eraser, rainbow, rainbow square-grid snap, and rainbow hex-grid snap all
-start at <code>100 px</code></td>
-</tr>
-<tr>
-<td>Quick palette</td>
-<td>Opens on the <code>Palette</code> tab; pinned quick colors include
-Doodle blue <code>#2991F5</code>, Tag green <code>#10CD55</code>, white,
-and black</td>
-</tr>
-<tr>
-<td>Outline</td>
-<td>Off at startup; when selected, the outline starts with a round cap,
-a border <code>40%</code> darker than the Pencil color, and a
-<code>17%</code> border width</td>
-</tr>
-<tr>
-<td>Rainbow</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Rainbow style</td>
-<td><code>Normal</code></td>
-</tr>
-<tr>
-<td>Rainbow segment length</td>
-<td><code>2.0 cm</code></td>
-</tr>
-<tr>
-<td>Rainbow palette</td>
-<td>Red, orange, yellow, green, blue, purple</td>
-</tr>
-<tr>
-<td>Orthogonal snap</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Square grid</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Square-grid spacing</td>
-<td><code>168 px</code></td>
-</tr>
-<tr>
-<td>Square-grid inclination</td>
-<td><code>0°</code></td>
-</tr>
-<tr>
-<td>Square-grid display</td>
-<td><code>Normal</code> lines</td>
-</tr>
-<tr>
-<td>Hex grid</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Hex-grid cell size</td>
-<td><code>96 px</code></td>
-</tr>
-<tr>
-<td>Hex-grid display</td>
-<td><code>Normal</code> lines</td>
-</tr>
-<tr>
-<td>Eraser</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Eraser strength</td>
-<td><code>7.4x</code>, using the default <code>100 px</code> eraser base
-width for an effective erase width of <code>740 px</code></td>
-</tr>
-<tr>
-<td>Air Blower</td>
-<td>Off at startup</td>
-</tr>
-<tr>
-<td>Air Blower radius</td>
-<td><code>520 px</code></td>
-</tr>
-<tr>
-<td>Air Blower strength profile</td>
-<td>Gentle</td>
-</tr>
-<tr>
-<td>Air Blower kind</td>
-<td><code>Displace</code></td>
-</tr>
-<tr>
-<td>Tool Shouts</td>
-<td><code>all</code> banners enabled</td>
-</tr>
-</tbody>
-</table>
-<h2 id="glue-collaborative-canvas">3. Glue (Collaborative Canvas)</h2>
-<p>Glue is DoodleTag’s shared drawing mode. It connects two devices into
-one live session so both people work on the same collaborative scene.
-The <code>pair canvas</code> means the shared canvas that belongs to
-that exact pair of devices. It is separate from each device’s solo
-canvas, so entering Glue does not overwrite your private drawing.</p>
-<h3 id="glue-rules">3.1 Glue Rules</h3>
+<h2 id="drawing-tools">Drawing Tools</h2>
+<h3 id="pencil-and-colors">Pencil and Colors</h3>
+<p><code>Colors</code> opens fast swatches, a color wheel, brightness
+controls, and recent colors. White and black stay pinned so they are
+easy to return to.</p>
+<p><code>Pencil</code> setup controls drawing size and drawing style.
+<code>Plain</code> is normal drawing. <code>Outline</code> draws a
+filled stroke with a border; the selected size is the outside size, so
+Plain and Outline at the same size occupy the same footprint.</p>
+<p>Each tool context remembers its own size. A thin Plain pencil, a wide
+Eraser, a bold Rainbow, and a broad Wind radius do not overwrite each
+other when you switch tools.</p>
+<h3 id="rainbow">Rainbow</h3>
+<p>Rainbow lays color along the distance of the stroke, not by time.
+Drawing the same path slowly or quickly keeps the same ordered color
+stream along that path.</p>
+<p>Rainbow styles:</p>
 <ul>
-<li>Glue is one-to-one: one active peer at a time.</li>
-<li>Each device pair has its own persistent shared canvas.</li>
-<li>Entering Glue saves/parks the current solo canvas locally and
-switches to the pair canvas for the connected device pair.</li>
-<li>Glue always shows the pair canvas for that specific pair.</li>
-<li>Leaving Glue saves the pair canvas and restores the solo
+<li><code>Normal</code>: a continuous changing color stream.</li>
+<li><code>Pop</code>: stronger color changes along the stroke.</li>
+<li><code>Lanes</code>: parallel color lanes.</li>
+<li><code>3D Lanes</code>: a lane mode where each color keeps a fixed
+offset from the centerline.</li>
+</ul>
+<p>Hold <code>Rainbow</code>, or tap <code>Colors</code> while Rainbow
+is active, to edit the six rainbow palette slots and style controls.</p>
+<h3 id="eraser">Eraser</h3>
+<p>The Eraser cuts stored line geometry. It does not paint with the
+paper color.</p>
+<p>A drag becomes a chain of cuts. On long lines, the cut usually leaves
+smaller surviving pieces on either side. On short fragments, the whole
+fragment may disappear. Multi-lane rainbow strokes are cut as one
+coordinated bundle so their lanes stay together.</p>
+<p>Eraser edits are undoable because Doodle Tag records the affected
+lines, the replacement fragments, and the scene order needed to put
+everything back.</p>
+<h3 id="wind">Wind</h3>
+<p>Wind is the playful shaping tool. It works on solo drawings and is
+disabled while drawing together.</p>
+<p>The Wind settings choose a radius and one of three modes:</p>
+<ul>
+<li><code>Wind</code>: bends and pushes nearby line geometry.</li>
+<li><code>Vortex</code>: removes nearby pieces more aggressively.</li>
+<li><code>Color</code>: blends nearby stroke colors toward the local
+mix.</li>
+</ul>
+<p>Tap or drag on the canvas to apply the current Wind mode. Repeated
+hits in the same area can also remove nearby pieces. Solo Wind actions
+are undoable.</p>
+<h3 id="snap-and-grids">Snap and Grids</h3>
+<p><code>Snap</code> constrains drawing direction. With no grid, it
+snaps to straight orthogonal directions. With <code>Grid</code>, it
+follows the square or inclined grid. With <code>Hex grid</code>, it
+follows hex-edge directions.</p>
+<p><code>Grid</code> and <code>Hex grid</code> are mutually exclusive.
+Eraser can work while a grid remains visible. Wind turns grids and Snap
+out of the active tool set when needed.</p>
+<h2 id="together">Together</h2>
+<p>Together is Doodle Tag’s one-to-one shared drawing mode. It connects
+two devices on the local network and opens the canvas that belongs to
+that exact pair.</p>
+<ul>
+<li>Your solo canvas is parked locally when you enter Together.</li>
+<li>The pair canvas is separate from both solo canvases.</li>
+<li>Leaving Together saves the pair canvas and restores your solo
 canvas.</li>
-<li>If the pair has no saved shared canvas yet, Glue starts from a blank
-shared canvas for that pair.</li>
-<li>If the same two devices Glue again later, DoodleTag restores their
-previous shared pair canvas.</li>
-<li>Undo/redo history does not travel between solo and Glue canvases.
-After DoodleTag restores a solo or pair canvas, undo/redo starts clean
-for that restored canvas.</li>
+<li>Reconnecting the same two devices brings back that pair canvas.</li>
+<li>Each doodler keeps their own undo/redo flow.</li>
+<li><code>Recording</code> and <code>Wind</code> are disabled while
+drawing together.</li>
+<li>PNG export remains available while together; recording sharing and
+video sharing are blocked from the recording rows.</li>
 </ul>
-<h3 id="the-glue-process-layer">3.2 The Glue Process Layer</h3>
-<p>When you tap <code>Peers</code>, DoodleTag opens a Glue process
-layer. This layer may appear only briefly if Glue connects quickly.</p>
-<p>The layer shows simple, readable progress messages such as:</p>
-<pre class="text"><code>Searching for doodlers...
-Found Tycho Nokia G42 5G
-Dialing Tycho Nokia G42 5G...
-Receiving a doodler...
-Connected with Tycho Nokia G42 5G
-Restoring your shared drawing...
-Shared drawing restored.</code></pre>
-<p>While this layer is visible, DoodleTag blocks other actions that
-could interfere with the Glue operation.</p>
-<h3 id="canceling-glue">3.3 Canceling Glue</h3>
-<p>The Glue process layer has its own <code>Cancel</code> button.</p>
-<p>Cancel does not dismiss the layer instantly. After pressing
-<code>Cancel</code>, DoodleTag must finish the cleanup first. During
-cleanup, the layer may show messages such as:</p>
-<pre class="text"><code>Canceling glue...
-Saving shared drawing...
-Returning to your canvas...</code></pre>
-<p>Only after cleanup has finished does the layer disappear and unlock
-the rest of the app.</p>
-<h3 id="glue-needs-attention">3.4 Glue Needs Attention</h3>
-<p>If the layer says <code>Glue needs attention</code>, the Glue process
-hit a real connection or cleanup problem and needs the user to let it
-finish or press <code>Cancel</code>.</p>
-<p>This state is meant for explicit problems such as:</p>
+<p>The Together process may show messages such as looking for doodlers
+nearby, connecting, restoring the shared drawing, or returning to your
+own canvas. While that layer is working, other controls are locked so
+the connection, restore, or cleanup can finish cleanly.</p>
+<p>Hold <code>Clear</code> while together to request a shared clear. The
+peer sees <code>CLEAR REQUESTED</code> while you keep holding.</p>
+<h2 id="recording-and-playback">Recording and Playback</h2>
+<p>Recording is solo-only.</p>
+<p>Tap <code>Recording</code> to start. Doodle Tag opens
+<code>Record your drawing</code>; if you start, the recording begins on
+a blank canvas. Tap the red button again to stop. The recorded drawing
+stays on the canvas, the <code>.dtag</code> file is saved, and one undo
+takes you back to the canvas that existed before the recording
+started.</p>
+<p>Saved recordings can be:</p>
 <ul>
-<li>the connection could not be made</li>
-<li>the network/socket failed</li>
-<li>Glue startup / cleanup failed</li>
+<li>replayed inside Doodle Tag</li>
+<li>shared as a <code>.dtag</code> file</li>
+<li>rendered and shared as an MP4</li>
+<li>opened from supported Android and iOS file flows</li>
 </ul>
-<h3 id="glue-behavior-and-restore">3.2 Glue Behavior and Restore</h3>
+<p>Playback starts from a blank canvas and is read-only while it runs.
+<code>Skip</code> jumps to the end. <code>Cancel</code> restores the
+canvas that was visible before playback. A completed playback is one
+undoable snapshot action.</p>
+<h2 id="export-and-sharing">Export and Sharing</h2>
+<p>Tap <code>Export</code> for <code>Share Drawing</code>. Hold
+<code>Export</code> for <code>Export Drawing</code>.</p>
+<p>Image presets:</p>
 <ul>
-<li>Device discovery/connection for shared drawing sessions.</li>
-<li>Auto-glue session restoration and reconnect behavior with
-peer/session memory where applicable.</li>
-<li>Each device pair has its own shared canvas snapshot, and the same
-pair restores that shared canvas on reconnect.</li>
-<li>Entering Glue preserves the local solo canvas in a separate restore
-slot instead of merging solo and shared history.</li>
-<li>Leaving Glue saves the pair snapshot and restores the solo
-snapshot.</li>
-<li>Snapshot metadata/data exchange keeps peers converged on the newest
-shared state and avoids stale overwrites.</li>
-<li>Long-pressing <code>Peers</code> forgets the last preferred peer
-without deleting snapshots.</li>
+<li><code>Mini 1024px</code></li>
+<li><code>Normal 2048px</code></li>
+<li><code>Max 4096px</code></li>
 </ul>
-<h2 id="drawing-and-color-features">4. Drawing and Color Features</h2>
+<p>Both forms have an <code>Include grid</code> toggle for PNG output.
+Every PNG carries a small Doodle Tag watermark and is written to the app
+export folder; the export form also saves it to the
+<code>Doodle Tag</code> Photos album.</p>
+<p>Video sharing uses the last saved <code>.dtag</code> recording:</p>
 <ul>
-<li>DoodleTag stores drawing as vector lines and segments. Each mark
-keeps its own geometry, point path, line size, cap, color, and stacking
-order instead of being flattened into one bitmap.</li>
-<li>In practice, this means every piece of the drawing remains a
-structured part of the scene. Zoom stays clean, Glue can synchronize
-authored lines, playback can replay recorded drawing actions, undo can
-restore individual operations, and tools like the Eraser or Air Blower
-can affect line geometry without reducing the whole canvas to one merged
-image.</li>
-<li>Compared with simpler drawing apps where marks are treated more like
-immediate screen output, DoodleTag keeps the drawing as a live
-composition of line objects. That is why the same authored drawing can
-be restored, replayed, shared, cut, moved, recolored, or re-layered
-through later tools and sessions.</li>
-<li>Standard freehand drawing with pencil size presets and a precise
-size slider.</li>
-<li>Pencil/tool size is not one global number that every tool shares.
-Each supported tool/context carries its own remembered size, and
-switching away does not overwrite the sizes you previously chose
-elsewhere.</li>
-<li>The practical rule is: when you return to a tool/context, DoodleTag
-restores the last size that belonged to that same tool/context.</li>
-<li>This preserves tool feel. A tool that makes sense as delicate can
-stay delicate, while a tool that makes sense as broad can stay broad,
-without forcing you to re-tune size every time you switch.</li>
-<li>The remembered size contexts currently documented in the product
-are:
-<ul>
-<li>normal drawing</li>
-<li>drawing with orthogonal square-grid snapping</li>
-<li>drawing with orthogonal hex-grid snapping</li>
-<li>eraser</li>
-<li>rainbow</li>
-<li>rainbow with orthogonal square-grid snapping</li>
-<li>rainbow with orthogonal hex-grid snapping</li>
-</ul></li>
-<li>Example: set normal drawing to <code>extra thin</code>, switch to
-the Eraser and make it much wider, then switch back to normal drawing.
-Normal drawing comes back at its own thin width; it does not inherit the
-Eraser’s width.</li>
-<li>Example: set the Eraser to a narrow erase width, switch to normal
-drawing and make the Pencil large, then switch back to the Eraser. The
-Eraser comes back with its own remembered erase width.</li>
-<li>Example: set Rainbow to a bold width for expressive color lines,
-then switch to normal drawing and keep that Pencil narrow for sketch
-details. Returning to Rainbow brings back the bold Rainbow width instead
-of the narrow sketch width.</li>
-<li>Example: set orthogonal square-grid drawing to a thin guide-line
-width, then switch to freehand drawing or the Eraser and use thicker
-marks there. Returning to orthogonal square-grid drawing restores the
-thin guide-line width that belonged to that snapped context.</li>
-<li>Example: set orthogonal hex-grid drawing to one width and orthogonal
-square-grid drawing to another. Those snapped contexts can keep
-different remembered widths, so moving between them does not force one
-grid mode to borrow the other’s size.</li>
-<li>Example: rainbow freehand, rainbow orthogonal square-grid, and
-rainbow orthogonal hex-grid can each keep different remembered widths.
-Returning to one of those rainbow contexts restores that context’s own
-last width rather than reusing the last rainbow-related width from
-somewhere else.</li>
-<li>In short: each supported tool/context carries its own size memory,
-so switching tools feels like resuming that exact mode rather than
-reconfiguring a single shared Pencil setting.</li>
-<li>Quick palette includes:
-<ul>
-<li><code>Palette</code> tab for fast swatch picks.</li>
-<li><code>Wheel</code> tab for continuous color selection.</li>
-<li>Recent color history integration.</li>
-</ul></li>
-<li><code>Pencil setup</code> opens from long-pressing
-<code>Line Size</code>.</li>
-<li><code>Pencil setup</code> controls the current pencil/tool size with
-a slider and the same preset values used by the quick tap.</li>
-<li>The <code>Plain</code> and <code>Outline</code> choices inside
-<code>Pencil setup</code> are tool selectors:
-<ul>
-<li><code>Plain</code> selects normal drawing.</li>
-<li><code>Outline</code> selects <code>Outline Pencil</code>.</li>
-<li>Selecting <code>Outline</code> deselects Rainbow, Eraser, and Air
-Blower for drawing.</li>
-<li>If <code>Pencil setup</code> opens while another tool is active and
-<code>Outline</code> is selected temporarily, selecting
-<code>Plain</code> in that same open form returns to the tool that was
-active when the form opened.</li>
-<li><code>Outline</code> is selected only while
-<code>Outline Pencil</code> is the active drawing tool.</li>
-<li>Tool Shouts announce selector choices, such as
-<code>OUTLINE PENCIL!</code>, <code>DRAW</code>, or the restored tool
-name.</li>
-</ul></li>
-<li>In <code>Outline Pencil</code>, the selected size is the final
-outside size of the mark. Border size is taken out of the inside fill,
-so <code>Plain</code> and <code>Outline</code> at the same size keep the
-same overall footprint.</li>
-<li>The quick palette stays focused on color editing:
-<ul>
-<li>In <code>Plain</code>, the palette and wheel edit the main pencil
-color.</li>
-<li>In <code>Outline Pencil</code>, the inside color comes from the
-current plain pencil color.</li>
-<li>In <code>Outline Pencil</code>, tap the bordered preview circle to
-switch which color you are editing: one tap selects the inside color,
-the next tap selects the outer border, and so on.</li>
-<li>In <code>Outline Pencil</code>, the palette, wheel, and history edit
-whichever part of that preview is currently selected.</li>
-<li>When you change the inside color, DoodleTag automatically uses the
-default outline tuning: a <code>40%</code> darker border with a
-<code>17%</code> border size.</li>
-</ul></li>
-<li>Rainbow color editing is opened from the <code>Rainbow</code> tool
-path, or by tapping <code>Color/Palette</code> while Rainbow is active.
-The Rainbow color editor keeps Rainbow selected.</li>
-<li>Closing the quick palette does not switch tools.</li>
-<li>Recent-color behavior is stable (reselecting colors does not
-unexpectedly delete history entries).</li>
-<li>Blue/green pair colors are used only for first-time Glue defaults;
-user-selected colors remain user-owned.</li>
+<li><code>Mini 360p</code></li>
+<li><code>Normal 720p</code></li>
+<li><code>Max 1440p</code></li>
 </ul>
-<h2 id="tool-interactions-and-exclusivity">5. Tool Interactions and
-Exclusivity</h2>
+<p><code>Mini 360p</code> MP4 sharing is available to everyone.
+<code>Normal</code> and <code>Max</code> video presets require supporter
+access. Video is rendered on the device, so speed and smoothness depend
+on the phone or tablet.</p>
+<h2 id="resets-and-defaults">Resets and Defaults</h2>
+<p>Tool settings persist across launches. Holding
+<code>Alert style</code> opens the reset flow for tool-facing state:
+colors, sizes, Rainbow settings, Eraser settings, Wind settings, grid
+settings, and alert mode.</p>
+<p>Useful defaults:</p>
 <ul>
-<li><code>Square Grid</code> and <code>Hex Grid</code> are mutually
-exclusive.</li>
-<li><code>Eraser</code>, <code>Air Blower</code>, and
-<code>Orthogonal</code> are mutually exclusive in direct tool
-toggles.</li>
-<li>Enabling <code>Rainbow</code> turns off incompatible tools where
-needed and keeps rainbow-specific line behavior active.</li>
-<li>Orthogonal snapping behavior depends on guides:
-<ul>
-<li>If square grid is active: snaps to grid-aligned orthogonal
-directions.</li>
-<li>If hex grid is active: snaps along hex-edge directions.</li>
-<li>If no grid is active: snaps to orthogonal directions in free
-space.</li>
-</ul></li>
+<li>Plain drawing starts in Doodle blue at <code>100 px</code>.</li>
+<li>Rainbow lane contexts start wider for expressive ribbons.</li>
+<li>Eraser starts as a broad geometry cutter.</li>
+<li>Wind starts with a large radius and can be tuned from
+<code>100 px</code> to <code>800 px</code>.</li>
+<li>The quick palette starts with Doodle blue, Tag green, white, and
+black.</li>
 </ul>
-<h2 id="rainbow-tool">6. Rainbow Tool</h2>
-<ul>
-<li>Toggle rainbow on/off directly from the menu.</li>
-<li><code>Normal</code> rainbow follows a toothpaste-style model: colors
-are stored in a fixed internal sequence and come out from the point
-where the line starts. Reversing the draw direction remaps those colors
-around the shape instead of preserving the same edge-to-color
-assignment.</li>
-<li>Rainbow color progression is distance-based, not time-based. Moving
-faster or slower over the same path does not change the internal color
-order; it only changes how quickly that ordered color stream is laid
-down along the path.</li>
-<li>Styles:
-<ul>
-<li><code>Normal</code></li>
-<li><code>Pop</code></li>
-<li><code>Lanes</code></li>
-</ul></li>
-<li>Segment length is adjustable with step controls for
-<code>Normal</code> and <code>Pop</code>; it is disabled for
-<code>Lanes</code>.</li>
-<li>Palette control:
-<ul>
-<li>Six editable rainbow palette slots.</li>
-<li><code>Reset</code> to default rainbow palette.</li>
-<li>Uses the dedicated rainbow color editor.</li>
-<li>Long-press <code>Rainbow</code>, or tap <code>Color/Palette</code>
-while Rainbow is active, to tune Rainbow colors without leaving
-Rainbow.</li>
-</ul></li>
-<li><code>Lanes</code> style supports lane-aware turning/join behavior
-and ongoing geometry refinements.</li>
-<li>Rainbow settings persist across app restarts.</li>
-</ul>
-<h2 id="eraser">7. Eraser</h2>
-<ul>
-<li>Toggle the eraser and erase by dragging/tapping across lines.</li>
-<li>The Eraser is geometry-based: it does not paint transparent pixels
-over the canvas. Instead, it traces your erase path through the stored
-line geometry and cuts intersected line segments out of the scene.</li>
-<li>In practice, each erase move is treated as a short line segment, and
-the full drag becomes a chain of segment cuts. A tap works like a tiny
-centered cut at that point.</li>
-<li>Eraser settings are configurable via the long-press settings
-dialog.</li>
-<li>Eraser size controls the visible eraser band, the narrow hit area
-used to decide which line geometry is touched, and the maximum gap the
-eraser can cut.</li>
-<li>Eraser strength controls how much of that selected size is applied
-after a hit.</li>
-<li>Higher eraser strength uses the full selected eraser size, so a
-small eraser remains a small precision cut even at high strength.</li>
-<li>Lower eraser strength cuts a smaller gap inside the selected size
-for finer trimming.</li>
-<li>On long lines or large shapes, the eraser usually splits the
-original line into smaller surviving pieces on either side of the
-removed gap.</li>
-<li>On short segments or tiny fragments, the removed gap can consume the
-whole remaining piece, so that fragment disappears entirely instead of
-being split into even smaller parts.</li>
-<li>Because the Eraser works on stored line geometry, the surviving
-pieces remain normal vector lines: they still participate in zoom,
-replay, Glue sync, and later editing instead of becoming flattened
-bitmap damage.</li>
-<li>The Eraser preserves stacking by replacing affected lines with the
-resulting cut pieces in the same scene position, so later overlapping
-content continues to layer consistently.</li>
-<li>Multi-lane rainbow lines are erased as one coordinated lane bundle,
-so sibling lanes break together instead of each lane being cut
-independently.</li>
-<li>Eraser undo/redo is based on the exact line transformation: the app
-records the original affected line geometry, the replacement fragments
-that survive the cut, and the archive-order data needed to restore
-stacking on undo and redo.</li>
-<li>Undoing an erase removes the replacement fragments and restores the
-original affected lines. Redoing the erase removes the restored
-originals and brings back the cut fragments.</li>
-<li>The Eraser works only on finalized stored lines. In-progress active
-lines are allowed to finish before they can participate in later
-geometry erasing.</li>
-<li>Long erases show a progress overlay.</li>
-<li>Canceling a progress erase restores the canvas state from the start
-of that erase gesture.</li>
-</ul>
-<h2 id="air-blower">8. Air Blower</h2>
-<ul>
-<li>Toggle blower mode for playful line displacement, removal, and
-color-mixing effects.</li>
-<li>Long-press settings include:
-<ul>
-<li>Radius</li>
-<li>Strength profile</li>
-<li>Kind:
-<ul>
-<li><code>Displace</code></li>
-<li><code>Vortex Remove</code></li>
-<li><code>Mix Colors</code></li>
-</ul></li>
-</ul></li>
-<li>In solo mode, Air Blower actions are undoable as snapshot-backed
-<code>_UndoType.airBlower</code> actions.</li>
-<li>In Glue or remote application, Air Blower commits the changed shared
-canvas as the current undo/redo baseline for that shared session.</li>
-<li>In Glue, an Air Blower baseline commit clears the shared undo/redo
-history before later shared actions begin a fresh chain.</li>
-<li>Tap and drag blower gestures both follow the same split rule: solo
-gestures remain undoable, while Glue drag gestures commit one
-shared-session baseline when the gesture completes.</li>
-<li>Hotspot zap erasures count as Air Blower canvas changes, so they
-participate in the same solo-undo vs Glue-baseline rule.</li>
-<li>Remote/glued playback applies blower actions consistently on both
-devices.</li>
-</ul>
-<h2 id="recording-system">9. Recording System</h2>
-<h3 id="recording-and-sharing">9.1 Recording and Sharing</h3>
-<ul>
-<li>While solo, tapping the recording control while idle first opens
-<code>Record your drawing</code>.</li>
-<li>While glued and connected, recording starts only when both peers
-hold <code>REC</code> together; the solo recording form does not appear
-in that shared flow.</li>
-<li>Starting a recording snapshots the current canvas, clears it to
-blank for recording, and restores the previous canvas when the recording
-ends.</li>
-<li>Once recording starts, your drawing is captured on a blank
-canvas.</li>
-<li>Recording captures:
-<ul>
-<li>Finger-driven drawing/tool events</li>
-<li>Tool setup at the moment of use</li>
-<li>Timeline events</li>
-<li>Viewport metadata</li>
-</ul></li>
-<li>Stopping a recording saves that finished <code>.dtag</code>
-recording file in the Doodle Tag folder, restores the canvas that was
-visible before recording began, and reports that the recording was
-saved.</li>
-<li>Once a recording has been saved, the Export sheet’s
-<code>Video</code> section offers <code>Share last recording</code>,
-which renders the last saved <code>.dtag</code> into an
-<code>.mp4</code> on the device before opening the system share
-sheet.</li>
-<li>Long-pressing the <code>Export</code> button skips the sheet and
-shares the last saved <code>.dtag</code> recording file directly through
-the system share sheet. With no recording saved, this shouts
-<code>NO RECORDING SAVED</code>.</li>
-<li>Video export shows a progress form with a <code>Cancel</code>
-button. Canceling stops the export and removes any temporary frame/video
-files created for that attempt.</li>
-<li>Recorded <code>.dtag</code> files are saved with their canonical
-file name directly in the Doodle Tag folder.</li>
-<li>While recording, your drawing stays in step with what you are
-shaping on screen: keep what you like, roll back what you do not, and
-continue refining before you stop.</li>
-<li>Playback focuses on the finished drawing you crafted, without
-turning playback into a visible sequence of backstage corrections.</li>
-<li><code>Clear Canvas</code> is disabled while recording so the drawing
-remains a pure event stream without canvas reset events.</li>
-<li>Export/share flow produces <code>.dtag</code> recording files.</li>
-</ul>
-<h3 id="recording-file-format-and-compatibility">9.2 Recording File
-Format and Compatibility</h3>
-<ul>
-<li><code>.dtag</code> uses password-protected ZIP packaging
-(<code>Doodle Tag</code>) with compatibility handling for legacy
-payloads.</li>
-<li>Playback supports bundled assets, local files, and deep-link driven
-downloads.</li>
-</ul>
-<h3 id="playback-behavior">9.3 Playback Behavior</h3>
-<ul>
-<li>Recording playback is globally locked to one active playback at a
-time.</li>
-<li>Playback runs through a read-only long-task UI.</li>
-<li>Playback starts from a blank canvas and resets the view so the saved
-drawing replays on its own.</li>
-<li>User controls during playback:
-<ul>
-<li><code>Skip</code> fast-forwards to the end of the recording.</li>
-<li><code>Cancel</code> restores the canvas that was visible when
-playback started.</li>
-</ul></li>
-<li>Skip/cancel reset viewport framing consistently.</li>
-<li>When playback completes, the fully played drawing is added as one
-undoable snapshot playback result. Undo restores the pre-playback
-canvas, and redo restores the fully played recording result.</li>
-</ul>
-<h2 id="welcome-tour">10. Welcome Tour</h2>
-<ul>
-<li>Dedicated <code>?</code> utility button launches the bundled welcome
-tour recording.</li>
-</ul>
-<h2 id="import-deep-links-and-file-handling">11. Import, Deep Links, and
-File Handling</h2>
-<ul>
-<li>OS-level <code>.dtag</code> opening support on Android and iOS.</li>
-<li>DoodleTag recordings are saved as <code>.dtag</code> files.</li>
-<li>On iPhone and iPad, <code>.dtag</code> files can be opened with
-DoodleTag through supported file flows such as the Files app.</li>
-<li>Not all apps handle <code>.dtag</code> attachments in the same way.
-Some apps, such as Files, can pass the file to DoodleTag directly.
-Others, such as some messaging apps, may keep the file inside their own
-preview or sharing interface.</li>
-<li>If a <code>.dtag</code> file does not open directly from a messaging
-app, try saving it to Files or sharing it from there into
-DoodleTag.</li>
-<li>On iPhone and iPad, that recording folder appears in Files as
-<code>On My iPhone &gt; Doodle Tag</code>.</li>
-<li>On Android, recordings are saved in
-<code>Download/Doodle Tag</code>.</li>
-</ul>
-<h2 id="export-and-long-tasks">12. Export and Long Tasks</h2>
-<ul>
-<li>Tap <code>Export</code> to open the Export bottom sheet. The sheet
-has:
-<ul>
-<li>An <code>Include grid</code> toggle (off by default) that controls
-whether the active grid is rendered into the exported PNG.</li>
-<li>Three size presets that immediately start the image export when
-tapped: <code>Small (1024px)</code>, <code>Normal (2048px)</code>,
-<code>Max (4096px)</code>.</li>
-<li>A <code>Video</code> section that, when a saved recording exists,
-offers <code>Share last recording</code> to render that recording into
-an <code>.mp4</code>. When no recording exists, the section shows
-<code>No recording saved yet</code>.</li>
-</ul></li>
-<li>Image export saves the PNG to the device Photos library under the
-<code>Doodle Tag</code> album and also writes a copy into the app’s
-<code>exports/</code> folder. The export adds a small Doodle Tag
-watermark to the image.</li>
-<li>Dismiss the sheet by tapping outside it; size-preset and
-<code>Share last recording</code> taps start their action
-immediately.</li>
-<li>Export uses controlled progress flows to avoid partial/interrupted
-output.</li>
-<li>Long-running operations use shared long-task overlay patterns for
-consistent UX.</li>
-<li>Long-task surfaces are integrated with the bottom menu replacement
-when applicable to reduce canvas obstruction.</li>
-</ul>
-<h3 id="video-export-expectations">12.1 Video Export Expectations</h3>
-<ul>
-<li>Video export is intentionally light and playful rather than a
-production-grade rendering system.</li>
-<li>The MP4 is produced on the device itself, so results depend on the
-platform and the specific phone or tablet doing the work.</li>
-<li>Android and iPhone do not use the same native encoder stack, so the
-result will be different.</li>
-<li>Encoding can fail on some devices or for some recordings even when
-playback itself works correctly.</li>
-<li>Video smoothness is influenced by device CPU performance, so older
-or weaker devices may produce less fluid results.</li>
-<li>Use recording video export as a <code>for fun only</code> sharing
-feature.</li>
-</ul>
-<h2 id="persistence-and-restore">13. Persistence and Restore</h2>
-<ul>
-<li>Persisted settings include:
-<ul>
-<li>Color, size, cap</li>
-<li>Per-tool/per-context size memory so each drawing mode can return to
-its own preferred feel</li>
-<li>Recent colors</li>
-<li>Grid/hex parameters</li>
-<li>Rainbow settings</li>
-<li>eraser/blower/tool toggles and related parameters</li>
-<li>Shout banner preference</li>
-<li>Glue preferences, session linkage, and per-peer shared canvas
-restore data</li>
-</ul></li>
-</ul>
-<h2 id="reset-and-recovery-actions">14. Reset and Recovery Actions</h2>
-<ul>
-<li>DoodleTag reset actions are split by domain so you can clear only
-the part you mean to reset.</li>
-</ul>
-<h3 id="reset-all-tool-settings">14.1 Reset All Tool Settings</h3>
-<ul>
-<li>Long-press the <code>Tool Shouts</code> megaphone button.</li>
-<li>This opens <code>Reset all tool settings?</code>.</li>
-<li>It restores default values for tool-facing state such as:
-<ul>
-<li>Pencil/tool size values</li>
-<li>palette-related tool settings</li>
-<li>rainbow settings</li>
-<li>eraser / air blower settings</li>
-<li>grid / hex-grid settings</li>
-<li>shout-banner mode</li>
-</ul></li>
-<li>It is the closest thing to “reset my tools back to defaults”.</li>
-<li>It does not clear saved recording files, onboarding flags, or saved
-session/snapshot files.</li>
-</ul>
-<h3 id="clear-saved-sessions-and-snapshot-restore-data">14.2 Clear Saved
-Sessions and Snapshot Restore Data</h3>
-<ul>
-<li>While not glued, long-press <code>Clear Canvas</code>.</li>
-<li>This opens the saved-session clearing confirmation flow.</li>
-<li>It deletes the persisted snapshot/session storage used for:
-<ul>
-<li>latest solo canvas restore</li>
-<li>parked solo restore snapshot</li>
-<li>saved per-peer Glue pair canvases</li>
-<li>stored Glue session restore metadata/preferences</li>
-</ul></li>
-<li>It keeps the current live canvas intact and only removes the stored
-restore/session data.</li>
-<li>After the wipe, DoodleTag shouts
-<code>GLUE SESSIONS CLEARED</code>.</li>
-<li>Use this when you intentionally want to remove remembered
-canvas/session state, including saved shared pair canvases, not just
-erase what is currently visible.</li>
-</ul>
-<h3 id="reset-welcome-tour-onboarding">14.4 Reset Welcome Tour
-Onboarding</h3>
-<ul>
-<li>Long-press the <code>Welcome Tour (?)</code> button.</li>
-<li>This clears the “tour already played” flag.</li>
-<li>Use it when you want the welcome tour to be eligible again like a
-first-run onboarding prompt.</li>
-<li>This does not change drawing tools, snapshots, or recording
-storage.</li>
-</ul>
-<h3 id="undoredo-recovery-boundaries">14.5 Undo/Redo Recovery
-Boundaries</h3>
-<ul>
-<li>Undo and redo are meant for recent personal drawing and geometry
-edits.</li>
-<li>Eraser actions are undoable because they store the exact line cuts
-they made, including the replacement fragments and the stacking order
-needed to restore the scene.</li>
-<li>Completed recording playback stays undoable as one snapshot
-operation, with undo restoring the pre-playback canvas and redo
-restoring the fully played result.</li>
-<li>Restoring a solo canvas or Glue pair canvas also starts with clean
-undo/redo history for that restored canvas.</li>
-</ul>
-<h2 id="current-ux-notes">15. Current UX Notes</h2>
-<ul>
-<li>Main menu and utility controls expose accessibility labels, and the
-compact top-right utility buttons keep a larger effective tap target
-than their visible size.</li>
-<li>Tool shout banners use a 3-level megaphone control:
-<code>all banners</code>, <code>announce-only</code>, and
-<code>silent</code>.</li>
-<li>Selecting a tool now emits an announcing banner using the same shout
-surface as live tool usage.</li>
-<li>Toggle-style tools announce explicit state labels such as
-<code>GRID ON</code>, <code>GRID OFF</code>, <code>HEX GRID ON</code>,
-<code>RAINBOW ON</code>, and <code>ORTHO SNAP OFF</code>.</li>
-<li>Rainbow announcements are style-aware and distinguish
-<code>RAINBOW</code>, <code>POP RAINBOW</code>, and
-<code>LANES RAINBOW</code>.</li>
-<li>Tool shout banners are uppercase-normalized at render time.</li>
-<li>Welcome tour and playback surfaces share behavior and controls.</li>
-<li>Some internal diagnostics overlays exist for development/testing and
-are not part of regular drawing workflows.</li>
-</ul>
+<p>Holding <code>Clear</code> while solo clears saved session and
+restore data, including remembered Together pair canvases, without
+clearing the canvas currently on screen.</p>
+<h2 id="accessibility-and-feedback">Accessibility and Feedback</h2>
+<p>Main controls expose accessibility labels and short hints. Alerts use
+the same banner surface for tool changes, disabled actions, recording
+status, and Together status. <code>Alert style</code> lets you choose
+all alerts, key alerts, or silence.</p>
+<p>The app is still a visual drawing tool, but labels, confirmations,
+progress layers, and undo boundaries are designed to make the control
+surface understandable without memorizing hidden modes.</p>
 </article>
 </main>
 </body>
