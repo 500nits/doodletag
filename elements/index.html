@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Doodle Tag Elements</title>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
   <style>
     :root {
       --blue: #2991f5;
@@ -32,8 +33,9 @@
     h1 {
       margin: 0 0 8px;
       font-size: clamp(2.4rem, 5vw, 4rem);
-      letter-spacing: -0.05em;
+      letter-spacing: 0;
     }
+    .brand-word { font-family: "Luckiest Guy", "Comic Sans MS", cursive; font-weight: 400; }
     .blue { color: var(--blue); }
     .green { color: var(--green); }
     .intro {
@@ -70,7 +72,7 @@
 </head>
 <body>
   <main>
-    <h1><span class="blue">Doodle</span> <span class="green">Tag</span> elements</h1>
+    <h1><span class="blue brand-word">Doodle</span> <span class="green brand-word">Tag</span> elements</h1>
     <p class="intro">Actual controls captured from the live app UI.</p>
     <section class="grid">
       <article class="card">
