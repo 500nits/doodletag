@@ -1,18 +1,18 @@
-peers.png	Together	Tap. Long press for more.
-menu-toggle.png	Menu Toggle	Tap to toggle.
-reset-view.png	Reset	Tap. Long press for more.
-tool-shouts.png	Alert style	Tap. Long press for more.
-dark-mode.png	Dark mode	Tap to toggle.
-apple-pencil-mode-live.png	Pencil	Tap to toggle.
-undo.png	Undo	Tap. Long press for more.
-clear-canvas.png	Clear	Tap. Long press for more.
-export.png	Export	Tap. Long press for more.
-rainbow.png	Rainbow	Tap. Long press for more.
-color-palette.png	Colours	Tap. Long press for more.
-pencil-width.png	Pencil	Tap. Long press for more.
-gum.png	Eraser	Tap. Long press for more.
-wind.png	Wind	Tap. Long press for more.
-orthogonal.png	Snap	Tap to toggle.
-square-grid.png	Grid	Tap. Long press for more.
-hex-grid.png	Hex grid	Tap. Long press for more.
-macro.png	Recording	Tap to start or stop.
+peers.png	Together	Find a nearby device for Together. Long press forgets the last device.
+menu-toggle.png	Menu Toggle	Open or close the drawing tools menu.
+reset-view.png	Reset	Return to the full paper view. Long press cycles zoom stops.
+tool-shouts.png	Alert style	Cycle alert banners. Long press resets all tool settings.
+dark-mode.png	Dark mode	Switch between light and dark mode.
+apple-pencil-mode-live.png	Pencil	Limit drawing input to Apple Pencil or allow finger drawing again.
+undo.png	Undo	Undo the latest action. Long press redoes the latest undone action.
+clear-canvas.png	Clear	Clear the visible doodle. Long press clears saved sessions or requests a shared clear.
+export.png	Export	Share a PNG or video. Long press saves a PNG or shares the .dtag recording.
+rainbow.png	Rainbow	Turn Rainbow drawing on or off. Long press edits Rainbow palette and style.
+color-palette.png	Colours	Open the colour palette for swatches, wheel, brightness, and recents. Long press opens Pencil setup.
+pencil-width.png	Pencil	Cycle the current drawing size. Long press opens Thickness setup.
+gum.png	Eraser	Turn geometry erasing on or off. Long press edits Eraser size and strength.
+wind.png	Wind	Turn Wind shaping on or off. Long press edits radius and Wind mode.
+orthogonal.png	Snap	Turn directional Snap drawing on or off.
+square-grid.png	Grid	Show or hide the square grid. Long press edits grid spacing and style.
+hex-grid.png	Hex grid	Show or hide the hex grid. Long press edits hex cell size and style.
+macro.png	Recording	Start or stop a solo .dtag recording.
