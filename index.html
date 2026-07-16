@@ -143,6 +143,10 @@
             white-space: nowrap;
         }
 
+        .rough-annotation {
+            display: inline-block;
+        }
+
         .actions {
             display: flex;
             gap: 28px;
@@ -248,6 +252,19 @@
             margin-bottom: 22px;
             border-radius: 999px;
             background: var(--blue);
+        }
+
+        .detail.playful-tools::before {
+            background: linear-gradient(
+                90deg,
+                #ff3b30 0%,
+                #ff9500 18%,
+                #ffd60a 36%,
+                #34c759 54%,
+                #0a84ff 72%,
+                #bf5af2 90%,
+                #ff3b30 100%
+            );
         }
 
         .detail:nth-child(even)::before {
@@ -358,7 +375,7 @@
             <h1 class="brand"><span class="word-blue">Doodle</span> <span class="word-green">Tag</span></h1>
             <h2 id="hero-title">Draw together over Wi-Fi.</h2>
             <p class="hero-intro">
-                A shared sketchbook for two people in the same room.<br>
+                A <span class="rough-annotation" data-rough-color="#f472b6">shared sketchbook</span> for two people in the same room.<br>
                 <span class="local-sentence">
                     <span class="connection sentence-part">Connect iOS and Android,</span>
                     <span class="sentence-part">draw on one giant canvas,</span>
@@ -379,20 +396,60 @@
         </section>
 
         <section class="details" aria-label="Doodle Tag features">
-            <article class="detail">
+            <article class="detail playful-tools">
                 <h3>Playful tools</h3>
-                <p>Plain and Outline pencils, Rainbow in Normal, Pop and Lanes, a true Eraser, Wind, guide grids, pan and zoom, PNG export, recording and MP4
+                <p>Plain and Outline pencils, Rainbow in Normal, Pop and Lanes, a true Eraser, Wind, guide grids, pan and zoom, PNG export, <span class="rough-annotation" data-rough-color="#22d3ee">recording and MP4</span></p>
             </article>
-			<article class="detail">
+            <article class="detail">
                 <h3><span class="accent-blue">iOS</span> + <span class="accent-green">Android</span> together</h3>
                 <p>Doodle Tag for iOS can connect with Doodle Tag for Android over the same Wi-Fi.</p>
             </article>
             <article class="detail">
                 <h3>Private by design</h3>
                 <p>Doodle Tag works locally over Wi-Fi. Your drawings stay between your devices and are never sent to external servers.</p>
-				<!-- too much <p class="privacy-note">No sign-ups. No tracking. No analytics.</p> -->
+                <!-- too much <p class="privacy-note">No sign-ups. No tracking. No analytics.</p> -->
             </article>
         </section>
     </main>
+    <script type="module">
+        import { annotate } from "https://unpkg.com/rough-notation?module";
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let annotations = [];
+        let resizeTimer = null;
+
+        const clearAnnotations = () => {
+            for (const annotation of annotations) {
+                annotation.remove();
+            }
+
+            annotations = [];
+        };
+
+        const applyAnnotations = () => {
+            clearAnnotations();
+
+            document.querySelectorAll(".rough-annotation").forEach((element) => {
+                const annotation = annotate(element, {
+                    type: "underline",
+                    color: element.dataset.roughColor || "#f472b6",
+                    strokeWidth: 2,
+                    padding: 2,
+                    animate: !reduceMotion
+                });
+
+                annotation.show();
+                annotations.push(annotation);
+            });
+        };
+
+        const scheduleAnnotations = () => {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(applyAnnotations, 100);
+        };
+
+        Promise.resolve(document.fonts?.ready).then(applyAnnotations).catch(applyAnnotations);
+        window.addEventListener("resize", scheduleAnnotations);
+    </script>
 </body>
 </html>
