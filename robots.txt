@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://doodletag.500nits.com/sitemap.xml
